@@ -1,1 +1,1 @@
-# Team-2133-Prediction-Analysis-of-COVID-19-genome-beyond-Omicron-Variant-on-Cloud
+# Team-2133-COVID-19-Genome
