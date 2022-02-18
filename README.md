@@ -3,4 +3,4 @@
 - [Google Drive Folder](https://drive.google.com/drive/folders/1R271Pa1oPM173dXicbksAPssjb-X3Pb-?usp=sharing)
 - [Team Canvas Page](https://gatech.instructure.com/groups/202186/wiki)
 - [Course Canvas Page](https://gatech.instructure.com/courses/236198)
-- 
+- [Meeting Minutes](https://gatech.instructure.com/groups/202186/pages/meeting-minutes)
