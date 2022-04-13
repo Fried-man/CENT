@@ -89,7 +89,53 @@ class _Home extends State<Home> {
                       ),
                     );
                   }),
-                  headerButton(context, "Contact Us", (){}),
+                  headerButton(context, "Contact Us", () async {
+                    showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          title: const Center(child: Text("Contact Us")),
+                          content: Stack(
+                            children: [
+                              Form(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.fromLTRB(0, 0, 0, 8),
+                                      child: TextFormField(
+                                        autofocus: true,
+                                        decoration: const InputDecoration(
+                                          labelText: 'Your Email',
+                                          icon: Icon(Icons.email)
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.fromLTRB(0, 0, 0, 8),
+                                      child: TextFormField(
+                                        keyboardType: TextInputType.multiline,
+                                        minLines: 3,
+                                        maxLines: null,
+                                        decoration: const InputDecoration(
+                                            labelText: 'Your Message To The Team',
+                                            icon: Icon(Icons.message)
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ]
+                          ),
+                          actions: [
+                            ElevatedButton(
+                                child: Text("Submit"),
+                                onPressed: () {
+                                  // your code
+                                })
+                          ],
+                        ));
+                  }),
                   headerButton(context, "FAQ", (){}),
                   headerButton(context, "My Saved", (){}),
                   headerButton(context, "Login", (){})
