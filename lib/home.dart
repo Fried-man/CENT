@@ -94,45 +94,59 @@ class _Home extends State<Home> {
                         context: context,
                         builder: (_) => AlertDialog(
                           title: const Center(child: Text("Contact Us")),
-                          content: Stack(
-                            children: [
-                              Form(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.fromLTRB(0, 0, 0, 8),
-                                      child: TextFormField(
-                                        autofocus: true,
-                                        decoration: const InputDecoration(
-                                          labelText: 'Your Email',
-                                          icon: Icon(Icons.email)
+                          content: SizedBox(
+                            width: MediaQuery.of(context).size.width / 4,
+                            child: Stack(
+                              children: [
+                                Form(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: TextFormField(
+                                          decoration: const InputDecoration(
+                                              labelText: 'Your Email',
+                                              icon: Icon(Icons.email)
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.fromLTRB(0, 0, 0, 8),
-                                      child: TextFormField(
-                                        keyboardType: TextInputType.multiline,
-                                        minLines: 3,
-                                        maxLines: null,
-                                        decoration: const InputDecoration(
-                                            labelText: 'Your Message To The Team',
-                                            icon: Icon(Icons.message)
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: TextFormField(
+                                          keyboardType: TextInputType.multiline,
+                                          maxLines: null,
+                                          decoration: const InputDecoration(
+                                              border: OutlineInputBorder(),
+                                              labelText: 'Your Message To The Team',
+                                              icon: Icon(Icons.message)
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ]
+                              ]
+                            ),
                           ),
                           actions: [
-                            ElevatedButton(
-                                child: Text("Submit"),
-                                onPressed: () {
-                                  // your code
-                                })
+                            Center(
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width / 4,
+                                height: MediaQuery.of(context).size.height / 20,
+                                child: ElevatedButton(
+                                    child: Text(
+                                      "Submit",
+                                      style: TextStyle(
+                                          fontSize: MediaQuery.of(context).size.width / 80,
+                                          color: Colors.black
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      // your code
+                                    }),
+                              ),
+                            )
                           ],
                         ));
                   }),
