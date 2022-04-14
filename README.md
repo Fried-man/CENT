@@ -1,4 +1,4 @@
-# Team 2133: COVID 19 Genome Project
+![Banner](assets/images/banner.png)
 ## Flutter Resources
 - [Installing Flutter](https://docs.flutter.dev/get-started/install)
 - [First party documentation](https://docs.flutter.dev)
