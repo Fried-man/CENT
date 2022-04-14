@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -13,7 +12,6 @@ class Home extends StatefulWidget {
 class _Home extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    //.then((value) => print(j));
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -107,7 +105,7 @@ class _Home extends State<Home> {
                                         child: TextFormField(
                                           decoration: const InputDecoration(
                                               labelText: 'Your Email',
-                                              icon: Icon(Icons.email)
+                                              prefixIcon: Icon(Icons.email)
                                           ),
                                         ),
                                       ),
@@ -119,7 +117,7 @@ class _Home extends State<Home> {
                                           decoration: const InputDecoration(
                                               border: OutlineInputBorder(),
                                               labelText: 'Your Message To The Team',
-                                              icon: Icon(Icons.message)
+                                              prefixIcon: Icon(Icons.message)
                                           ),
                                         ),
                                       ),
