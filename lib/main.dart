@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'home.dart';
+import 'login.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +15,7 @@ void main() {
       initialRoute: '/home',
       routes: {
         '/home' : (context) => const Home(),
+        '/login' : (context) => const Login(),
       }
     )
   );

@@ -163,7 +163,9 @@ class _Home extends State<Home> {
                     );
                   }),
                   headerButton(context, "My Saved", (){}),
-                  headerButton(context, "Login", (){})
+                  headerButton(context, "Login", () {
+                    Navigator.pushNamed(context, '/login');
+                  })
                 ],
               ),
             ),
