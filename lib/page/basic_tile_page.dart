@@ -25,7 +25,7 @@ class BasicTileWidget extends StatelessWidget {
   final AnswerTile tile;
 
   const BasicTileWidget({
-    required Key key,
+    Key key,
     required this.tile,
   }) : super(key: key);
 
