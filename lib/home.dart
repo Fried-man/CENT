@@ -20,8 +20,22 @@ class _Home extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: Stack(
           children: [
+            GoogleMap(
+              mapType: MapType.hybrid,
+              zoomControlsEnabled: false,
+              scrollGesturesEnabled: false,
+              initialCameraPosition: const CameraPosition(
+                  bearing: 0,
+                  target: LatLng(20, 0),
+                  tilt: 0,
+                  zoom: 3
+              ),
+              onMapCreated: (GoogleMapController controller) {
+                Completer().complete(controller);
+              },
+            ),
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: Row (
@@ -50,22 +64,6 @@ class _Home extends State<Home> {
                     Navigator.pushNamed(context, '/login');
                   })
                 ],
-              ),
-            ),
-            Expanded(
-              child: GoogleMap(
-                mapType: MapType.hybrid,
-                zoomControlsEnabled: false,
-                scrollGesturesEnabled: false,
-                initialCameraPosition: const CameraPosition(
-                    bearing: 0,
-                    target: LatLng(20, 0),
-                    tilt: 0,
-                    zoom: 3
-                ),
-                onMapCreated: (GoogleMapController controller) {
-                  Completer().complete(controller);
-                },
               ),
             )
           ],
