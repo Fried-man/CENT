@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'faq.dart';
 import 'home.dart';
 import 'login.dart';
 
@@ -18,6 +19,7 @@ void main() {
       routes: {
         '/home' : (context) => const Home(),
         '/login' : (context) => const Login(),
+        '/faq' : (context) => const Faq(),
       }
     )
   );
