@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'faq.dart';
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -152,17 +154,16 @@ class _Home extends State<Home> {
                         ));
                   }),
                   headerButton(context, "FAQ", () async {
-                    Navigator.pushNamed(context, '/faq');
-                    // showDialog(
-                    //     context: context,
-                    //     builder: (_) => AlertDialog(
-                    //       title: const Center(child: Text("FAQ")),
-                    //       content: SizedBox(
-                    //         width: MediaQuery.of(context).size.width / 4,
-                    //         height: MediaQuery.of(context).size.height / 4,
-                    //         child: const Center(child: Text("insert content here"))),
-                    //     )
-                    // );
+                     showDialog(
+                         context: context,
+                         builder: (_) => AlertDialog(
+                           title: const Center(child: Text("FAQ")),
+                           content: SizedBox(
+                             width: MediaQuery.of(context).size.width / 4,
+                             height: MediaQuery.of(context).size.height / 2,
+                             child: Center(child: faq(context))),
+                         )
+                     );
                   }),
                   headerButton(context, "My Saved", (){}),
                   headerButton(context, "Login", () {
