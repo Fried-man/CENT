@@ -1,3 +1,4 @@
+![Banner](assets/assets/images/banner.png)
 # Building to Web
 1) run `flutter build -web --release` in the main branch
 2) the compiled code will be in genome_2133/build/web/. Make a copy of it somewhere
