@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Home extends StatefulWidget {
@@ -32,7 +33,7 @@ class _Home extends State<Home> {
                             height: MediaQuery.of(context).size.height / 2,
                             width: MediaQuery.of(context).size.width / 4,
                             child: FutureBuilder(
-                              future: DefaultAssetBundle.of(context).loadString("data.json"),
+                              future: rootBundle.loadString("data.json"),
                               builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                                 if (!snapshot.hasData) return const Text("");
                                 List countries = json.decode(snapshot.data!)["Countries"];
@@ -173,6 +174,7 @@ class _Home extends State<Home> {
               child: GoogleMap(
                 mapType: MapType.hybrid,
                 zoomControlsEnabled: false,
+                scrollGesturesEnabled: false,
                 initialCameraPosition: const CameraPosition(
                     bearing: 0,
                     target: LatLng(20, 0),
