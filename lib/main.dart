@@ -11,6 +11,7 @@ void main() {
       title: 'COVID Genome',
       theme: ThemeData(
         primarySwatch: Colors.grey,
+        dialogBackgroundColor: const Color(0xffcccccc),
         scaffoldBackgroundColor: const Color(0xff445756),
       ),
       initialRoute: '/home',

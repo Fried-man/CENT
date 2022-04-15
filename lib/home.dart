@@ -52,27 +52,29 @@ class _Home extends State<Home> {
                                           padding: const EdgeInsets.all(16),
                                           itemCount: countries.length,
                                           itemBuilder: (BuildContext context, int index) {
-                                            return MaterialButton(
-                                              color: Colors.white,
-                                              onPressed: () {},
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: Center(
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.all(8.0),
-                                                        child: Text(
-                                                          countries[index],
-                                                          style: TextStyle(
-                                                              fontSize: MediaQuery.of(context).size.width / 80,
-                                                              color: Colors.black
+                                            return Padding(
+                                              padding: const EdgeInsets.all(4.0),
+                                              child: ElevatedButton(
+                                                onPressed: () {},
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: Center(
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.all(8.0),
+                                                          child: Text(
+                                                            countries[index],
+                                                            style: TextStyle(
+                                                                fontSize: MediaQuery.of(context).size.width / 80,
+                                                                color: Colors.black
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  const Icon(Icons.chevron_right)
-                                                ],
+                                                    const Icon(Icons.chevron_right)
+                                                  ],
+                                                ),
                                               ),
                                             );
                                           }
@@ -80,7 +82,6 @@ class _Home extends State<Home> {
                                     ),
                                   ],
                                 );
-                                return Text(json.decode(snapshot.data!)["Countries"].toString());
                               }
                             ),
                           ),
