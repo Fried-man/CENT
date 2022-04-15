@@ -1,6 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -169,9 +170,18 @@ class _Home extends State<Home> {
               ),
             ),
             Expanded(
-              child: Image.asset(
-                  "assets/images/map.jpg",
-                  fit: BoxFit.cover
+              child: GoogleMap(
+                mapType: MapType.hybrid,
+                zoomControlsEnabled: false,
+                initialCameraPosition: const CameraPosition(
+                    bearing: 0,
+                    target: LatLng(20, 0),
+                    tilt: 0,
+                    zoom: 3
+                ),
+                onMapCreated: (GoogleMapController controller) {
+                  Completer().complete(controller);
+                },
               ),
             )
           ],
