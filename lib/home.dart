@@ -152,16 +152,17 @@ class _Home extends State<Home> {
                         ));
                   }),
                   headerButton(context, "FAQ", () async {
-                    showDialog(
-                        context: context,
-                        builder: (_) => AlertDialog(
-                          title: const Center(child: Text("FAQ")),
-                          content: SizedBox(
-                            width: MediaQuery.of(context).size.width / 4,
-                            height: MediaQuery.of(context).size.height / 4,
-                            child: const Center(child: Text("insert content here"))),
-                        )
-                    );
+                    Navigator.pushNamed(context, '/faq');
+                    // showDialog(
+                    //     context: context,
+                    //     builder: (_) => AlertDialog(
+                    //       title: const Center(child: Text("FAQ")),
+                    //       content: SizedBox(
+                    //         width: MediaQuery.of(context).size.width / 4,
+                    //         height: MediaQuery.of(context).size.height / 4,
+                    //         child: const Center(child: Text("insert content here"))),
+                    //     )
+                    // );
                   }),
                   headerButton(context, "My Saved", (){}),
                   headerButton(context, "Login", () {
