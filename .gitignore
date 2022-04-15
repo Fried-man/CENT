@@ -47,6 +47,3 @@ app.*.map.json
 
 # VS Studio Bullshit
 .vs/
-
-# live-website branch specific
-README.md
