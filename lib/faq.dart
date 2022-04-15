@@ -1,13 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:genome_2133/utils.dart';
 
-ListView faq (context) {
-  return ListView(
-    children: answerTiles.map((tile) => BasicTileWidget(tile: tile)).toList(),
+ListView faq (context) => recursiveList(QnA) as ListView;
+
+Widget recursiveList (content) { // TODO: Implement Q&A collapsable widgets
+  if (content is List) {
+      return ListView.builder(
+        shrinkWrap: true,
+        itemCount: content.length,
+        itemBuilder: (context, index) {
+          if (content[index].containsKey("Question")) {
+            return ListTile(
+              title: Text(content[index]["Question"]),
+              subtitle: Text(content[index]["Answer"]),
+            );
+          }
+          return ListTile(
+            title: Text(content[index]["Title"]),
+            subtitle: recursiveList(content[index]["Content"]),
+          );
+      },
+    );
+  }
+  return ListTile(
+    title: Text(content["Question"]),
+    subtitle: Text(content["Answer"]),
   );
 }
 
-class BasicTileWidget extends StatelessWidget {
+/*class BasicTileWidget extends StatelessWidget {
   final AnswerTile tile;
 
   const BasicTileWidget({
@@ -45,62 +65,104 @@ class BasicTileWidget extends StatelessWidget {
       );
     }
   }
-}
+}*/
 
+List<Map> QnA = [
+  {
+    "Title" : "General Questions",
+    "Content" : {
+      "Question" : "What can I do with this app?",
+      "Answer" : "The purpose of this application is to allow both researchers and the general"
+    }
+  },
+  {
+    "Title" : "Variant Questions",
+    "Content" : [
+      {
+        "Question" : "Where do these variants come from?",
+        "Answer" : "All of these variants are retrieved from the NCBI database"
+      },
+      {
+        "Question" : "Where can I find more details?",
+        "Answer" : 'To find more details on a variant click on the hyperlinked variant, '
+            ' this will bring you to the NCBI details on that strand. Here you'
+            ' will find both the FASTA download for the sequence and its ID.'
+      },
+      {
+        "Question" : "How do I compare a variant against another variant",
+        "Answer" : 'Right now you cannot as it is not implemented in this iteration. However,'
+            ' in the future the summary for a variant will have'
+      }
+    ]
+  },
+  {
+    "Title" : "Region Questions",
+    "Content" : {
+      "Question" : "Why separate based off region?",
+      "Answer" : "Separating by region allows you to look at the developments of"
+          " variants within a select area. As mutations may be influenced by the "
+          "diversity of individuals within a region, as seen in areas of high "
+          "travel, as  more variants are introduced into the pool of competition."
+    }
+  },
+  {
+    "Question" : "Account Questions",
+    "Answer" : "What can I do with this app?"
+  },
+  {
+    "Question" : "Errors",
+    "Answer" : "What can I do with this app?"
+  }
+];
+/*
 final answerTiles = <AnswerTile>[
-  const AnswerTile(title: 'General Questions', tiles: [
-    AnswerTile(title: 'What can I do with this app?'),
+  const AnswerTile(title: '', tiles: [
+    AnswerTile(title: ''),
   ]),
-  AnswerTile(title: 'Variant Questions', tiles: [
-    AnswerTile(title: 'Where do these variants come from?', tiles: buildAnswersCome()),
-    AnswerTile(title: 'Where can I find more details?', tiles: buildAnswersDetails()),
-    AnswerTile(title: 'How do I compare a variant against another variant', tiles: buildAnswersComparison()),
+  AnswerTile(title: '', tiles: [
+    AnswerTile(title: '', tiles: buildAnswersCome()),
+    AnswerTile(title: '', tiles: buildAnswersDetails()),
+    AnswerTile(title: '', tiles: buildAnswersComparison()),
   ]),
-  AnswerTile(title: 'Region Questions', tiles: [
-    AnswerTile(title: 'Why separate based off region?',tiles: buildWhyRegion()),
+  AnswerTile(title: '', tiles: [
+    AnswerTile(title: '',tiles: buildWhyRegion()),
   ]),
-  const AnswerTile(title: 'Account Questions', tiles: [
-    AnswerTile(title: 'What can I do with this app?'),
+  const AnswerTile(title: '', tiles: [
+    AnswerTile(title: ''),
   ]),
-  const AnswerTile(title: 'Errors', tiles: [
-    AnswerTile(title: 'What can I do with this app?'),
+  const AnswerTile(title: '', tiles: [
+    AnswerTile(title: ''),
   ]),
 ];
 // General Questions
 // Q1
 List<AnswerTile> buildGenDo() => [
-  'The purpose of this application is to allow both researchers and the general',
+  '',
 ].map<AnswerTile>(buildAnswer).toList();
 
 // Variant Questions
 // Q1
 List<AnswerTile> buildAnswersCome() => [
-  'All of these variants are retrieved from the NCBI database',
+  '',
 ].map<AnswerTile>(buildAnswer).toList();
 //Q2
 List<AnswerTile> buildAnswersDetails() => [
-  'To find more details on a variant click on the hyperlinked variant, '
-      ' this will bring you to the NCBI details on that strand. Here you'
-      ' will find both the FASTA download for the sequence and its ID.',
+  ,
 ].map<AnswerTile>(buildAnswer).toList();
 //Q3
 List<AnswerTile> buildAnswersComparison() => [
-  'Right now you cannot as it is not implemented in this iteration. However,'
-      ' in the future the summary for a variant will have',
+  ,
 ].map<AnswerTile>(buildAnswer).toList();
 
 //Region Questions
 //Q1
 List<AnswerTile> buildWhyRegion() => [
-  'Separating by region allows you to look at the developments of variants'
-      ' within a select area. As mutations may be influenced by the diversity'
-      ' of individuals within a region, as seen in areas of high travel, as '
-      ' more variants are introduced into the pool of competition. ',
+  ,
 ].map<AnswerTile>(buildAnswer).toList();
 //Q2
+*/
 
-
-AnswerTile buildAnswer(String answer) => AnswerTile(
+/*AnswerTile buildAnswer(String answer) => AnswerTile(
   title: answer,
   //tiles: List.generate(28, (index) => AnswerTile(title: '$index.'))
 );
@@ -113,4 +175,4 @@ class AnswerTile {
     required this.title,
     this.tiles = const [],
   });
-}
+}*/

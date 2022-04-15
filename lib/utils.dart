@@ -17,12 +17,12 @@ class Utils {
           messageText: Center(
               child: Text(
                 text,
-                style: TextStyle(color: Colors.white, fontSize: 24),
+                style: const TextStyle(color: Colors.white, fontSize: 24),
               )),
-          duration: Duration(seconds: 3),
+          duration: const Duration(seconds: 3),
           flushbarPosition: FlushbarPosition.TOP,
           backgroundColor: color,
-          animationDuration: Duration(microseconds: 0),
+          animationDuration: const Duration(microseconds: 0),
         ),
       );
 
