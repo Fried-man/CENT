@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 
-ListView faq (context) => recursiveList(QnA) as ListView;
+AlertDialog faq (context) {
+  return AlertDialog(
+    title: const Center(child: Text("FAQ")),
+    content: SizedBox(
+        width: MediaQuery.of(context).size.width / 4,
+        height: MediaQuery.of(context).size.height / 2,
+        child: Center(child: recursiveList(QnA))
+    ),
+  );
+}
 
 Widget recursiveList (content) { // TODO: Implement Q&A collapsable widgets
   if (content is List) {
