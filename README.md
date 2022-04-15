@@ -1,7 +1,7 @@
 ![Banner](assets/assets/images/banner.png)
 # Building to Web
 ## Instructions
-1) run `flutter build -web --release` in the main branch
+1) run `flutter build web --release` in the main branch
 2) the compiled code will be in genome_2133/build/web/. Make a copy of it somewhere
 3) run `git checkout live-website` to branch to the live website's branch
 4) delete the contents of genome_2133 (other than this README.md file) and paste in the compiled code you made a copy of earlier
