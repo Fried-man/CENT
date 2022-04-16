@@ -1,82 +1,6 @@
 import 'package:flutter/material.dart';
 
-AlertDialog faq (context) {
-  return AlertDialog(
-    title: const Center(child: Text("FAQ")),
-    content: SizedBox(
-        width: MediaQuery.of(context).size.width / 4,
-        height: MediaQuery.of(context).size.height / 2,
-        child: Center(child: recursiveList(QnA))
-    ),
-  );
-}
-
-Widget recursiveList (content) { // TODO: Implement Q&A collapsable widgets
-  if (content is List) {
-      return ListView.builder(
-        shrinkWrap: true,
-        itemCount: content.length,
-        itemBuilder: (context, index) {
-          if (content[index].containsKey("Question")) {
-            return ListTile(
-              title: Text(content[index]["Question"]),
-              subtitle: Text(content[index]["Answer"]),
-            );
-          }
-          return ListTile(
-            title: Text(content[index]["Title"]),
-            subtitle: recursiveList(content[index]["Content"]),
-          );
-      },
-    );
-  }
-  return ListTile(
-    title: Text(content["Question"]),
-    subtitle: Text(content["Answer"]),
-  );
-}
-
-/*class BasicTileWidget extends StatelessWidget {
-  final AnswerTile tile;
-
-  const BasicTileWidget({
-    Key? key,
-    required this.tile,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final title = tile.title;
-    final tiles = tile.tiles;
-
-    if (tiles.isEmpty) {
-      return ListTile(
-        title: Text(title),
-        onTap: () => Utils.showSnackBar(
-          context,
-          text: 'Clicked on: $title',
-          color: const Color(0xff445756),
-        ),
-      );
-    } else {
-      return Container(
-        margin: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-          border: Border.all(color: Theme.of(context).primaryColor),
-        ),
-        child: ExpansionTile(
-          key: PageStorageKey(title),
-          title: Text(title),
-          children: tiles.map((tile) => BasicTileWidget(tile: tile)).toList(),
-        ),
-      );
-    }
-  }
-}*/
-
-List<Map> QnA = [
+List<Map> QnA = [ // TODO: import Q&A as JSON asset file
   {
     "Title" : "General Questions",
     "Content" : {
@@ -123,65 +47,52 @@ List<Map> QnA = [
     "Answer" : "What can I do with this app?"
   }
 ];
-/*
-final answerTiles = <AnswerTile>[
-  const AnswerTile(title: '', tiles: [
-    AnswerTile(title: ''),
-  ]),
-  AnswerTile(title: '', tiles: [
-    AnswerTile(title: '', tiles: buildAnswersCome()),
-    AnswerTile(title: '', tiles: buildAnswersDetails()),
-    AnswerTile(title: '', tiles: buildAnswersComparison()),
-  ]),
-  AnswerTile(title: '', tiles: [
-    AnswerTile(title: '',tiles: buildWhyRegion()),
-  ]),
-  const AnswerTile(title: '', tiles: [
-    AnswerTile(title: ''),
-  ]),
-  const AnswerTile(title: '', tiles: [
-    AnswerTile(title: ''),
-  ]),
-];
-// General Questions
-// Q1
-List<AnswerTile> buildGenDo() => [
-  '',
-].map<AnswerTile>(buildAnswer).toList();
 
-// Variant Questions
-// Q1
-List<AnswerTile> buildAnswersCome() => [
-  '',
-].map<AnswerTile>(buildAnswer).toList();
-//Q2
-List<AnswerTile> buildAnswersDetails() => [
-  ,
-].map<AnswerTile>(buildAnswer).toList();
-//Q3
-List<AnswerTile> buildAnswersComparison() => [
-  ,
-].map<AnswerTile>(buildAnswer).toList();
+AlertDialog faq (context) {
+  return AlertDialog(
+    title: const Center(child: Text("FAQ")),
+    content: SizedBox(
+        width: MediaQuery.of(context).size.width / 4,
+        height: MediaQuery.of(context).size.height / 2,
+        child: recursiveList(QnA)
+    ),
+  );
+}
 
-//Region Questions
-//Q1
-List<AnswerTile> buildWhyRegion() => [
-  ,
-].map<AnswerTile>(buildAnswer).toList();
-//Q2
-*/
-
-/*AnswerTile buildAnswer(String answer) => AnswerTile(
-  title: answer,
-  //tiles: List.generate(28, (index) => AnswerTile(title: '$index.'))
-);
-
-class AnswerTile {
-  final String title;
-  final List<AnswerTile> tiles;
-
-  const AnswerTile({
-    required this.title,
-    this.tiles = const [],
-  });
-}*/
+Widget recursiveList (content) { // TODO: get rid of text jitter on collapse
+  if (content is List) {
+      return ListView.builder(
+        shrinkWrap: true,
+        itemCount: content.length,
+        itemBuilder: (context, index) {
+          if (content[index].containsKey("Question")) {
+            return ExpansionTile(
+              textColor: Colors.black,
+              title: Text(content[index]["Question"]),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(content[index]["Answer"]),
+                )
+              ],
+            );
+          }
+          return ExpansionTile(
+            textColor: Colors.black,
+            title: Text(content[index]["Title"]),
+            children: [ListTile(subtitle: recursiveList(content[index]["Content"]))],
+          );
+      },
+    );
+  }
+  return ExpansionTile(
+    textColor: Colors.black,
+    title: Text(content["Question"]),
+    children: [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(content["Answer"]),
+      )
+    ]
+  );
+}
