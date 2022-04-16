@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-List<Map> QnA = [];
-
 AlertDialog faq (context) {
   return AlertDialog(
     title: const Center(child: Text("FAQ")),
