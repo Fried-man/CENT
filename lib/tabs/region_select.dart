@@ -10,9 +10,9 @@ AlertDialog region (context) {
         height: MediaQuery.of(context).size.height / 2,
         width: MediaQuery.of(context).size.width / 4,
         child: FutureBuilder(
-            future: rootBundle.loadString("data.json"),
+            future: rootBundle.loadString("assets/data.json"),
             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-              if (!snapshot.hasData) return const Text("");
+              if (!snapshot.hasData) return Container();
               List countries = json.decode(snapshot.data!)["Countries"];
               return Column(
                 children: [

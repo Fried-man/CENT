@@ -195,5 +195,46 @@
     "Yemen",
     "Zambia",
     "Zimbabwe"
+  ],
+  "FAQ" : [
+    {
+      "Title" : "General Questions",
+      "Content" : {
+        "Question" : "What can I do with this app?",
+        "Answer" : "The purpose of this application is to allow both researchers and the general"
+      }
+    },
+    {
+      "Title" : "Variant Questions",
+      "Content" : [
+        {
+          "Question" : "Where do these variants come from?",
+          "Answer" : "All of these variants are retrieved from the NCBI database"
+        },
+        {
+          "Question" : "Where can I find more details?",
+          "Answer" : "To find more details on a variant click on the hyperlinked variant, this will bring you to the NCBI details on that strand. Here you will find both the FASTA download for the sequence and its ID."
+        },
+        {
+          "Question" : "How do I compare a variant against another variant",
+          "Answer" : "Right now you cannot as it is not implemented in this iteration. However,  in the future the summary for a variant will have"
+        }
+      ]
+    },
+    {
+      "Title" : "Region Questions",
+      "Content" : {
+        "Question" : "Why separate based off region?",
+        "Answer" : "Separating by region allows you to look at the developments of variants within a select area. As mutations may be influenced by the diversity of individuals within a region, as seen in areas of high travel, as  more variants are introduced into the pool of competition."
+      }
+    },
+    {
+      "Question" : "Account Questions",
+      "Answer" : "What can I do with this app?"
+    },
+    {
+      "Question" : "Errors",
+      "Answer" : "What can I do with this app?"
+    }
   ]
 }
