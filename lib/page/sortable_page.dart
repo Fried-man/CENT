@@ -1,5 +1,5 @@
-import 'package:genome_2133/data/users.dart';
-import 'package:genome_2133/model/user.dart';
+import 'package:genome_2133/data/variants.dart';
+import 'package:genome_2133/model/variant.dart';
 import 'package:genome_2133/widget/scrollable_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +9,7 @@ class SortablePage extends StatefulWidget {
 }
 
 class _SortablePageState extends State<SortablePage> {
-  late List<User> users;
+  late List<Variant> users;
   int? sortColumnIndex;
   bool isAscending = false;
 
@@ -43,8 +43,8 @@ class _SortablePageState extends State<SortablePage> {
           ))
       .toList();
 
-  List<DataRow> getRows(List<User> users) => users.map((User user) {
-        final cells = [user.firstName, user.lastName, user.age];
+  List<DataRow> getRows(List<Variant> users) => users.map((Variant user) {
+        final cells = [user.accession, user.geoLocation, user.collectionDate];
 
         return DataRow(cells: getCells(cells));
       }).toList();
@@ -55,13 +55,13 @@ class _SortablePageState extends State<SortablePage> {
   void onSort(int columnIndex, bool ascending) {
     if (columnIndex == 0) {
       users.sort((user1, user2) =>
-          compareString(ascending, user1.firstName, user2.firstName));
+          compareString(ascending, user1.accession, user2.accession));
     } else if (columnIndex == 1) {
       users.sort((user1, user2) =>
-          compareString(ascending, user1.lastName, user2.lastName));
+          compareString(ascending, user1.geoLocation, user2.geoLocation));
     } else if (columnIndex == 2) {
       users.sort((user1, user2) =>
-          compareString(ascending, '${user1.age}', '${user2.age}'));
+          compareString(ascending, '${user1.collectionDate}', '${user2.collectionDate}'));
     }
 
     setState(() {
