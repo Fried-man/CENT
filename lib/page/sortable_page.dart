@@ -26,7 +26,7 @@ class _SortablePageState extends State<SortablePage> {
       );
 
   Widget buildDataTable() {
-    final columns = ['Accession', 'Geographical Location', 'Date Collected', 'Pinned'];
+    final columns = ['Accession', 'Geographical Location', 'Date Collected', 'Generated', 'Pinned'];
 
     return DataTable(
       sortAscending: isAscending,
@@ -45,7 +45,7 @@ class _SortablePageState extends State<SortablePage> {
       .toList();
 
   List<DataRow> getRows(List<Variant> users) => users.map((Variant user) {
-        final cells = [user.accession, user.geoLocation, user.collectionDate];
+        final cells = [user.accession, user.geoLocation, user.collectionDate, user.generated];
         List<DataCell> lister = getCells(cells);
         DataCell pinner = const DataCell (
             Icon(
@@ -78,6 +78,9 @@ class _SortablePageState extends State<SortablePage> {
     } else if (columnIndex == 2) {
       users.sort((user1, user2) =>
           compareString(ascending, '${user1.collectionDate}', '${user2.collectionDate}'));
+    } else if (columnIndex == 3) {
+      users.sort((user1, user2) =>
+          compareString(ascending, user1.generated, user2.generated));
     }
 
     setState(() {
