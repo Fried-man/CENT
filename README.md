@@ -9,10 +9,14 @@ The system being developed by Team 2133 is a system which can provide informatio
   - [How to organize widgets](https://docs.flutter.dev/development/ui/layout)
   - [How to navigate between layouts/screens](https://docs.flutter.dev/development/ui/navigation)
   - [State management](https://docs.flutter.dev/development/data-and-backend/state-mgmt/intro)
-- [Youtube Tutorial I found pretty useful](https://www.youtube.com/playlist?list=PL4cUxeGkcC9jLYyp2Aoh6hcWuxFDX6PBJ)
+- [Youtube Tutorial Playlist](https://www.youtube.com/playlist?list=PL4cUxeGkcC9jLYyp2Aoh6hcWuxFDX6PBJ)
 ## Google Maps API
 - [google_maps_flutter](https://pub.dev/packages/google_maps_flutter)
 - [google_maps_flutter_web](https://pub.dev/packages/google_maps_flutter_web)
+## Email
+- [EmailJS Documentation](https://www.emailjs.com/docs/)
+- [http Readme](https://pub.dev/packages/http)
+- [Youtube Tutorial](https://www.youtube.com/watch?v=9HW3MZ_tsdo)
 ## Team
 - [Google Drive Folder](https://drive.google.com/drive/folders/1R271Pa1oPM173dXicbksAPssjb-X3Pb-?usp=sharing)
 - [Team Canvas Page](https://gatech.instructure.com/groups/202186/wiki)
