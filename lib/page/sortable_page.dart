@@ -26,7 +26,7 @@ class _SortablePageState extends State<SortablePage> {
       );
 
   Widget buildDataTable() {
-    final columns = ['Accession', 'Geographical Location', 'Age'];
+    final columns = ['Accession', 'Geographical Location', 'Age', 'Pinned'];
 
     return DataTable(
       sortAscending: isAscending,
@@ -44,7 +44,7 @@ class _SortablePageState extends State<SortablePage> {
       .toList();
 
   List<DataRow> getRows(List<Variant> users) => users.map((Variant user) {
-        final cells = [user.accession, user.geoLocation, user.collectionDate];
+        final cells = [user.accession, user.geoLocation, user.collectionDate, user.pinned];
 
         return DataRow(cells: getCells(cells));
       }).toList();

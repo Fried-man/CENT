@@ -2,24 +2,26 @@ class Variant {
   final String accession;
   final String geoLocation;
   final int collectionDate;
-  String pinned;
+  final String pinned;
 
   const Variant({
     required this.accession,
     required this.geoLocation,
     required this.collectionDate,
-    this.pinned = 'Un-Pinned',
+    required this.pinned,
   });
 
   Variant copy({
     String? firstName,
     String? lastName,
     int? age,
+    String? pinned,
   }) =>
       Variant(
         accession: firstName ?? this.accession,
         geoLocation: lastName ?? this.geoLocation,
         collectionDate: age ?? this.collectionDate,
+        pinned: pinned ?? this.pinned,
       );
 
   @override
