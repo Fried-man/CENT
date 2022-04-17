@@ -10,7 +10,7 @@ The system being developed by Team 2133 is a system which can provide informatio
   - [How to navigate between layouts/screens](https://docs.flutter.dev/development/ui/navigation)
   - [State management](https://docs.flutter.dev/development/data-and-backend/state-mgmt/intro)
 - [Youtube Tutorial Playlist](https://www.youtube.com/playlist?list=PL4cUxeGkcC9jLYyp2Aoh6hcWuxFDX6PBJ)
-## FireBase
+## Firebase
 - [Firebase documentation](https://firebase.google.com/docs)
 - [FlutterFire Documentation](https://firebase.flutter.dev/docs/overview)
   - [firebase_auth](https://pub.dev/packages/firebase_auth/install)
