@@ -33,6 +33,22 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <!-- Firebase Configuration -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBtGFwfR45P_psP3yYtibqlijhDJ0J02Oc",
+      authDomain: "genome-e2802.firebaseapp.com",
+      projectId: "genome-e2802",
+      storageBucket: "genome-e2802.appspot.com",
+      messagingSenderId: "29922646312",
+      appId: "1:29922646312:web:3d58b6360aa66789f2d81d",
+      measurementId: "G-BDSEPTFSD7"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
