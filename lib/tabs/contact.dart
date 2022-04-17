@@ -13,7 +13,6 @@ final myController2 = TextEditingController();
 
 
 
-
 Future sendEmail(String name, String email, String message) async {
   final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
   const serviceId = 'service_7dws4pq';
@@ -104,7 +103,7 @@ AlertDialog contact (context) {
                 if (_formKey.currentState!.validate()) {
                   sendEmail(myController.value.text, myController.value.text, myController2.value.text);
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Sending email')),
+                    const SnackBar(content: Text('Sending email...')),
                   );
                   Navigator.pop(context);
                   myController.clear();
