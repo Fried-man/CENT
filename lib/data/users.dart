@@ -1,4 +1,4 @@
-import 'package:datatable_sortable_example/model/user.dart';
+import 'package:genome_2133/model/user.dart';
 
 final allUsers = <User>[
   User(firstName: 'NC_045512', lastName: 'China', age: 2019),

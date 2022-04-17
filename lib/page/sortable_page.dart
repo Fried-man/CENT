@@ -1,6 +1,6 @@
-import 'package:datatable_sortable_example/data/users.dart';
-import 'package:datatable_sortable_example/model/user.dart';
-import 'package:datatable_sortable_example/widget/scrollable_widget.dart';
+import 'package:genome_2133/data/users.dart';
+import 'package:genome_2133/model/user.dart';
+import 'package:genome_2133/widget/scrollable_widget.dart';
 import 'package:flutter/material.dart';
 
 class SortablePage extends StatefulWidget {
