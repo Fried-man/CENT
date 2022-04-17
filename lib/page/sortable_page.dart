@@ -26,7 +26,7 @@ class _SortablePageState extends State<SortablePage> {
       );
 
   Widget buildDataTable() {
-    final columns = ['Accession', 'Geographical Location', 'Age', 'Pinned'];
+    final columns = ['Accession', 'Geographical Location', 'Date Collected', 'Pinned'];
 
     return DataTable(
       sortAscending: isAscending,
@@ -38,20 +38,36 @@ class _SortablePageState extends State<SortablePage> {
 
   List<DataColumn> getColumns(List<String> columns) => columns
       .map((String column) => DataColumn(
+            tooltip: 'Column represents the ${Text(column).data}',
             label: Text(column),
             onSort: onSort,
           ))
       .toList();
 
   List<DataRow> getRows(List<Variant> users) => users.map((Variant user) {
-        final cells = [user.accession, user.geoLocation, user.collectionDate, user.pinned];
+        final cells = [user.accession, user.geoLocation, user.collectionDate];
+        List<DataCell> lister = getCells(cells);
+        DataCell pinner = const DataCell (
+            Icon(
+              Icons.push_pin,
+              color: Colors.green,
+            )
+        );
+        if (user.pinned == 'not') {
+          pinner = const DataCell (
+              Icon(
+                  Icons.panorama_fish_eye,
+                  color: Colors.red
+              )
+          );
+        }
 
-        return DataRow(cells: getCells(cells));
+        lister.add(pinner);
+        return DataRow(cells: lister);
       }).toList();
 
   List<DataCell> getCells(List<dynamic> cells) =>
       cells.map((data) => DataCell(Text('$data'))).toList();
-
   void onSort(int columnIndex, bool ascending) {
     if (columnIndex == 0) {
       users.sort((user1, user2) =>
