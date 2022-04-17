@@ -13,12 +13,13 @@ The system being developed by Team 2133 is a system which can provide informatio
 ## FireBase
 - [Firebase documentation](https://firebase.google.com/docs)
 - [FlutterFire Documentation](https://firebase.flutter.dev/docs/overview)
+  - [firebase_auth](https://pub.dev/packages/firebase_auth/install)
 ## Google Maps API
 - [google_maps_flutter](https://pub.dev/packages/google_maps_flutter)
 - [google_maps_flutter_web](https://pub.dev/packages/google_maps_flutter_web)
 ## Email
 - [EmailJS Documentation](https://www.emailjs.com/docs/)
-- [http Readme](https://pub.dev/packages/http)
+- [http](https://pub.dev/packages/http)
 - [Youtube Tutorial](https://www.youtube.com/watch?v=9HW3MZ_tsdo)
 ## Team
 - [Google Drive Folder](https://drive.google.com/drive/folders/1R271Pa1oPM173dXicbksAPssjb-X3Pb-?usp=sharing)
