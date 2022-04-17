@@ -39,6 +39,7 @@ dependencies:
   google_maps_flutter_web: ^0.3.2+1
   http: ^0.13.4
   firebase_core: ^1.14.1
+  firebase_auth: ^3.3.14
   
 
 dev_dependencies:
