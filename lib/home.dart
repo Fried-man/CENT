@@ -59,7 +59,9 @@ class _Home extends State<Home> {
                          builder: (_) => faq(context)
                      );
                   }),
-                  headerButton(context, "My Saved", (){}),
+                  headerButton(context, "My Saved", (){
+                    Navigator.pushNamed(context, '/saved');
+                  }),
                   headerButton(context, "Login", () {
                     Navigator.pushNamed(context, '/login');
                   })

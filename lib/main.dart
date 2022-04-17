@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:genome_2133/tabs/saved.dart';
 
 import 'home.dart';
 import 'tabs/login.dart';
 
 
 void main() {
-
-
-
 
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
@@ -23,6 +21,7 @@ void main() {
       routes: {
         '/home' : (context) => const Home(),
         '/login' : (context) => const Login(),
+        '/saved' : (context) => const Saved(),
       }
     )
   );
