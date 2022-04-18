@@ -1,6 +1,6 @@
 ![Banner](assets/images/banner.png)
 # About
-The system being developed by Team 2133 is a system which can provide information and predictions about Covid-19 and its variants in a given geographic region. We aim to enable the general public to make informed decisions about travel and make predictive determination of likely Covid-19 genomic mutations in a specific area. It could also be used by epidemiologists and COVID researchers as a means of assessing recent variants through multiple genome alignment, and analyze developments through the aid of a predictive model which highlights components of the genome affected by mutations.
+The system being developed by Team 2133 is an application which can provide information and predictions about Covid-19 and its variants in a given geographic region. We aim to enable the general public to make informed decisions about travel and make predictive determination of likely Covid-19 genomic mutations in a specific area. It could also be used by epidemiologists and COVID researchers as a means of assessing recent variants through multiple genome alignment, and analyze developments through the aid of a predictive model which highlights components of the genome affected by mutations.
 # Useful Links
 ## Flutter Resources
 - [Installing Flutter](https://docs.flutter.dev/get-started/install)
