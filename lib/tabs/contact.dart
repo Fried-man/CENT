@@ -17,6 +17,7 @@ Future sendEmail(String name, String email, String message) async {
   const serviceId = 'service_7dws4pq';
   const templateId = 'template_0u8p0b9';
   const userId = 'eTpVjTPRKdcDqtCNE';
+
   final response = await http.post(url,
       headers: {'Content-Type': 'application/json'},//This line makes sure it works for all platforms.
       body: json.encode({
@@ -52,7 +53,8 @@ AlertDialog contact (context) {
                       decoration: const InputDecoration(
                           labelText: 'Your Email',
                           prefixIcon: Icon(Icons.email)
-                      ),validator: (emailValue) {
+                      ),
+                      validator: (emailValue) {
                         if (emailValue == null || emailValue.isEmpty || !emailValue.contains('@') || !emailValue.contains('.') || emailValue.indexOf('.') == (emailValue.length - 1)) {
                           return "Please enter a valid email address";
                         }
@@ -70,7 +72,8 @@ AlertDialog contact (context) {
                           border: OutlineInputBorder(),
                           labelText: 'Your Message To The Team',
                           prefixIcon: Icon(Icons.message)
-                      ),validator: (messageValue) {
+                      ),
+                      validator: (messageValue) {
                       if (messageValue == null || messageValue.isEmpty) {
                         return "Please enter a valid message";
                       }

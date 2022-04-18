@@ -9,7 +9,9 @@ import 'tabs/login.dart';
 User? user = FirebaseAuth.instance.currentUser;
 
 Future<void> main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
+  
   await Firebase.initializeApp(
     options: const FirebaseOptions( // TODO: import from index.html
       apiKey: "AIzaSyBtGFwfR45P_psP3yYtibqlijhDJ0J02Oc",
