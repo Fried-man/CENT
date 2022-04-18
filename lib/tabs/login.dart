@@ -118,7 +118,19 @@ class _Login extends State<Login> {
                                   if (user != null && !user.emailVerified) {
                                     print(user.uid);
                                     await user.sendEmailVerification();
-                                    // TODO: add need to verify email message popup
+                                    showDialog<void>(
+                                      context: context,
+                                      builder: (_) => AlertDialog(
+                                        title: const Text("Account Created"),
+                                        content: const Text("Verify your email before logging in."),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: const Text('OK'),
+                                            onPressed: () => Navigator.pop(context),
+                                          ),
+                                        ],
+                                      ),
+                                    );
                                     await FirebaseAuth.instance.signOut();
                                   }
                                 } on FirebaseAuthException catch (e) {
