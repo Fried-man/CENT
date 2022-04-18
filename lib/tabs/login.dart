@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../main.dart';
+
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -74,7 +76,6 @@ class _Login extends State<Login> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ElevatedButton(
-                              onPressed: () {},
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
@@ -85,6 +86,35 @@ class _Login extends State<Login> {
                                   ),
                                 ),
                               ),
+                              onPressed: () async {
+                                try {
+                                  for (String typeText in inputText.keys) { // null checks
+                                    if (inputText[typeText]!.text.isEmpty) throw CustomException('Fill in all fields');
+                                  }
+                                  await FirebaseAuth.instance.signInWithEmailAndPassword(
+                                      email: inputText['Email']!.text,
+                                      password: inputText['Password']!.text
+                                  );
+                                  User? user = FirebaseAuth.instance.currentUser;
+                                  if (user != null && user.emailVerified) {
+                                    Navigator.pop(context);
+                                    return;
+                                  }
+                                  throw CustomException("Verify account email");
+                                } on FirebaseAuthException catch (e) {
+                                  String error = "Server error: " + e.code;
+                                  if (e.code == 'user-not-found') {
+                                    error = 'No user found for that email.';
+                                  } else if (e.code == 'wrong-password') {
+                                    error = 'Wrong password provided for that user.';
+                                  }
+                                  createErrorScreen (error, context, "Sign in");
+                                } on CustomException catch (e) {
+                                  createErrorScreen (e.cause, context, "Sign in");
+                                } catch (e) {
+                                  createErrorScreen (e.toString(), context, "Sign in");
+                                }
+                              },
                             ),
                           ),
                         ),
@@ -114,10 +144,9 @@ class _Login extends State<Login> {
                                   await FirebaseAuth.instance
                                       .createUserWithEmailAndPassword(
                                       email: email, password: inputText['Password']!.text);
-                                  User? user = FirebaseAuth.instance.currentUser;
-                                  if (user != null && !user.emailVerified) {
-                                    print(user.uid);
-                                    await user.sendEmailVerification();
+                                  user = FirebaseAuth.instance.currentUser;
+                                  if (user != null && user!.emailVerified) {
+                                    await user!.sendEmailVerification();
                                     showDialog<void>(
                                       context: context,
                                       builder: (_) => AlertDialog(
