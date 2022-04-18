@@ -33,9 +33,17 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <!-- Firebase Configuration -->
-  <script>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-app.js";
+    import "https://www.gstatic.com/firebasejs/9.6.11/firebase-auth.js";
+    // import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
     const firebaseConfig = {
       apiKey: "AIzaSyBtGFwfR45P_psP3yYtibqlijhDJ0J02Oc",
       authDomain: "genome-e2802.firebaseapp.com",
@@ -47,7 +55,8 @@
     };
 
     // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+    initializeApp(firebaseConfig);
+   // const analytics = getAnalytics(app);
   </script>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
