@@ -63,7 +63,7 @@ class _Home extends State<Home> {
                   headerButton(context, "My Saved", (){
                     Navigator.pushNamed(context, '/saved');
                   }),
-                  headerButton(context, user == null ? "Login" : "Log out", () async {
+                  headerButton(context, user == null ? "Login" : "Log Out", () async {
                     if (user == null) {
                       Navigator.pushNamed(context, '/login').then((value) => setState(() {}));
                     } else {
