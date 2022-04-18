@@ -144,25 +144,25 @@ class _Login extends State<Login> {
                                   // create account
                                   await FirebaseAuth.instance
                                       .createUserWithEmailAndPassword(
-                                      email: email, password: inputText['Password']!.text);
-                                  user = FirebaseAuth.instance.currentUser;
-                                  if (user != null && user!.emailVerified) {
-                                    await user!.sendEmailVerification();
-                                    showDialog<void>(
-                                      context: context,
-                                      builder: (_) => AlertDialog(
-                                        title: const Text("Account Created"),
-                                        content: const Text("Verify your email before logging in."),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: const Text('OK'),
-                                            onPressed: () => Navigator.pop(context),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                    await FirebaseAuth.instance.signOut(); // .then((value) => user = null);
-                                  }
+                                      email: email, password: inputText['Password']!.text).then((value) async {
+                                    user = FirebaseAuth.instance.currentUser;
+                                    if (user != null) {
+                                      await user!.sendEmailVerification().then((value) => showDialog<void>(
+                                        context: context,
+                                        builder: (_) => AlertDialog(
+                                          title: const Text("Account Created"),
+                                          content: const Text("Verify your email before logging in."),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: const Text('OK'),
+                                              onPressed: () => Navigator.pop(context),
+                                            ),
+                                          ],
+                                        ),
+                                      ));
+                                      await FirebaseAuth.instance.signOut(); // .then((value) => user = null);
+                                    }
+                                  });
                                 } on FirebaseAuthException catch (e) {
                                   if (e.code == 'weak-password') {
                                     createErrorScreen ("The password provided is too weak.", context, "Registration");
