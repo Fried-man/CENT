@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:genome_2133/tabs/contact.dart';
 import 'package:genome_2133/tabs/region_select.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'main.dart';
 import 'tabs/faq.dart';
 
 class Home extends StatefulWidget {
@@ -15,8 +17,6 @@ class Home extends StatefulWidget {
 
 class _Home extends State<Home> {
   @override
-
-
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -59,11 +59,19 @@ class _Home extends State<Home> {
                          builder: (_) => faq(context)
                      );
                   }),
+                  if (user != null)
                   headerButton(context, "My Saved", (){
                     Navigator.pushNamed(context, '/saved');
                   }),
-                  headerButton(context, "Login", () {
-                    Navigator.pushNamed(context, '/login');
+                  headerButton(context, user == null ? "Login" : "Log out", () async {
+                    if (user == null) {
+                      Navigator.pushNamed(context, '/login').then((value) => setState(() {}));
+                    } else {
+                      await FirebaseAuth.instance.signOut().then((value) {
+                        user = null;
+                        setState(() {});
+                      });
+                    }
                   })
                 ],
               ),

@@ -94,13 +94,14 @@ class _Login extends State<Login> {
                                   await FirebaseAuth.instance.signInWithEmailAndPassword(
                                       email: inputText['Email']!.text,
                                       password: inputText['Password']!.text
-                                  );
-                                  User? user = FirebaseAuth.instance.currentUser;
-                                  if (user != null && user.emailVerified) {
-                                    Navigator.pop(context);
-                                    return;
-                                  }
-                                  throw CustomException("Verify account email");
+                                  ).then((value) {
+                                    user = FirebaseAuth.instance.currentUser;
+                                    if (user != null && user!.emailVerified) {
+                                      Navigator.pop(context);
+                                      return;
+                                    }
+                                    throw CustomException("Verify account email");
+                                  });
                                 } on FirebaseAuthException catch (e) {
                                   String error = "Server error: " + e.code;
                                   if (e.code == 'user-not-found') {
@@ -160,7 +161,7 @@ class _Login extends State<Login> {
                                         ],
                                       ),
                                     );
-                                    await FirebaseAuth.instance.signOut();
+                                    await FirebaseAuth.instance.signOut(); // .then((value) => user = null);
                                   }
                                 } on FirebaseAuthException catch (e) {
                                   if (e.code == 'weak-password') {
