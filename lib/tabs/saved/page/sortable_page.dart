@@ -1,7 +1,8 @@
-import 'package:genome_2133/data/variants.dart';
-import 'package:genome_2133/model/variant.dart';
 import 'package:genome_2133/widget/scrollable_widget.dart';
 import 'package:flutter/material.dart';
+
+import '../data/variants.dart';
+import '../model/variant.dart';
 
 class SortablePage extends StatefulWidget {
   @override
