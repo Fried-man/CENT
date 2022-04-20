@@ -5,9 +5,12 @@ import '../data/variants.dart';
 import '../model/variant.dart';
 
 class SortablePage extends StatefulWidget {
+  const SortablePage({Key? key}) : super(key: key);
+
   @override
   _SortablePageState createState() => _SortablePageState();
 }
+
 
 class _SortablePageState extends State<SortablePage> {
   late List<Variant> users;
@@ -18,13 +21,18 @@ class _SortablePageState extends State<SortablePage> {
   void initState() {
     super.initState();
 
-    this.users = List.of(allUsers);
+    users = List.of(allUsers);
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: ScrollableWidget(child: buildDataTable()),
-      );
+    body: Stack(
+      children: [
+        Container(color: Colors.white),
+        ScrollableWidget(child: buildDataTable()),
+      ],
+    ),
+  );
 
   Widget buildDataTable() {
     final columns = ['Accession', 'Geographical Location', 'Date Collected', 'Generated', 'Pinned'];
@@ -85,8 +93,8 @@ class _SortablePageState extends State<SortablePage> {
     }
 
     setState(() {
-      this.sortColumnIndex = columnIndex;
-      this.isAscending = ascending;
+      sortColumnIndex = columnIndex;
+      isAscending = ascending;
     });
   }
 

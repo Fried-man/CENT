@@ -21,9 +21,9 @@ class Variant {
     String? pinned,
   }) =>
       Variant(
-        accession: firstName ?? this.accession,
-        geoLocation: lastName ?? this.geoLocation,
-        collectionDate: age ?? this.collectionDate,
+        accession: firstName ?? accession,
+        geoLocation: lastName ?? geoLocation,
+        collectionDate: age ?? collectionDate,
         generated: generated ?? this.generated,
         pinned: pinned ?? this.pinned,
       );
