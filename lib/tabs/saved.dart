@@ -1,10 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-import '../widget/scrollable_widget.dart';
-import '../widget/tabbar_widget.dart';
 
 class Saved extends StatefulWidget {
   const Saved({Key? key}) : super(key: key);
@@ -15,11 +9,24 @@ class Saved extends StatefulWidget {
 
 class _Saved extends State<Saved> {
   @override
-  Widget build(BuildContext context) =>  const TabBarWidget(
-    title: "My saved",
-    tabs: [Tab(icon: Icon(Icons.sort_by_alpha), text: 'Sort Variants')],
-    children: [SortablePage()],
-  );
+  Widget build(BuildContext context)  {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("My saved"),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.purple, Colors.blue],
+              begin: Alignment.bottomRight,
+              end: Alignment.topLeft,
+            ),
+          ),
+        ),
+      ),
+      body: const SortablePage(),
+    );
+  }
 }
 
 class SortablePage extends StatefulWidget {
@@ -125,15 +132,24 @@ class _SortablePageState extends State<SortablePage> {
       children: [
         Container(color: Colors.white),
         Align(
-            alignment: Alignment.topCenter,
-            child: ScrollableWidget(child: buildDataTable())),
+          alignment: Alignment.topCenter,
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              child: buildDataTable(),
+            ),
+          )
+        ),
       ],
     ),
   );
 
   Widget buildDataTable() {
     return DataTable(
-      columnSpacing: (MediaQuery.of(context).size.width) / ((users[0] as Map).length + 0.5),
+      columnSpacing: (MediaQuery.of(context).size.width) / ((users[0] as Map).length),
       sortAscending: isAscending,
       sortColumnIndex: sortColumnIndex,
       columns: getColumns(headerLabel),
