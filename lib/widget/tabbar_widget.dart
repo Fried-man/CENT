@@ -20,7 +20,7 @@ class TabBarWidget extends StatelessWidget {
             title: Text(title),
             centerTitle: true,
             flexibleSpace: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [Colors.purple, Colors.blue],
                   begin: Alignment.bottomRight,

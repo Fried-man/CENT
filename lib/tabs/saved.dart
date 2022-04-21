@@ -124,13 +124,16 @@ class _SortablePageState extends State<SortablePage> {
     body: Stack(
       children: [
         Container(color: Colors.white),
-        ScrollableWidget(child: buildDataTable()),
+        Align(
+            alignment: Alignment.topCenter,
+            child: ScrollableWidget(child: buildDataTable())),
       ],
     ),
   );
 
   Widget buildDataTable() {
     return DataTable(
+      columnSpacing: (MediaQuery.of(context).size.width) / ((users[0] as Map).length + 0.5),
       sortAscending: isAscending,
       sortColumnIndex: sortColumnIndex,
       columns: getColumns(headerLabel),
