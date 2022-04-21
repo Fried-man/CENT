@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:genome_2133/tabs/contact.dart';
-import 'package:genome_2133/tabs/region_select.dart';
+import 'package:genome_2133/tabs/region.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'main.dart';
@@ -44,7 +44,7 @@ class _Home extends State<Home> {
                   headerButton(context, "Select Region", () async {
                     showDialog(
                       context: context,
-                      builder: (_) => region(context),
+                      builder: (_) => const Region(),
                     );
                   }),
                   headerButton(context, "Contact Us", () async {
