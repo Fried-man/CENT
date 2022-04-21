@@ -12,15 +12,11 @@ class _Saved extends State<Saved> {
   Widget build(BuildContext context)  {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("My saved"),
+        title: const Text("My Saved"),
         centerTitle: true,
         flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.purple, Colors.blue],
-              begin: Alignment.bottomRight,
-              end: Alignment.topLeft,
-            ),
+          decoration: BoxDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor
           ),
         ),
       ),
@@ -130,7 +126,7 @@ class _SortablePageState extends State<SortablePage> {
   Widget build(BuildContext context) => Scaffold(
     body: Stack(
       children: [
-        Container(color: Colors.white),
+        Container(color: Theme.of(context).primaryColor),
         Align(
           alignment: Alignment.topCenter,
           child: SingleChildScrollView(
@@ -148,12 +144,14 @@ class _SortablePageState extends State<SortablePage> {
   );
 
   Widget buildDataTable() {
-    return DataTable(
-      columnSpacing: (MediaQuery.of(context).size.width) / ((users[0] as Map).length),
-      sortAscending: isAscending,
-      sortColumnIndex: sortColumnIndex,
-      columns: getColumns(headerLabel),
-      rows: getRows(users),
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: DataTable(
+        sortAscending: isAscending,
+        sortColumnIndex: sortColumnIndex,
+        columns: getColumns(headerLabel),
+        rows: getRows(users),
+      ),
     );
     /*return FutureBuilder(
       future: rootBundle.loadString("assets/data.json"),
@@ -171,8 +169,7 @@ class _SortablePageState extends State<SortablePage> {
   }
 
   List<DataColumn> getColumns(List<String> columns) => columns.map((String column) => DataColumn(
-    tooltip: 'Column represents the ${Text(column).data}',
-    label: Text(column.toTitle),
+    label: Expanded(child: Text(column.toTitle, textAlign: TextAlign.center)),
     onSort: onSort,
   )).toList();
 
@@ -185,21 +182,29 @@ class _SortablePageState extends State<SortablePage> {
     );
 
     lister.add(DataCell(
-        user["pinned"] ?
-        const Icon(
-          Icons.push_pin,
-          color: Colors.green,
-        ) :
-        const Icon(
-            Icons.panorama_fish_eye,
-            color: Colors.red
-        )
+      Align(
+          alignment: Alignment.centerRight,
+          child: user["pinned"] ?
+          const Icon(
+            Icons.push_pin,
+            color: Color(0xff445756),
+          ) :
+          const Icon(
+              Icons.panorama_fish_eye,
+              color: Color(0xffcccccc)
+          )
+      )
     ));
     return DataRow(cells: lister);
   }).toList();
 
   List<DataCell> getCells(List<dynamic> cells) =>
-      cells.map((data) => DataCell(Text(data.toString()))).toList();
+      cells.map((data) => DataCell(
+          Align(
+              alignment: Alignment.centerRight,
+              child: Text(data.toString())
+          ))
+      ).toList();
   void onSort(int columnIndex, bool ascending) {
     users.sort((user1, user2) =>
         compareString(ascending, user1[headerLabel[columnIndex]].toString(), user2[headerLabel[columnIndex]].toString()));
