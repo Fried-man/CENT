@@ -8,8 +8,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'main.dart';
 import 'tabs/faq.dart';
 
-List<Widget> windows = [];
-
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -18,6 +16,14 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
+  late List<Widget> windows;
+
+  @override
+  void initState() {
+    windows = [];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
