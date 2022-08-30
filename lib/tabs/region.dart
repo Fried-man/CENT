@@ -168,8 +168,10 @@ class _RegionCard extends State<RegionCard> {
                 child: Container(
                   color: Colors.white,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
+                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                    child: ListView(
+                      shrinkWrap: true,
+                      primary: false,
                       children: [
                         const Align(
                           alignment: Alignment.centerLeft,
