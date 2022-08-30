@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
-
-import 'package:genome_2133/home.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class Region extends StatefulWidget {
   const Region({Key? key}) : super(key: key);
@@ -129,11 +128,15 @@ class _RegionCard extends State<RegionCard> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          widget.country + " Details",
-                          style: const TextStyle(
+                        SizedBox(
+                          width: MediaQuery.of(context).size.height / 3.3,
+                          child: AutoSizeText(
+                            widget.country + " Details",
+                            maxLines: 1,
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 40
+                            ),
                           ),
                         ),
                         GestureDetector(
