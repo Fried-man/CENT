@@ -84,10 +84,8 @@ class _Home extends State<Home> {
                 ],
               ),
             ),
-            if (windows.isNotEmpty)
-              Stack(
-                children: windows,
-              )
+            for (Widget pane in windows)
+              pane,
           ],
         ),
       ),

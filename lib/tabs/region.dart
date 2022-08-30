@@ -108,133 +108,156 @@ class RegionCard extends StatefulWidget {
 
 class _RegionCard extends State<RegionCard> {
   bool isClosed = false;
+  Offset position = const Offset(100, 100);
+  void updatePosition(Offset newPosition) =>
+      setState(() => position = newPosition);
+  late int fakeCount;
+
+  @override
+  void initState() {
+    fakeCount = Random().nextInt(30) + 12;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     if (isClosed) return Container();
 
-    return Center(
-      child: SizedBox(
-          height: MediaQuery.of(context).size.height / 2,
-          width: MediaQuery.of(context).size.height / 3,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Column(
-              children: [
-                Container(
-                  color: Colors.indigo,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.height / 3.3,
-                          child: AutoSizeText(
-                            widget.country + " Details",
-                            maxLines: 1,
-                            style: const TextStyle(
+    Widget content = SizedBox(
+        height: MediaQuery.of(context).size.height / 2,
+        width: MediaQuery.of(context).size.height / 3,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Column(
+            children: [
+              Container(
+                color: Colors.indigo,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.height / 3.3,
+                        child: AutoSizeText(
+                          widget.country + " Details",
+                          maxLines: 1,
+                          style: const TextStyle(
                               color: Colors.white,
                               fontSize: 40
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        child: const Icon(
+                          Icons.close,
+                          color: Colors.white,
+                        ),
+                        onTap: () {
+                          // TODO: add cleanup to home array
+                          setState(() {
+                            isClosed = true;
+                          });
+                        },
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Current Variants",
+                            style: TextStyle(
+                                fontSize: 30
                             ),
                           ),
                         ),
-                        GestureDetector(
-                          child: const Icon(
-                            Icons.close,
-                            color: Colors.white,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16, right: 16),
+                          child: Wrap(
+                            children: [
+                              for (int i = 0; i < fakeCount; i++)
+                                const Padding(
+                                  padding: EdgeInsets.all(2.0),
+                                  child: Text(
+                                    "OM995898",
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ),
+                            ],
                           ),
-                          onTap: () {
-                            // TODO: add cleanup to home array
-                            setState(() {
-                              isClosed = true;
-                            });
-                          },
-                        )
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(right: 18),
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              "See More...",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Report",
+                            style: TextStyle(
+                                fontSize: 30
+                            ),
+                          ),
+                        ),
+                        Image.asset(
+                          "assets/images/fake_report.png",
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(right: 18),
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              "See More...",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
                 ),
-                Expanded(
-                  child: Container(
-                    color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          const Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Current Variants",
-                              style: TextStyle(
-                                  fontSize: 30
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16, right: 16),
-                            child: Wrap(
-                              children: [
-                                for (int i = 0; i < Random().nextInt(42) + 12; i++)
-                                  const Padding(
-                                    padding: EdgeInsets.all(2.0),
-                                    child: Text(
-                                      "OM995898",
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(right: 18),
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Text(
-                                "See More...",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold
-                                ),
-                              ),
-                            ),
-                          ),
-                          const Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Report",
-                              style: TextStyle(
-                                  fontSize: 30
-                              ),
-                            ),
-                          ),
-                          Image.asset(
-                            "assets/images/fake_report.png",
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(right: 18),
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Text(
-                                "See More...",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          )
+              )
+            ],
+          ),
+        )
+    );
+    
+    return Positioned(
+      left: position.dx,
+      top: position.dy,
+      child: Draggable(
+        maxSimultaneousDrags: 1,
+        feedback: Material(
+          type: MaterialType.transparency,
+          child: content
+        ),
+        childWhenDragging: Container(),
+        onDragEnd: (details) => updatePosition(details.offset),
+        child: content
       ),
     );
   }
