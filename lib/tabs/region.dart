@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:math';
+
+import 'package:genome_2133/home.dart';
 
 class Region extends StatefulWidget {
   const Region({Key? key}) : super(key: key);
@@ -49,7 +52,6 @@ class _Region extends State<Region> {
                               Padding(
                                 padding: const EdgeInsets.all(4.0),
                                 child: ElevatedButton(
-                                  onPressed: () {},
                                   child: Row(
                                     children: [
                                       Expanded(
@@ -69,6 +71,9 @@ class _Region extends State<Region> {
                                       const Icon(Icons.chevron_right)
                                     ],
                                   ),
+                                  onPressed: () {
+                                    Navigator.pop(context, [RegionCard(country: countries[index])]);
+                                  },
                                 ),
                               )
                         ],
@@ -90,5 +95,144 @@ class _Region extends State<Region> {
       if (String.fromCharCode(element).allMatches(search).length > String.fromCharCode(element).allMatches(name).length) return false;
     }
     return true;
+  }
+}
+
+class RegionCard extends StatefulWidget {
+  final String country;
+
+  const RegionCard({Key? key, required this.country}) : super(key: key);
+
+  @override
+  State<RegionCard> createState() => _RegionCard();
+}
+
+class _RegionCard extends State<RegionCard> {
+  bool isClosed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    if (isClosed) return Container();
+
+    return Center(
+      child: SizedBox(
+          height: MediaQuery.of(context).size.height / 2,
+          width: MediaQuery.of(context).size.height / 3,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Column(
+              children: [
+                Container(
+                  color: Colors.indigo,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          widget.country + " Details",
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 40
+                          ),
+                        ),
+                        GestureDetector(
+                          child: const Icon(
+                            Icons.close,
+                            color: Colors.white,
+                          ),
+                          onTap: () {
+                            // TODO: add cleanup to home array
+                            setState(() {
+                              isClosed = true;
+                            });
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          const Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Current Variants",
+                              style: TextStyle(
+                                  fontSize: 30
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16, right: 16),
+                            child: Wrap(
+                              children: [
+                                for (int i = 0; i < Random().nextInt(42) + 12; i++)
+                                  const Padding(
+                                    padding: EdgeInsets.all(2.0),
+                                    child: Text(
+                                      "OM995898",
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(right: 18),
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                "See More...",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold
+                                ),
+                              ),
+                            ),
+                          ),
+                          const Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Report",
+                              style: TextStyle(
+                                  fontSize: 30
+                              ),
+                            ),
+                          ),
+                          Image.asset(
+                            "assets/images/fake_report.png",
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(right: 18),
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                "See More...",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )
+      ),
+    );
   }
 }

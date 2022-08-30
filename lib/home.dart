@@ -8,6 +8,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'main.dart';
 import 'tabs/faq.dart';
 
+List<Widget> windows = [];
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -45,7 +47,13 @@ class _Home extends State<Home> {
                     showDialog(
                       context: context,
                       builder: (_) => const Region(),
-                    );
+                    ).then((value) {
+                      if (value != null) {
+                        setState(() {
+                          windows.add(value[0]);
+                        });
+                      }
+                    });
                   }),
                   headerButton(context, "Contact Us", () async {
                     showDialog(
@@ -75,7 +83,11 @@ class _Home extends State<Home> {
                   })
                 ],
               ),
-            )
+            ),
+            if (windows.isNotEmpty)
+              Stack(
+                children: windows,
+              )
           ],
         ),
       ),
