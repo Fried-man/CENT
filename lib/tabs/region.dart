@@ -138,7 +138,7 @@ class _RegionCard extends State<RegionCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(
-                        width: MediaQuery.of(context).size.height / 3.3,
+                        width: MediaQuery.of(context).size.height / 3.5,
                         child: AutoSizeText(
                           widget.country + " Details",
                           maxLines: 1,
@@ -168,17 +168,20 @@ class _RegionCard extends State<RegionCard> {
                 child: Container(
                   color: Colors.white,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                    padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                     child: ListView(
                       shrinkWrap: true,
                       primary: false,
                       children: [
-                        const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Current Variants",
-                            style: TextStyle(
-                                fontSize: 30
+                        const Padding(
+                          padding: EdgeInsets.only(top: 8),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Current Variants",
+                              style: TextStyle(
+                                  fontSize: 30
+                              ),
                             ),
                           ),
                         ),
