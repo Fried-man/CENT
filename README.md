@@ -12,7 +12,7 @@ The system being developed by Team 2133 is an application which can provide info
 | Noel Igbokwe    | nigbokwe3@gatech.edu   | Information Seeker, Summarizers                                  |
 | John Rehme      | jrehme3@gatech.edu     | Information Seeker, Feeling Expressers                           |
 | Nihar Shah      | nshah400@gatech.edu    | Energizers, Clarifiers                                           |
-| Max Tang        | bmtang80@gatech.edu    | Information Giver, Harmonizer                                    |
+| Max Tang        | mtang80@gatech.edu     | Information Giver, Harmonizer                                    |
 | Daniel Varzari  | dvarzari3@gatech.edu   | Energizer, Clarifier, Compromiser, Organizer, Information Seeker |
 ## Team Resources
 - [Repository's Wikipedia](https://github.com/Fried-man/genome_2133/wiki)
