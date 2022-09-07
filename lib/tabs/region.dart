@@ -190,19 +190,16 @@ class _RegionCard extends State<RegionCard> {
                           child: Wrap(
                             children: [
                               for (int i = 0; i < fakeCount; i++)
-                                Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: TextButton(
-                                    style: TextButton.styleFrom(
+                                TextButton(
+                                  style: TextButton.styleFrom(
                                       textStyle: const TextStyle(fontSize: 13)
-                                    ),
-                                    onPressed: () => debugPrint('pressedTextButton: $i'),
-                                    child: const Text(
-                                      "OM995898",
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        decoration: TextDecoration.underline,
-                                      ),
+                                  ),
+                                  onPressed: () => debugPrint('pressedTextButton: $i'),
+                                  child: const Text(
+                                    "OM995898",
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                      decoration: TextDecoration.underline,
                                     ),
                                   ),
                                 ),
