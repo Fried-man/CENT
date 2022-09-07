@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Region extends StatefulWidget {
   const Region({Key? key}) : super(key: key);
@@ -189,14 +191,14 @@ class _RegionCard extends State<RegionCard> {
                           padding: const EdgeInsets.only(left: 16, right: 16),
                           child: Wrap(
                             children: [
-                              for (int i = 0; i < fakeCount; i++)
+                              for (int i = 0; i < 12; i++)
                                 Padding(
-                                  padding: const EdgeInsets.all(2.0),
+                                  padding: const EdgeInsets.all(1.0),
                                   child: TextButton(
                                     style: TextButton.styleFrom(
                                       textStyle: const TextStyle(fontSize: 13)
                                     ),
-                                    onPressed: () => debugPrint('pressedTextButton: $i'),
+                                    onPressed: () => launchUrl(Uri.parse('https://www.ncbi.nlm.nih.gov/nuccore/OP365008')),
                                     child: const Text(
                                       "OM995898",
                                       style: TextStyle(
@@ -209,15 +211,19 @@ class _RegionCard extends State<RegionCard> {
                             ],
                           ),
                         ),
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.only(right: 18),
                           child: Align(
                             alignment: Alignment.centerRight,
-                            child: Text(
-                              "See More...",
-                              style: TextStyle(
+                            child: TextButton(
+                              onPressed: () => debugPrint('pressedTextButton:'),
+                              child: const Text(
+                                "See More...",
+                                style: TextStyle(
                                   fontSize: 15,
-                                  fontWeight: FontWeight.bold
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black
+                                ),
                               ),
                             ),
                           ),
@@ -234,15 +240,19 @@ class _RegionCard extends State<RegionCard> {
                         Image.asset(
                           "assets/images/fake_report.png",
                         ),
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.only(right: 18),
                           child: Align(
                             alignment: Alignment.centerRight,
-                            child: Text(
-                              "See More...",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold
+                            child: TextButton(
+                              onPressed: () => debugPrint('pressedTextButton:'),
+                              child: const Text(
+                                "See More...",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black
+                                ),
                               ),
                             ),
                           ),
