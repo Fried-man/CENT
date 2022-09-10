@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:genome_2133/views/variant-view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Region extends StatefulWidget {
@@ -200,7 +201,7 @@ class _RegionCard extends State<RegionCard> {
                                     ),
                                     onPressed: () => launchUrl(Uri.parse('https://www.ncbi.nlm.nih.gov/nuccore/OP365008')),
                                     child: const Text(
-                                      "OM995898",
+                                      "OP365008",
                                       style: TextStyle(
                                         color: Colors.blue,
                                         decoration: TextDecoration.underline,
@@ -216,7 +217,10 @@ class _RegionCard extends State<RegionCard> {
                           child: Align(
                             alignment: Alignment.centerRight,
                             child: TextButton(
-                              onPressed: () => debugPrint('pressedTextButton:'),
+                              onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const VariantView())
+                              ),
                               child: const Text(
                                 "See More...",
                                 style: TextStyle(
