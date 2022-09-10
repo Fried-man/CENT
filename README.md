@@ -16,3 +16,4 @@ The system being developed by Team 2133 is an application which can provide info
 | Daniel Varzari  | dvarzari3@gatech.edu   | Energizer, Clarifier, Compromiser, Organizer, Information Seeker |
 ## Team Resources
 - [Repository's Wikipedia](https://github.com/Fried-man/genome_2133/wiki)
+- [Flutter Documentation](https://docs.flutter.dev/)
