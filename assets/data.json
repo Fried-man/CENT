@@ -201,7 +201,7 @@
       "Title" : "General Questions",
       "Content" : {
         "Question" : "What can I do with this app?",
-        "Answer" : "The purpose of this application is to allow both researchers and the general"
+        "Answer" : "The purpose of this application is to allow both researchers and the general public to better understand the trends of and predict the shifts in Covid-19 variants. We aim to provide users with rankings for and patterns within region-specific variants."
       }
     },
     {
@@ -209,7 +209,7 @@
       "Content" : [
         {
           "Question" : "Where do these variants come from?",
-          "Answer" : "All of these variants are retrieved from the NCBI database"
+          "Answer" : "All of these variants are retrieved from the National Center for Biotechnology Information (NCBI) database"
         },
         {
           "Question" : "Where can I find more details?",
@@ -235,6 +235,85 @@
     {
       "Question" : "Errors",
       "Answer" : "What can I do with this app?"
+    }
+  ],
+  "Fake Data" : [
+    {
+      "accession": "NC_045512",
+      "geographical location": "China",
+      "date collected": 2019,
+      "generated": false,
+      "pinned": false
+    },
+    {
+      "accession": "L00000001",
+      "geographical location": "China",
+      "date collected": 2019,
+      "generated": true,
+      "pinned": true
+    },
+    {
+      "accession": "NC_045512",
+      "geographical location": "China",
+      "date collected": 2019,
+      "generated": false,
+      "pinned": true
+    },
+    {
+      "accession": "MN938384",
+      "geographical location": "China: Shenzhen",
+      "date collected": 2020,
+      "generated": false,
+      "pinned": false
+    },
+    {
+      "accession": "L00000002",
+      "geographical location": "China",
+      "date collected": 2020,
+      "generated": true,
+      "pinned": true
+    },
+    {
+      "accession": "MN938384",
+      "geographical location": "China: Shenzhen",
+      "date collected": 2020,
+      "generated": false,
+      "pinned": false
+    },
+    {
+      "accession": "MT027063",
+      "geographical location": "USA: CA",
+      "date collected": 2020,
+      "generated": false,
+      "pinned": false
+    },
+    {
+      "accession": "L00000003",
+      "geographical location": "China",
+      "date collected": 2022,
+      "generated": true,
+      "pinned": true
+    },
+    {
+      "accession": "ON247308",
+      "geographical location": "USA: CA",
+      "date collected": 2020,
+      "generated": false,
+      "pinned": false
+    },
+    {
+      "accession": "L00000003",
+      "geographical location": "China",
+      "date collected": 2021,
+      "generated": true,
+      "pinned": true
+    },
+    {
+      "accession": "ON247308",
+      "geographical location": "USA: MS",
+      "date collected": 2022,
+      "generated": false,
+      "pinned": true
     }
   ]
 }

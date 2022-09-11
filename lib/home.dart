@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:genome_2133/tabs/contact.dart';
-import 'package:genome_2133/tabs/region_select.dart';
+import 'package:genome_2133/tabs/region.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'main.dart';
 import 'tabs/faq.dart';
 
 class Home extends StatefulWidget {
@@ -14,6 +16,14 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
+  late List<Widget> windows;
+
+  @override
+  void initState() {
+    windows = [];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,11 +49,17 @@ class _Home extends State<Home> {
               child: Row (
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  headerButton(context, "Select Region(s)", () async {
+                  headerButton(context, "Select Region", () async {
                     showDialog(
                       context: context,
-                      builder: (_) => region(context),
-                    );
+                      builder: (_) => const Region(),
+                    ).then((value) {
+                      if (value != null) {
+                        setState(() {
+                          windows.add(value[0]);
+                        });
+                      }
+                    });
                   }),
                   headerButton(context, "Contact Us", () async {
                     showDialog(
@@ -57,13 +73,25 @@ class _Home extends State<Home> {
                          builder: (_) => faq(context)
                      );
                   }),
-                  headerButton(context, "My Saved", (){}),
-                  headerButton(context, "Login", () {
-                    Navigator.pushNamed(context, '/login');
+                  if (user != null)
+                  headerButton(context, "My Saved", (){
+                    Navigator.pushNamed(context, '/saved');
+                  }),
+                  headerButton(context, user == null ? "Login" : "Log Out", () async {
+                    if (user == null) {
+                      Navigator.pushNamed(context, '/login').then((value) => setState(() {}));
+                    } else {
+                      await FirebaseAuth.instance.signOut().then((value) {
+                        user = null;
+                        setState(() {});
+                      });
+                    }
                   })
                 ],
               ),
-            )
+            ),
+            for (Widget pane in windows)
+              pane,
           ],
         ),
       ),

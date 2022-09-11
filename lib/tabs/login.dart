@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import '../main.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -10,6 +13,11 @@ class Login extends StatefulWidget {
 class _Login extends State<Login> {
   @override
   Widget build(BuildContext context) {
+    Map<String, TextEditingController> inputText = {
+      "Email" : TextEditingController(),
+      "Password" : TextEditingController()
+    };
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -38,20 +46,23 @@ class _Login extends State<Login> {
                         width: MediaQuery.of(context).size.width / 5,
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.all(8),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
                       child: TextField(
-                        decoration: InputDecoration(
+                        controller: inputText["Email"],
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           prefixIcon: Icon(Icons.person),
                           labelText: 'Email',
                         ),
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.all(8),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
                       child: TextField(
-                        decoration: InputDecoration(
+                        controller: inputText["Password"],
+                        obscureText: true,
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           prefixIcon: Icon(Icons.lock),
                           labelText: 'Password',
@@ -65,7 +76,6 @@ class _Login extends State<Login> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ElevatedButton(
-                              onPressed: () {},
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
@@ -76,6 +86,36 @@ class _Login extends State<Login> {
                                   ),
                                 ),
                               ),
+                              onPressed: () async {
+                                try {
+                                  for (String typeText in inputText.keys) { // null checks
+                                    if (inputText[typeText]!.text.isEmpty) throw CustomException('Fill in all fields');
+                                  }
+                                  await FirebaseAuth.instance.signInWithEmailAndPassword(
+                                      email: inputText['Email']!.text,
+                                      password: inputText['Password']!.text
+                                  ).then((value) {
+                                    user = FirebaseAuth.instance.currentUser;
+                                    if (user != null && user!.emailVerified) {
+                                      Navigator.pop(context);
+                                      return;
+                                    }
+                                    throw CustomException("Verify account email");
+                                  });
+                                } on FirebaseAuthException catch (e) {
+                                  String error = "Server error: " + e.code;
+                                  if (e.code == 'user-not-found') {
+                                    error = 'No user found for that email.';
+                                  } else if (e.code == 'wrong-password') {
+                                    error = 'Wrong password provided for that user.';
+                                  }
+                                  createErrorScreen (error, context, "Sign in");
+                                } on CustomException catch (e) {
+                                  createErrorScreen (e.cause, context, "Sign in");
+                                } catch (e) {
+                                  createErrorScreen (e.toString(), context, "Sign in");
+                                }
+                              },
                             ),
                           ),
                         ),
@@ -83,7 +123,6 @@ class _Login extends State<Login> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ElevatedButton(
-                              onPressed: () {},
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
@@ -94,6 +133,48 @@ class _Login extends State<Login> {
                                   ),
                                 ),
                               ),
+                              onPressed: () async {
+                                try {
+                                  for (String typeText in inputText.keys) { // null checks
+                                    if (inputText[typeText]!.text.isEmpty) throw CustomException('Fill in all fields');
+                                  }
+                                  // valid email check
+                                  String email = inputText['Email']!.text;
+                                  if (!email.contains('@') || !email.contains('.') || email.indexOf('.') == (email.length - 1)) throw CustomException('Fill in a valid email');
+                                  // create account
+                                  await FirebaseAuth.instance
+                                      .createUserWithEmailAndPassword(
+                                      email: email, password: inputText['Password']!.text).then((value) async {
+                                    user = FirebaseAuth.instance.currentUser;
+                                    if (user != null) {
+                                      await user!.sendEmailVerification().then((value) => showDialog<void>(
+                                        context: context,
+                                        builder: (_) => AlertDialog(
+                                          title: const Text("Account Created"),
+                                          content: const Text("Verify your email before logging in."),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: const Text('OK'),
+                                              onPressed: () => Navigator.pop(context),
+                                            ),
+                                          ],
+                                        ),
+                                      ));
+                                      await FirebaseAuth.instance.signOut(); // .then((value) => user = null);
+                                    }
+                                  });
+                                } on FirebaseAuthException catch (e) {
+                                  if (e.code == 'weak-password') {
+                                    createErrorScreen ("The password provided is too weak.", context, "Registration");
+                                  } else if (e.code == 'email-already-in-use') {
+                                    createErrorScreen ("The account already exists for that email.", context, "Registration");
+                                  }
+                                }on CustomException catch (e) {
+                                  createErrorScreen (e.cause, context, "Registration");
+                                } catch (e) {
+                                  createErrorScreen (e.toString(), context, "Registration");
+                                }
+                              },
                             ),
                           ),
                         ),
@@ -114,4 +195,25 @@ class _Login extends State<Login> {
       ),
     );
   }
+}
+
+class CustomException implements Exception {
+  String cause;
+  CustomException(this.cause);
+}
+
+void createErrorScreen (error, context, sourceString) {
+  showDialog<void>(
+    context: context,
+    builder: (_) => AlertDialog(
+      title: Text(sourceString + " Failure"),
+      content: Text(error),
+      actions: <Widget>[
+        TextButton(
+          child: const Text('OK'),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ],
+    ),
+  );
 }
