@@ -1,9 +1,12 @@
 import 'dart:convert';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:genome_2133/views/variant-view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Region extends StatefulWidget {
   const Region({Key? key}) : super(key: key);
@@ -198,7 +201,7 @@ class _RegionCard extends State<RegionCard> {
                                       style: TextButton.styleFrom(
                                           textStyle: const TextStyle(fontSize: 13)
                                       ),
-                                      onPressed: () => debugPrint('pressedTextButton: $i'),
+                                      onPressed: () => launchUrl(Uri.parse('https://www.ncbi.nlm.nih.gov/nuccore/OP365008')),
                                       child: const Text(
                                         "OM995898",
                                         style: TextStyle(
@@ -213,13 +216,16 @@ class _RegionCard extends State<RegionCard> {
                           )
 
                         ),
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.only(right: 18),
                           child: Align(
                             alignment: Alignment.centerRight,
                             child: TextButton(
-                              onPressed: null,
-                              child: Text(
+                              onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const VariantView())
+                              ),
+                              child: const Text(
                                 "See More...",
                                 style: TextStyle(
                                   fontSize: 15,
@@ -242,18 +248,18 @@ class _RegionCard extends State<RegionCard> {
                         Image.asset(
                           "assets/images/fake_report.png",
                         ),
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.only(right: 18),
                           child: Align(
                             alignment: Alignment.centerRight,
                             child: TextButton(
-                              onPressed: null,
-                              child: Text(
+                              onPressed: () => debugPrint('pressedTextButton:'),
+                              child: const Text(
                                 "See More...",
                                 style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black
                                 ),
                               ),
                             ),
