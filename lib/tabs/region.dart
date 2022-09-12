@@ -190,27 +190,31 @@ class _RegionCard extends State<RegionCard> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 16, right: 16),
-                          child: Wrap(
-                            children: [
-                              for (int i = 0; i < 12; i++)
-                                Padding(
-                                  padding: const EdgeInsets.all(1.0),
-                                  child: TextButton(
-                                    style: TextButton.styleFrom(
-                                      textStyle: const TextStyle(fontSize: 13)
-                                    ),
-                                    onPressed: () => launchUrl(Uri.parse('https://www.ncbi.nlm.nih.gov/nuccore/OP365008')),
-                                    child: const Text(
-                                      "OP365008",
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        decoration: TextDecoration.underline,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Wrap(
+                              children: [
+                                for (int i = 0; i < fakeCount; i++)
+                                  Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: TextButton(
+                                      style: TextButton.styleFrom(
+                                          textStyle: const TextStyle(fontSize: 13)
+                                      ),
+                                      onPressed: () => launchUrl(Uri.parse('https://www.ncbi.nlm.nih.gov/nuccore/OP365008')),
+                                      child: const Text(
+                                        "OM995898",
+                                        style: TextStyle(
+                                          color: Colors.blue,
+                                          decoration: TextDecoration.underline,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                            ],
-                          ),
+                              ],
+                            ),
+                          )
+
                         ),
                         Padding(
                           padding: EdgeInsets.only(right: 18),
