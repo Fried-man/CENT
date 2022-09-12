@@ -30,6 +30,7 @@ dependencies:
   flutter:
     sdk: flutter
   another_flushbar: ^1.10.28
+  url_launcher: ^6.1.5
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -40,6 +41,7 @@ dependencies:
   http: ^0.13.4
   firebase_core: ^1.14.1
   firebase_auth: ^3.3.14
+  auto_size_text: ^3.0.0
   
 
 dev_dependencies:

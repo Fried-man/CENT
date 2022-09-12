@@ -16,6 +16,14 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
+  late List<Widget> windows;
+
+  @override
+  void initState() {
+    windows = [];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +53,13 @@ class _Home extends State<Home> {
                     showDialog(
                       context: context,
                       builder: (_) => const Region(),
-                    );
+                    ).then((value) {
+                      if (value != null) {
+                        setState(() {
+                          windows.add(value[0]);
+                        });
+                      }
+                    });
                   }),
                   headerButton(context, "Contact Us", () async {
                     showDialog(
@@ -75,7 +89,9 @@ class _Home extends State<Home> {
                   })
                 ],
               ),
-            )
+            ),
+            for (Widget pane in windows)
+              pane,
           ],
         ),
       ),
