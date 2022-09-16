@@ -17,3 +17,14 @@ The system being developed by Team 2133 is an application which can provide info
 ## Team Resources
 - [Repository's Wikipedia](https://github.com/Fried-man/genome_2133/wiki)
 - [Useful Links](https://github.com/Fried-man/genome_2133/wiki/Resources)
+# Release Notes
+## v0.1.0
+### Features 
+* Region card view – this extends from our search functionality for regions, and where we can start to see variant views. 
+* Variant view – redirects to database link 
+* Variant table view – can view more variants for a particular region 
+### Bug Fixes 
+* Fixed Google Maps agreement issue (was out-of-date) 
+### Known Issues 
+* Able to open the same region card multiple times 
+* Title for region cards shrinks when too long 
