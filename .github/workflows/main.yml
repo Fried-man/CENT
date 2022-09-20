@@ -1,0 +1,36 @@
+name: Azure Deployment
+
+on:
+  push:
+    branches:
+      - backend
+  workflow_dispatch: 
+
+jobs:
+  deploy:
+    name: Deploy to Azure
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Configure Azure credentials
+        run: |
+          echo "We need to figure this out"
+      
+      - name: Initialize Terraform
+        run: |
+          terraform init
+          terraform validate
+
+      - name: Create Plan
+        run: |
+          terraform plan -input=false -out=plan.tfplan
+
+      - name: Terraform Apply
+        run: |
+          terraform apply --auto-approve -input=false plan.tfplan
+
