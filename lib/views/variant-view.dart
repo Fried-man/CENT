@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class VariantView extends StatefulWidget {
   const VariantView({Key? key}) : super(key: key);
@@ -19,6 +20,22 @@ class _VariantView extends State<VariantView> {
               color: Theme.of(context).scaffoldBackgroundColor
           ),
         ),
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 18.0),
+            child: IconButton(
+              icon: const Icon(Icons.content_copy),
+              tooltip: "Copy selected variants to clipboard",
+              onPressed: () async {
+                await Clipboard.setData(const ClipboardData(text: "Placeholder for variants")).then((_){
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(const SnackBar(content: Text('Copied variants to clipboard')));
+                });
+              },
+            ),
+          ),
+          //add Compare button right here
+        ],
       ),
       body: const SortablePage(),
     );
