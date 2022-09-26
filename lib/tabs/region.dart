@@ -7,6 +7,7 @@ import 'dart:math';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:genome_2133/views/variant-view.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:ui';
 
 class Region extends StatefulWidget {
   const Region({Key? key}) : super(key: key);
@@ -111,10 +112,14 @@ class RegionCard extends StatefulWidget {
 
 class _RegionCard extends State<RegionCard> {
   bool isClosed = false;
-  Offset position = const Offset(100, 100);
+  late int fakeCount;
+
+  Offset position = Offset(
+      Random().nextDouble() * ((window.physicalSize / window.devicePixelRatio).width - (window.physicalSize / window.devicePixelRatio).width / 3),
+      100 + Random().nextDouble() * ((window.physicalSize / window.devicePixelRatio).height - (window.physicalSize / window.devicePixelRatio).height / 2 - 100)
+  );
   void updatePosition(Offset newPosition) =>
       setState(() => position = newPosition);
-  late int fakeCount;
 
   @override
   void initState() {
