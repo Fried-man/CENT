@@ -223,7 +223,7 @@ class _RegionCard extends State<RegionCard> {
                             child: TextButton(
                               onPressed: () => Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => const VariantView())
+                                MaterialPageRoute(builder: (context) => VariantView(country: widget.country))
                               ),
                               child: const Text(
                                 "See More...",
