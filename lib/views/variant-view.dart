@@ -22,16 +22,32 @@ class _VariantView extends State<VariantView> {
         ),
         actions: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(right: 18.0),
-            child: IconButton(
-              icon: const Icon(Icons.content_copy),
-              tooltip: "Copy selected variants to clipboard",
-              onPressed: () async {
-                await Clipboard.setData(const ClipboardData(text: "Placeholder for variants")).then((_){
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(const SnackBar(content: Text('Copied variants to clipboard')));
-                });
-              },
+            padding: const EdgeInsets.only(right: 20.0),
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 50),
+                  child: IconButton(
+                    icon: const Icon(Icons.content_copy),
+                    tooltip: "Copy selected variants to clipboard",
+                    onPressed: () async {
+                      await Clipboard.setData(const ClipboardData(text: "Placeholder for variants")).then((_){
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(content: Text('Copied variants to clipboard')));
+                      });
+                    },
+                  )
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: IconButton(
+                      icon: const Icon(Icons.ballot_outlined),
+                      tooltip: "Compare Variants",
+                      onPressed: () => {}
+                  )
+                )
+
+              ]
             ),
           ),
           //add Compare button right here
