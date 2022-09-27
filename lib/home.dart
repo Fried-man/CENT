@@ -8,6 +8,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'main.dart';
 import 'tabs/faq.dart';
 
+late List<RegionCard> windows;
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -16,8 +18,6 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
-  late List<Widget> windows;
-
   @override
   void initState() {
     windows = [];
@@ -52,7 +52,7 @@ class _Home extends State<Home> {
                   headerButton(context, "Select Region", () async {
                     showDialog(
                       context: context,
-                      builder: (_) => const Region(),
+                      builder: (_) => Region(updateParent: (){setState(() {});}),
                     ).then((value) {
                       if (value != null) {
                         setState(() {
