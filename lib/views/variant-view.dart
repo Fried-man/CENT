@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class VariantView extends StatefulWidget {
   const VariantView({Key? key}) : super(key: key);
@@ -43,7 +44,7 @@ class _VariantView extends State<VariantView> {
                   child: IconButton(
                       icon: const Icon(Icons.ballot_outlined),
                       tooltip: "Compare Variants",
-                      onPressed: () => {}
+                      onPressed: () => launchUrl(Uri.parse('https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome'))
                   )
                 )
 
