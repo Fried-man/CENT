@@ -41,10 +41,12 @@ class _VariantView extends State<VariantView> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 20),
-                  child: IconButton(
-                      icon: const Icon(Icons.ballot_outlined),
-                      tooltip: "Compare Variants",
-                      onPressed: () => launchUrl(Uri.parse('https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome'))
+                  child: ElevatedButton(
+                      style: TextButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 20),
+                      ),   //style
+                      onPressed: () => launchUrl(Uri.parse('https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome')),
+                    child: const Text('Compare')
                   )
                 )
 
