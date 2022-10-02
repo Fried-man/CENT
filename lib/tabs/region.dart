@@ -248,7 +248,6 @@ class _RegionCard extends State<RegionCard> {
                                 ],
                               ),
                             )
-
                           ),
                           Padding(
                             padding: EdgeInsets.only(right: 18),
@@ -257,7 +256,7 @@ class _RegionCard extends State<RegionCard> {
                               child: TextButton(
                                 onPressed: () => Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const VariantView())
+                                  MaterialPageRoute(builder: (context) => VariantView(country: widget.country))
                                 ),
                                 child: const Text(
                                   "See More...",
@@ -307,7 +306,7 @@ class _RegionCard extends State<RegionCard> {
               ],
             ),
           ),
-        )
+        ),
     );
     
     return Positioned(
