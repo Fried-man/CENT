@@ -5,7 +5,9 @@ import 'package:url_launcher/url_launcher.dart';
 List selections = [];
 
 class VariantView extends StatefulWidget {
-  const VariantView({Key? key}) : super(key: key);
+  final String country;
+
+  const VariantView({Key? key, required this.country}) : super(key: key);
 
   @override
   State<VariantView> createState() => _VariantView();
@@ -16,7 +18,10 @@ class _VariantView extends State<VariantView> {
   Widget build(BuildContext context)  {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Variants"),
+        iconTheme: const IconThemeData(
+          color: Colors.white, //change your color here
+        ),
+        title: Text(widget.country + " Variants", style: const TextStyle(color: Colors.white)),
         centerTitle: true,
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -164,7 +169,7 @@ class _SortablePageState extends State<SortablePage> {
   Widget build(BuildContext context) => Scaffold(
     body: Stack(
       children: [
-        Container(color: Theme.of(context).primaryColor),
+        Container(color: Theme.of(context).backgroundColor),
         Align(
             alignment: Alignment.topCenter,
             child: SingleChildScrollView(
@@ -232,8 +237,8 @@ class _SortablePageState extends State<SortablePage> {
       Align(
         alignment: Alignment.centerRight,
         child: IconButton(
-          icon: user["pinned"] ? Icon(Icons.push_pin): Icon(Icons.panorama_fish_eye),
-          color: Color(0xffcccccc),
+          icon: user["pinned"] ? const Icon(Icons.push_pin): const Icon(Icons.panorama_fish_eye),
+          color: const Color(0xff445756),
           onPressed: () {
             setState(() {
               user["pinned"] = !user["pinned"];
