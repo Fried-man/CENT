@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+List selections = [];
+
 class VariantView extends StatefulWidget {
   const VariantView({Key? key}) : super(key: key);
 
@@ -32,7 +34,7 @@ class _VariantView extends State<VariantView> {
                     icon: const Icon(Icons.content_copy),
                     tooltip: "Copy selected variants to clipboard",
                     onPressed: () async {
-                      await Clipboard.setData(const ClipboardData(text: "Placeholder for variants")).then((_){
+                      await Clipboard.setData(ClipboardData(text: selections.toString().replaceAll("[", '').replaceAll("]", ''))).then((_){
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(content: Text('Copied variants to clipboard')));
                       });
@@ -84,14 +86,14 @@ class _SortablePageState extends State<SortablePage> {
       "geographical location": "China",
       "date collected": 2019,
       "generated": true,
-      "pinned": true
+      "pinned": false
     },
     {
       "accession": "NC_045512",
       "geographical location": "China",
       "date collected": 2019,
       "generated": false,
-      "pinned": true
+      "pinned": false
     },
     {
       "accession": "MN938384",
@@ -105,7 +107,7 @@ class _SortablePageState extends State<SortablePage> {
       "geographical location": "China",
       "date collected": 2020,
       "generated": true,
-      "pinned": true
+      "pinned": false
     },
     {
       "accession": "MN938384",
@@ -126,7 +128,7 @@ class _SortablePageState extends State<SortablePage> {
       "geographical location": "China",
       "date collected": 2022,
       "generated": true,
-      "pinned": true
+      "pinned": false
     },
     {
       "accession": "ON247308",
@@ -140,14 +142,14 @@ class _SortablePageState extends State<SortablePage> {
       "geographical location": "China",
       "date collected": 2021,
       "generated": true,
-      "pinned": true
+      "pinned": false
     },
     {
       "accession": "ON247308",
       "geographical location": "USA: MS",
       "date collected": 2022,
       "generated": false,
-      "pinned": true
+      "pinned": false
     }
   ];
   int? sortColumnIndex;
@@ -183,6 +185,7 @@ class _SortablePageState extends State<SortablePage> {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: DataTable(
+        showCheckboxColumn: true,
         sortAscending: isAscending,
         sortColumnIndex: sortColumnIndex,
         columns: getColumns(headerLabel),
@@ -210,6 +213,14 @@ class _SortablePageState extends State<SortablePage> {
   )).toList();
 
   List<DataRow> getRows(List users) => users.map((user) {
+    onSelectChanged: (bool isSelected) {
+      if (isSelected) {
+        selections.add(user["accession"]);
+      } else {
+        selections.remove(user["accession"]);
+      }
+
+    };
     List<DataCell> lister = getCells(
         [user["accession"],
           user["geographical location"],
@@ -218,19 +229,26 @@ class _SortablePageState extends State<SortablePage> {
     );
 
     lister.add(DataCell(
-        Align(
-            alignment: Alignment.centerRight,
-            child: user["pinned"] ?
-            const Icon(
-              Icons.push_pin,
-              color: Color(0xff445756),
-            ) :
-            const Icon(
-                Icons.panorama_fish_eye,
-                color: Color(0xffcccccc)
-            )
-        )
+      Align(
+        alignment: Alignment.centerRight,
+        child: IconButton(
+          icon: user["pinned"] ? Icon(Icons.push_pin): Icon(Icons.panorama_fish_eye),
+          color: Color(0xffcccccc),
+          onPressed: () {
+            setState(() {
+              user["pinned"] = !user["pinned"];
+              if (user["pinned"]) {
+                selections.add(user["accession"]);
+              } else {
+                selections.remove(user["accession"]);
+              }
+            });
+          },
+        ),
+      )
     ));
+
+
     return DataRow(cells: lister);
   }).toList();
 
