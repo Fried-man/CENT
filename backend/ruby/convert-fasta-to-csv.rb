@@ -1,4 +1,5 @@
 #!/usr/bin/ruby
+# do NOT delete the comments the first comment is actually necessary
 first_line = true
 
 while line = STDIN.gets
