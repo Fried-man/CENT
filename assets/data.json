@@ -230,12 +230,17 @@
     },
     {
       "Title" : "Account Questions",
-      "Question" : "Is my data secure",
-      "Answer" : "Yes, we are using industry standard protocol to make your account"
+      "Content" : {
+        "Question": "Is my data secure",
+        "Answer": "Yes, we are using industry standard protocol to make your account"
+      }
     },
     {
-      "Question" : "Errors",
-      "Answer" : "If you have an error please contact our team on the contact page, this will connect us to you."
+      "Title" : "Errors",
+      "Content" : {
+        "Question": "Errors",
+        "Answer": "If you have an error please contact our team on the contact page, this will connect us to you."
+      }
     }
   ],
   "Fake Data" : [
