@@ -4,7 +4,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 List selections = [];
 
-
 class VariantView extends StatefulWidget {
   final String country;
 
@@ -13,7 +12,6 @@ class VariantView extends StatefulWidget {
   @override
   State<VariantView> createState() => _VariantView();
 }
-
 
 class _VariantView extends State<VariantView> {
   @override
@@ -76,7 +74,6 @@ class SortablePage extends StatefulWidget {
   @override
   _SortablePageState createState() => _SortablePageState();
 }
-
 
 class _SortablePageState extends State<SortablePage> {
   List<String> headerLabel = ['accession', 'geographical location', 'date collected', 'generated', 'pinned'];
