@@ -75,7 +75,6 @@ class SortablePage extends StatefulWidget {
   _SortablePageState createState() => _SortablePageState();
 }
 
-
 class _SortablePageState extends State<SortablePage> {
   List<String> headerLabel = ['accession', 'geographical location', 'date collected', 'generated', 'pinned'];
   List users = [
@@ -243,7 +242,6 @@ class _SortablePageState extends State<SortablePage> {
         ),
       )
     ));
-
 
     return DataRow(cells: lister);
   }).toList();
