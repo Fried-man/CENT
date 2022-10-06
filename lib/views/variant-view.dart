@@ -190,7 +190,6 @@ class _SortablePageState extends State<SortablePage> {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: DataTable(
-        showCheckboxColumn: true,
         sortAscending: isAscending,
         sortColumnIndex: sortColumnIndex,
         columns: getColumns(headerLabel),
@@ -218,14 +217,6 @@ class _SortablePageState extends State<SortablePage> {
   )).toList();
 
   List<DataRow> getRows(List users) => users.map((user) {
-    onSelectChanged: (bool isSelected) {
-      if (isSelected) {
-        selections.add(user["accession"]);
-      } else {
-        selections.remove(user["accession"]);
-      }
-
-    };
     List<DataCell> lister = getCells(
         [user["accession"],
           user["geographical location"],
