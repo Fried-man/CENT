@@ -39,7 +39,7 @@ class _VariantView extends State<VariantView> {
                     icon: const Icon(Icons.content_copy),
                     tooltip: "Copy selected variants to clipboard",
                     onPressed: () async {
-                      await Clipboard.setData(ClipboardData(text: selections.toString().replaceAll("[", '').replaceAll("]", ''))).then((_){
+                      await Clipboard.setData(ClipboardData(text: selections.toString().replaceAll("[", '').replaceAll("]", '').replaceAll(", ", "\n"))).then((_){
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(content: Text('Copied variants to clipboard')));
                       });
