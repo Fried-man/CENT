@@ -5,9 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 List selections = [];
 
 class VariantView extends StatefulWidget {
-  final String country;
-
-  const VariantView({Key? key, required this.country}) : super(key: key);
+  const VariantView({Key? key}) : super(key: key);
 
   @override
   State<VariantView> createState() => _VariantView();
@@ -18,10 +16,7 @@ class _VariantView extends State<VariantView> {
   Widget build(BuildContext context)  {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Colors.white, //change your color here
-        ),
-        title: Text(widget.country + " Variants", style: const TextStyle(color: Colors.white)),
+        title: const Text("Variants"),
         centerTitle: true,
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -39,7 +34,7 @@ class _VariantView extends State<VariantView> {
                     icon: const Icon(Icons.content_copy),
                     tooltip: "Copy selected variants to clipboard",
                     onPressed: () async {
-                      await Clipboard.setData(ClipboardData(text: selections.toString().replaceAll("[", '').replaceAll("]", '').replaceAll(", ", "\n"))).then((_){
+                      await Clipboard.setData(ClipboardData(text: selections.toString().replaceAll("[", '').replaceAll("]", ''))).then((_){
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(content: Text('Copied variants to clipboard')));
                       });
@@ -74,6 +69,7 @@ class SortablePage extends StatefulWidget {
   @override
   _SortablePageState createState() => _SortablePageState();
 }
+
 
 class _SortablePageState extends State<SortablePage> {
   List<String> headerLabel = ['accession', 'geographical location', 'date collected', 'generated', 'pinned'];
@@ -168,7 +164,7 @@ class _SortablePageState extends State<SortablePage> {
   Widget build(BuildContext context) => Scaffold(
     body: Stack(
       children: [
-        Container(color: Theme.of(context).backgroundColor),
+        Container(color: Theme.of(context).primaryColor),
         Align(
             alignment: Alignment.topCenter,
             child: SingleChildScrollView(
@@ -189,6 +185,7 @@ class _SortablePageState extends State<SortablePage> {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: DataTable(
+        showCheckboxColumn: true,
         sortAscending: isAscending,
         sortColumnIndex: sortColumnIndex,
         columns: getColumns(headerLabel),
@@ -216,6 +213,14 @@ class _SortablePageState extends State<SortablePage> {
   )).toList();
 
   List<DataRow> getRows(List users) => users.map((user) {
+    onSelectChanged: (bool isSelected) {
+      if (isSelected) {
+        selections.add(user["accession"]);
+      } else {
+        selections.remove(user["accession"]);
+      }
+
+    };
     List<DataCell> lister = getCells(
         [user["accession"],
           user["geographical location"],
@@ -227,8 +232,8 @@ class _SortablePageState extends State<SortablePage> {
       Align(
         alignment: Alignment.centerRight,
         child: IconButton(
-          icon: user["pinned"] ? const Icon(Icons.push_pin): const Icon(Icons.panorama_fish_eye),
-          color: const Color(0xff445756),
+          icon: user["pinned"] ? Icon(Icons.push_pin): Icon(Icons.panorama_fish_eye),
+          color: Color(0xffcccccc),
           onPressed: () {
             setState(() {
               user["pinned"] = !user["pinned"];
@@ -242,6 +247,7 @@ class _SortablePageState extends State<SortablePage> {
         ),
       )
     ));
+
 
     return DataRow(cells: lister);
   }).toList();
