@@ -235,7 +235,7 @@ class _SortablePageState extends State<SortablePage> {
           onPressed: () {
             setState(() {
               user["pinned"] = !user["pinned"];
-              if (user["pinned"]) {
+              if (user["pinned"] && !user["generated"]) {
                 selections.add(user["accession"]);
               } else {
                 selections.remove(user["accession"]);
