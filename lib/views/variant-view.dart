@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+List selections = [];
 
 class VariantView extends StatefulWidget {
   final String country;
@@ -24,6 +28,40 @@ class _VariantView extends State<VariantView> {
               color: Theme.of(context).scaffoldBackgroundColor
           ),
         ),
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 50),
+                  child: IconButton(
+                    icon: const Icon(Icons.content_copy),
+                    tooltip: "Copy selected variants to clipboard",
+                    onPressed: () async {
+                      await Clipboard.setData(ClipboardData(text: selections.toString().replaceAll("[", '').replaceAll("]", '').replaceAll(", ", "\n"))).then((_){
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(content: Text('Copied variants to clipboard')));
+                      });
+                    },
+                  )
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: ElevatedButton(
+                      style: TextButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 20),
+                      ),   //style
+                      onPressed: () => launchUrl(Uri.parse('https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome')),
+                    child: const Text('Compare')
+                  )
+                )
+
+              ]
+            ),
+          ),
+          //add Compare button right here
+        ],
       ),
       body: const SortablePage(),
     );
@@ -36,7 +74,6 @@ class SortablePage extends StatefulWidget {
   @override
   _SortablePageState createState() => _SortablePageState();
 }
-
 
 class _SortablePageState extends State<SortablePage> {
   List<String> headerLabel = ['accession', 'geographical location', 'date collected', 'generated', 'pinned'];
@@ -53,14 +90,14 @@ class _SortablePageState extends State<SortablePage> {
       "geographical location": "China",
       "date collected": 2019,
       "generated": true,
-      "pinned": true
+      "pinned": false
     },
     {
       "accession": "NC_045512",
       "geographical location": "China",
       "date collected": 2019,
       "generated": false,
-      "pinned": true
+      "pinned": false
     },
     {
       "accession": "MN938384",
@@ -74,7 +111,7 @@ class _SortablePageState extends State<SortablePage> {
       "geographical location": "China",
       "date collected": 2020,
       "generated": true,
-      "pinned": true
+      "pinned": false
     },
     {
       "accession": "MN938384",
@@ -95,7 +132,7 @@ class _SortablePageState extends State<SortablePage> {
       "geographical location": "China",
       "date collected": 2022,
       "generated": true,
-      "pinned": true
+      "pinned": false
     },
     {
       "accession": "ON247308",
@@ -109,14 +146,14 @@ class _SortablePageState extends State<SortablePage> {
       "geographical location": "China",
       "date collected": 2021,
       "generated": true,
-      "pinned": true
+      "pinned": false
     },
     {
       "accession": "ON247308",
       "geographical location": "USA: MS",
       "date collected": 2022,
       "generated": false,
-      "pinned": true
+      "pinned": false
     }
   ];
   int? sortColumnIndex;
@@ -187,26 +224,25 @@ class _SortablePageState extends State<SortablePage> {
     );
 
     lister.add(DataCell(
-        Align(
-            alignment: Alignment.centerRight,
-            child: IconButton(
-              icon: user["pinned"] ?
-                const Icon(
-                  Icons.push_pin,
-                  color: Color(0xff445756),
-                ) :
-                const Icon(
-                    Icons.panorama_fish_eye,
-                    color: Color(0xffcccccc)
-                ),
-              onPressed: () {
-                setState(() {
-                  user["pinned"] = !user["pinned"];
-                });
-              },
-            )
-        )
+      Align(
+        alignment: Alignment.centerRight,
+        child: IconButton(
+          icon: user["pinned"] ? const Icon(Icons.push_pin): const Icon(Icons.panorama_fish_eye),
+          color: const Color(0xff445756),
+          onPressed: () {
+            setState(() {
+              user["pinned"] = !user["pinned"];
+              if (user["pinned"] && !user["generated"]) {
+                selections.add(user["accession"]);
+              } else {
+                selections.remove(user["accession"]);
+              }
+            });
+          },
+        ),
+      )
     ));
+
     return DataRow(cells: lister);
   }).toList();
 
