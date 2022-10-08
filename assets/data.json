@@ -201,7 +201,7 @@
       "Title" : "General Questions",
       "Content" : {
         "Question" : "What can I do with this app?",
-        "Answer" : "The purpose of this application is to allow both researchers and the general public to better understand the trends of and predict the shifts in Covid-19 variants. We aim to provide users with rankings for and patterns within region-specific variants."
+        "Answer" : "The purpose of this application is to allow both researchers and the general public to better understand the trends of and predict the shifts in Covid-19 variants. We aim to provide users with rankings for and patterns within region-specific variants. In addition, we plan to use a Machine Learning model to predict Covid variants in the future."
       }
     },
     {
@@ -216,17 +216,23 @@
           "Answer" : "To find more details on a variant click on the hyperlinked variant, this will bring you to the NCBI details on that strand. Here you will find both the FASTA download for the sequence and its ID."
         },
         {
-          "Question" : "How do I compare a variant against another variant",
-          "Answer" : "Right now you cannot as it is not implemented in this iteration. However,  in the future the summary for a variant will have"
+          "Question" : "How do I compare a variant against another variant?",
+          "Answer" : "By clicking on the 'See More' option for a given region, you will be taken to a screen where you can select variants to compare, click the COPY button to copy them to the clipboard, and click COMPARE to be taken to BLAST where you can compare them."
         }
       ]
     },
     {
       "Title" : "Region Questions",
-      "Content" : {
-        "Question" : "Why separate based off region?",
-        "Answer" : "Separating by region allows you to look at the developments of variants within a select area. As mutations may be influenced by the diversity of individuals within a region, as seen in areas of high travel, as  more variants are introduced into the pool of competition."
-      }
+      "Content" : [
+        {
+          "Question" : "How do I look at the information about a region?",
+          "Answer" : "By clicking the SELECT VARIANTS button at the top of the screen, you can look through the list of countries to find the one you want. You can also type the name of the country into the search bar."
+        },
+        {
+          "Question" : "Why separate based off region?",
+          "Answer" : "Separating by region allows you to look at the developments of variants within a select area. As mutations may be influenced by the diversity of individuals within a region, as seen in areas of high travel, as more variants are introduced into the pool of competition."
+        }
+      ]
     },
     {
       "Question" : "Account Questions",
@@ -234,7 +240,7 @@
     },
     {
       "Question" : "Errors",
-      "Answer" : "What can I do with this app?"
+      "Answer" : "If you see any problems with the way this system operates, please use the CONTACT US button at the top of the screen to leave feedback. "
     }
   ],
   "Fake Data" : [
