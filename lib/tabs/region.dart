@@ -253,7 +253,10 @@ class _RegionCard extends State<RegionCard> {
                             padding: EdgeInsets.only(right: 18),
                             child: Align(
                               alignment: Alignment.centerRight,
-                              child: TextButton(
+                              child: ElevatedButton(
+                                  style: TextButton.styleFrom(
+                                    textStyle: const TextStyle(fontSize: 20),
+                                  ),
                                 onPressed: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => VariantView(country: widget.country))
