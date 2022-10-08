@@ -209,7 +209,7 @@
       "Content" : [
         {
           "Question" : "Where do these variants come from?",
-          "Answer" : "All of these variants are retrieved from the National Center for Biotechnology Information (NCBI) database"
+          "Answer" : "All of these variants are retrieved from the National Center for Biotechnology Information (NCBI) database."
         },
         {
           "Question" : "Where can I find more details?",
@@ -217,7 +217,7 @@
         },
         {
           "Question" : "How do I compare a variant against another variant",
-          "Answer" : "Right now you cannot as it is not implemented in this iteration. However,  in the future the summary for a variant will have"
+          "Answer" : "Right now you cannot as it is not implemented in this iteration. However,  in the future the summary for a variant will have."
         }
       ]
     },
@@ -232,7 +232,7 @@
       "Title" : "Account Questions",
       "Content" : {
         "Question": "Is my data secure",
-        "Answer": "Yes, we are using industry standard protocol to make your account"
+        "Answer": "Yes, we are using industry standard protocol to make your account."
       }
     },
     {
