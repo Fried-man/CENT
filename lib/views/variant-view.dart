@@ -235,7 +235,7 @@ class _SortablePageState extends State<SortablePage> {
         [user["accession"],
           user["geographical location"],
           user["date collected"],
-          user["generated"] ? "Yes" : "Actual"]
+          user["generated"] ? "Yes" : "Actual"].reversed.toList()
     );
 
     lister.add(DataCell(
