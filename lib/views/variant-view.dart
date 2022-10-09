@@ -56,7 +56,6 @@ class _VariantView extends State<VariantView> {
                     child: const Text('Compare')
                   )
                 )
-
               ]
             ),
           ),
@@ -76,7 +75,7 @@ class SortablePage extends StatefulWidget {
 }
 
 class _SortablePageState extends State<SortablePage> {
-  List<String> headerLabel = ['accession', 'geographical location', 'date collected', 'generated', 'pinned'];
+  List<String> headerLabel = ['accession', 'geographical location', 'date collected', 'generated', 'Selected'];
   List users = [
     {
       "accession": "NC_045512",
@@ -227,7 +226,7 @@ class _SortablePageState extends State<SortablePage> {
       Align(
         alignment: Alignment.centerRight,
         child: IconButton(
-          icon: user["pinned"] ? const Icon(Icons.push_pin): const Icon(Icons.panorama_fish_eye),
+          icon: user["pinned"] ? const Icon(Icons.check_circle): const Icon(Icons.panorama_fish_eye),
           color: const Color(0xff445756),
           onPressed: () {
             setState(() {
