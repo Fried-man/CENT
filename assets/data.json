@@ -209,7 +209,7 @@
       "Content" : [
         {
           "Question" : "Where do these variants come from?",
-          "Answer" : "All of these variants are retrieved from the National Center for Biotechnology Information (NCBI) database"
+          "Answer" : "All of these variants are retrieved from the National Center for Biotechnology Information (NCBI) database."
         },
         {
           "Question" : "Where can I find more details?",
@@ -217,7 +217,7 @@
         },
         {
           "Question" : "How do I compare a variant against another variant",
-          "Answer" : "Right now you cannot as it is not implemented in this iteration. However,  in the future the summary for a variant will have"
+          "Answer" : "Right now you cannot as it is not implemented in this iteration. However,  in the future the summary for a variant will have."
         }
       ]
     },
@@ -229,12 +229,18 @@
       }
     },
     {
-      "Question" : "Account Questions",
-      "Answer" : "What can I do with this app?"
+      "Title" : "Account Questions",
+      "Content" : {
+        "Question": "Is my data secure",
+        "Answer": "Yes, we are using industry standard protocol to make your account."
+      }
     },
     {
-      "Question" : "Errors",
-      "Answer" : "What can I do with this app?"
+      "Title" : "Errors",
+      "Content" : {
+        "Question": "Errors",
+        "Answer": "If you have an error please contact our team on the contact page, this will connect us to you."
+      }
     }
   ],
   "Fake Data" : [

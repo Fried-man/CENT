@@ -18,6 +18,20 @@ The system being developed by Team 2133 is an application which can provide info
 - [Repository's Wikipedia](https://github.com/Fried-man/genome_2133/wiki)
 - [Useful Links](https://github.com/Fried-man/genome_2133/wiki/Resources)
 # Release Notes
+## v0.2.0
+### Features 
+* Multiselect for variants - can select group of variants to copy from a list displayed to the user 
+* New copy & compare button – copies list of selected variants and can open BLAST to compare 
+* Azure Databricks setup – have a place to run our notebooks from 
+* Azure Functions – allows us to port data as JSON from blob storage to notebook  
+### Bug Fixes 
+* Country name now correctly shows in Variant View for the selected country  
+### Known Issues 
+* Able to open the same region card multiple times 
+* Title for region cards shrinks when too long 
+* FASTA format is not sufficient to give us all the data we need – consider .gbff 
+* Azure is not connected as endpoint 
+
 ## v0.1.0
 ### Features 
 * Region card view – this extends from our search functionality for regions, and where we can start to see variant views. 
