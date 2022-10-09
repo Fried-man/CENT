@@ -187,7 +187,7 @@ class _Login extends State<Login> {
                             textStyle: const TextStyle(fontSize: 20),
                           ),   //style
                           onPressed: () {},
-                          child: const Text("Forgot Passowrd?")
+                          child: const Text("Forgot Password?")
                       )
                       ),
                   ],
