@@ -189,7 +189,7 @@
     "Uruguay",
     "Uzbekistan",
     "Vanuatu",
-    "Vatican City (Holy See)",
+    "Vatican City",
     "Venezuela",
     "Vietnam",
     "Yemen",
@@ -199,10 +199,20 @@
   "FAQ" : [
     {
       "Title" : "General Questions",
-      "Content" : {
-        "Question" : "What can I do with this app?",
-        "Answer" : "The purpose of this application is to allow both researchers and the general public to better understand the trends of and predict the shifts in Covid-19 variants. We aim to provide users with rankings for and patterns within region-specific variants. In addition, we plan to use a Machine Learning model to predict Covid variants in the future."
-      }
+      "Content" : [
+        {
+          "Question" : "What can I do with this app?",
+          "Answer" : "The purpose of this application is to allow both researchers and the general public to better understand the trends of and predict the shifts in Covid-19 variants. We aim to provide users with rankings for and patterns within region-specific variants. In addition, we plan to use a Machine Learning model to predict Covid variants."
+        },
+        {
+          "Question" : "Who made this app?",
+          "Answer" : "A team of seven Georgia Tech students, in cooperation with KPMG, who want to provide accesible and useful variant data regarding Covid-19."  
+        },
+        {
+          "Question" : "How do I contact the team?",
+          "Answer" : "To contact our team, please go to the contact page and fill it out with your information. We will get back to you as soon as possible!"  
+        }
+    ]
     },
     {
       "Title" : "Variant Questions",
@@ -212,7 +222,7 @@
           "Answer" : "All of these variants are retrieved from the National Center for Biotechnology Information (NCBI) database."
         },
         {
-          "Question" : "Where can I find more details?",
+          "Question" : "Where can I find more details about a specific variant?",
           "Answer" : "To find more details on a variant click on the hyperlinked variant, this will bring you to the NCBI details on that strand. Here you will find both the FASTA download for the sequence and its ID."
         },
         {
@@ -229,7 +239,7 @@
           "Answer" : "By clicking the SELECT VARIANTS button at the top of the screen, you can look through the list of countries to find the one you want. You can also type the name of the country into the search bar."
         },
         {
-          "Question" : "Why separate based off region?",
+          "Question" : "Why separate variants based off region?",
           "Answer" : "Separating by region allows you to look at the developments of variants within a select area. As mutations may be influenced by the diversity of individuals within a region, as seen in areas of high travel, as more variants are introduced into the pool of competition."
         }
       ]
@@ -237,15 +247,15 @@
     {
       "Title" : "Account Questions",
       "Content" : {
-        "Question": "Is my data secure",
-        "Answer": "Yes, we are using industry standard protocol to make your account."
+        "Question": "Is my data secure?",
+        "Answer": "Yes! We are using industry standard protocol and practices to ensure that your account and data is safe."
       }
     },
     {
       "Title" : "Errors",
       "Content" : {
-        "Question": "Errors",
-        "Answer": "If you have an error please contact our team on the contact page, this will connect us to you."
+        "Question": "I'm running into an error, what should I do?",
+        "Answer": "If you have an error please contact our team on the contact page, and we will get back to you as soon as possible."
       }
     }
   ],
