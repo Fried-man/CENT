@@ -262,7 +262,7 @@ class _RegionCard extends State<RegionCard> {
                                   MaterialPageRoute(builder: (context) => VariantView(country: widget.country))
                                 ),
                                 child: const Text(
-                                  "See More...",
+                                  "Further Info",
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
@@ -288,10 +288,10 @@ class _RegionCard extends State<RegionCard> {
                             padding: EdgeInsets.only(right: 18),
                             child: Align(
                               alignment: Alignment.centerRight,
-                              child: TextButton(
+                              child: ElevatedButton(
                                 onPressed: () => debugPrint('pressedTextButton:'),
                                 child: const Text(
-                                  "See More...",
+                                  "Further Info",
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
