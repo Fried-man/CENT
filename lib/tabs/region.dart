@@ -259,7 +259,7 @@ class _RegionCard extends State<RegionCard> {
                                   MaterialPageRoute(builder: (context) => VariantView(country: widget.country))
                                 ),
                                 child: const Text(
-                                  "See More...",
+                                  "Additional Info...",
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
