@@ -76,7 +76,9 @@ class SortablePage extends StatefulWidget {
 }
 
 class _SortablePageState extends State<SortablePage> {
+
   List<String> headerLabel = ['selected', 'accession', 'geographical location', 'date collected', 'generated', 'pinned'];
+
   List users = [
     {
       "accession": "NC_045512",
@@ -237,6 +239,7 @@ class _SortablePageState extends State<SortablePage> {
     );
 
     lister.add(DataCell(
+
         Align(
           alignment: Alignment.centerRight,
           child: IconButton(
@@ -271,6 +274,7 @@ class _SortablePageState extends State<SortablePage> {
             },
           ),
         )
+
     ));
 
     return DataRow(cells: lister);
