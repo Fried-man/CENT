@@ -76,84 +76,97 @@ class SortablePage extends StatefulWidget {
 }
 
 class _SortablePageState extends State<SortablePage> {
-  List<String> headerLabel = ['accession', 'geographical location', 'date collected', 'generated', 'pinned'];
+
+  List<String> headerLabel = ['selected', 'accession', 'geographical location', 'date collected', 'generated', 'pinned'];
+
   List users = [
     {
       "accession": "NC_045512",
       "geographical location": "China",
       "date collected": 2019,
       "generated": false,
-      "pinned": false
+      "pinned": false,
+      "selected": false
     },
     {
       "accession": "L00000001",
       "geographical location": "China",
       "date collected": 2019,
       "generated": true,
-      "pinned": false
+      "pinned": false,
+      "selected": false
     },
     {
       "accession": "NC_045512",
       "geographical location": "China",
       "date collected": 2019,
       "generated": false,
-      "pinned": false
+      "pinned": false,
+      "selected": false
     },
     {
       "accession": "MN938384",
       "geographical location": "China: Shenzhen",
       "date collected": 2020,
       "generated": false,
-      "pinned": false
+      "pinned": false,
+      "selected": false
     },
     {
       "accession": "L00000002",
       "geographical location": "China",
       "date collected": 2020,
       "generated": true,
-      "pinned": false
+      "pinned": false,
+      "selected": false
     },
     {
       "accession": "MN938384",
       "geographical location": "China: Shenzhen",
       "date collected": 2020,
       "generated": false,
-      "pinned": false
+      "pinned": false,
+      "selected": false
     },
     {
       "accession": "MT027063",
       "geographical location": "USA: CA",
       "date collected": 2020,
       "generated": false,
-      "pinned": false
+      "pinned": false,
+      "selected": false
     },
     {
       "accession": "L00000003",
       "geographical location": "China",
       "date collected": 2022,
       "generated": true,
-      "pinned": false
+      "pinned": false,
+      "selected": false
     },
     {
       "accession": "ON247308",
       "geographical location": "USA: CA",
       "date collected": 2020,
       "generated": false,
-      "pinned": false
+      "pinned": false,
+      "selected": false
     },
     {
       "accession": "L00000003",
       "geographical location": "China",
       "date collected": 2021,
       "generated": true,
-      "pinned": false
+      "pinned": false,
+      "selected": false
     },
     {
       "accession": "ON247308",
       "geographical location": "USA: MS",
       "date collected": 2022,
       "generated": false,
-      "pinned": false
+      "pinned": false,
+      "selected": false
     }
   ];
   int? sortColumnIndex;
@@ -216,7 +229,9 @@ class _SortablePageState extends State<SortablePage> {
   )).toList();
 
   List<DataRow> getRows(List users) => users.map((user) {
-    List<DataCell> lister = getCells(
+    List<DataCell> lister;
+
+    lister = getCells(
         [user["accession"],
           user["geographical location"],
           user["date collected"],
@@ -224,23 +239,42 @@ class _SortablePageState extends State<SortablePage> {
     );
 
     lister.add(DataCell(
-      Align(
-        alignment: Alignment.centerRight,
-        child: IconButton(
-          icon: user["pinned"] ? const Icon(Icons.push_pin): const Icon(Icons.panorama_fish_eye),
-          color: const Color(0xff445756),
-          onPressed: () {
-            setState(() {
-              user["pinned"] = !user["pinned"];
-              if (user["pinned"] && !user["generated"]) {
-                selections.add(user["accession"]);
-              } else {
-                selections.remove(user["accession"]);
-              }
-            });
-          },
-        ),
-      )
+
+        Align(
+          alignment: Alignment.centerRight,
+          child: IconButton(
+            icon: user["selected"] ? const Icon(Icons.done_sharp): const Icon(Icons.do_disturb),
+            color: const Color(0xff445756),
+            onPressed: () {
+              setState(() {
+                user["selected"] = !user["selected"];
+                if (user["selected"] && !user["generated"]) {
+                  selections.add(user["accession"]);
+                } else {
+                  selections.remove(user["accession"]);
+                }
+              });
+            },
+          ),
+        )
+    ));
+
+    lister = lister.reversed.toList();
+
+    lister.add(DataCell(
+        Align(
+          alignment: Alignment.centerRight,
+          child: IconButton(
+            icon: user["pinned"] ? const Icon(Icons.push_pin): const Icon(Icons.panorama_fish_eye),
+            color: const Color(0xff445756),
+            onPressed: () {
+              setState(() {
+                user["pinned"] = !user["pinned"];
+              });
+            },
+          ),
+        )
+
     ));
 
     return DataRow(cells: lister);
