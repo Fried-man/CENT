@@ -182,14 +182,11 @@ class _Login extends State<Login> {
                     ),
                     GestureDetector(
                       onTap: () {},
-                      child: ElevatedButton(
-                          style: TextButton.styleFrom(
-                            textStyle: const TextStyle(fontSize: 20),
-                          ),   //style
-                          onPressed: () {},
-                          child: const Text("Forgot Password?")
-                      )
+                      child: const Align(
+                          alignment: Alignment.centerRight,
+                          child: Text("Forgot password?")
                       ),
+                    )
                   ],
                 ),
               ),
