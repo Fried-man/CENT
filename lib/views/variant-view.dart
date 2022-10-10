@@ -34,7 +34,7 @@ class _VariantView extends State<VariantView> {
             child: Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(right: 50),
+                  padding: const EdgeInsets.only(right: 20),
                   child: IconButton(
                     icon: const Icon(Icons.content_copy),
                     tooltip: "Copy selected variants to clipboard",
@@ -50,7 +50,8 @@ class _VariantView extends State<VariantView> {
                   padding: const EdgeInsets.only(right: 20),
                   child: ElevatedButton(
                       style: TextButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 20),
+                        textStyle: const TextStyle(fontSize: 18),
+                        backgroundColor: Colors.white
                       ),   //style
                       onPressed: () => launchUrl(Uri.parse('https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome')),
                     child: const Text('Compare')
@@ -60,7 +61,6 @@ class _VariantView extends State<VariantView> {
               ]
             ),
           ),
-          //add Compare button right here
         ],
       ),
       body: const SortablePage(),
@@ -243,7 +243,7 @@ class _SortablePageState extends State<SortablePage> {
         Align(
           alignment: Alignment.centerRight,
           child: IconButton(
-            icon: user["selected"] ? const Icon(Icons.done_sharp): const Icon(Icons.do_disturb),
+            icon: user["selected"] ? const Icon(Icons.done_sharp): const Icon(Icons.check_box_outline_blank),
             color: const Color(0xff445756),
             onPressed: () {
               setState(() {
@@ -265,7 +265,7 @@ class _SortablePageState extends State<SortablePage> {
         Align(
           alignment: Alignment.centerRight,
           child: IconButton(
-            icon: user["pinned"] ? const Icon(Icons.push_pin): const Icon(Icons.panorama_fish_eye),
+            icon: user["pinned"] ? const Icon(Icons.push_pin): const Icon(Icons.push_pin_outlined),
             color: const Color(0xff445756),
             onPressed: () {
               setState(() {
