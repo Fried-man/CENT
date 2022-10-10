@@ -32,7 +32,7 @@ The system being developed by Team 2133 is an application which can provide info
 * FASTA format is not sufficient to give us all the data we need – consider .gbff 
 * Azure is not connected as endpoint 
 
-## v1.1.0
+## [v1.1.0](https://github.com/Fried-man/genome_2133/releases/tag/v1.1.0)
 ### Features 
 * Region card view – this extends from our search functionality for regions, and where we can start to see variant views. 
 * Variant view – redirects to database link 
