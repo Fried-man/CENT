@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:genome_2133/tabs/contact.dart';
@@ -35,24 +36,22 @@ class _Home extends State<Home> {
               zoomControlsEnabled: false,
               scrollGesturesEnabled: false,
               initialCameraPosition: const CameraPosition(
-                  bearing: 0,
-                  target: LatLng(20, 0),
-                  tilt: 0,
-                  zoom: 3
-              ),
+                  bearing: 0, target: LatLng(20, 0), tilt: 0, zoom: 3),
               onMapCreated: (GoogleMapController controller) {
                 Completer().complete(controller);
               },
             ),
             Padding(
               padding: const EdgeInsets.all(4.0),
-              child: Row (
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   headerButton(context, "Select Region", () async {
                     showDialog(
                       context: context,
-                      builder: (_) => Region(updateParent: (){setState(() {});}),
+                      builder: (_) => Region(updateParent: () {
+                        setState(() {});
+                      }),
                     ).then((value) {
                       if (value != null) {
                         setState(() {
@@ -63,23 +62,20 @@ class _Home extends State<Home> {
                   }),
                   headerButton(context, "Contact Us", () async {
                     showDialog(
-                        context: context,
-                        builder: (_) => contact(context)
-                    );
+                        context: context, builder: (_) => contact(context));
                   }),
                   headerButton(context, "FAQ", () async {
-                     showDialog(
-                         context: context,
-                         builder: (_) => faq(context)
-                     );
+                    showDialog(context: context, builder: (_) => faq(context));
                   }),
                   if (user != null)
-                  headerButton(context, "My Saved", (){
-                    Navigator.pushNamed(context, '/saved');
-                  }),
-                  headerButton(context, user == null ? "Login" : "Log Out", () async {
+                    headerButton(context, "My Saved", () {
+                      Navigator.pushNamed(context, '/saved');
+                    }),
+                  headerButton(context, user == null ? "Login" : "Log Out",
+                      () async {
                     if (user == null) {
-                      Navigator.pushNamed(context, '/login').then((value) => setState(() {}));
+                      Navigator.pushNamed(context, '/login')
+                          .then((value) => setState(() {}));
                     } else {
                       await FirebaseAuth.instance.signOut().then((value) {
                         user = null;
@@ -90,8 +86,7 @@ class _Home extends State<Home> {
                 ],
               ),
             ),
-            for (Widget pane in windows)
-              pane,
+            for (Widget pane in windows) pane,
           ],
         ),
       ),
@@ -99,7 +94,7 @@ class _Home extends State<Home> {
   }
 }
 
-Widget headerButton (var context, String text, void Function() action) {
+Widget headerButton(var context, String text, void Function() action) {
   return Expanded(
     child: Padding(
       padding: const EdgeInsets.all(8.0),
@@ -110,9 +105,8 @@ Widget headerButton (var context, String text, void Function() action) {
           child: Text(
             text,
             style: TextStyle(
-              fontSize: MediaQuery.of(context).size.width / 50,
-              color: Colors.black
-            ),
+                fontSize: MediaQuery.of(context).size.width / 50,
+                color: Colors.black),
           ),
         ),
       ),

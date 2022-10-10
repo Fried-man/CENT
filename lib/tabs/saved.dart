@@ -9,15 +9,14 @@ class Saved extends StatefulWidget {
 
 class _Saved extends State<Saved> {
   @override
-  Widget build(BuildContext context)  {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("My Saved"),
         centerTitle: true,
         flexibleSpace: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).scaffoldBackgroundColor
-          ),
+          decoration:
+              BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor),
         ),
       ),
       body: const SortablePage(),
@@ -32,9 +31,14 @@ class SortablePage extends StatefulWidget {
   _SortablePageState createState() => _SortablePageState();
 }
 
-
 class _SortablePageState extends State<SortablePage> {
-  List<String> headerLabel = ['accession', 'geographical location', 'date collected', 'generated', 'pinned'];
+  List<String> headerLabel = [
+    'accession',
+    'geographical location',
+    'date collected',
+    'generated',
+    'pinned'
+  ];
   List users = [
     {
       "accession": "NC_045512",
@@ -124,24 +128,23 @@ class _SortablePageState extends State<SortablePage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: Stack(
-      children: [
-        Container(color: Theme.of(context).primaryColor),
-        Align(
-          alignment: Alignment.topCenter,
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            scrollDirection: Axis.horizontal,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              child: buildDataTable(),
-            ),
-          )
+        body: Stack(
+          children: [
+            Container(color: Theme.of(context).primaryColor),
+            Align(
+                alignment: Alignment.topCenter,
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    child: buildDataTable(),
+                  ),
+                )),
+          ],
         ),
-      ],
-    ),
-  );
+      );
 
   Widget buildDataTable() {
     return SizedBox(
@@ -168,46 +171,44 @@ class _SortablePageState extends State<SortablePage> {
     );*/
   }
 
-  List<DataColumn> getColumns(List<String> columns) => columns.map((String column) => DataColumn(
-    label: Expanded(child: Text(column.toTitle, textAlign: TextAlign.center)),
-    onSort: onSort,
-  )).toList();
+  List<DataColumn> getColumns(List<String> columns) => columns
+      .map((String column) => DataColumn(
+            label: Expanded(
+                child: Text(column.toTitle, textAlign: TextAlign.center)),
+            onSort: onSort,
+          ))
+      .toList();
 
   List<DataRow> getRows(List users) => users.map((user) {
-    List<DataCell> lister = getCells(
-        [user["accession"],
-        user["geographical location"],
-        user["date collected"],
-        user["generated"] ? "Yes" : "Actual"]
-    );
+        List<DataCell> lister = getCells([
+          user["accession"],
+          user["geographical location"],
+          user["date collected"],
+          user["generated"] ? "Yes" : "Actual"
+        ]);
 
-    lister.add(DataCell(
-      Align(
-          alignment: Alignment.centerRight,
-          child: user["pinned"] ?
-          const Icon(
-            Icons.push_pin,
-            color: Color(0xff445756),
-          ) :
-          const Icon(
-              Icons.panorama_fish_eye,
-              color: Color(0xffcccccc)
-          )
-      )
-    ));
-    return DataRow(cells: lister);
-  }).toList();
+        lister.add(DataCell(Align(
+            alignment: Alignment.centerRight,
+            child: user["pinned"]
+                ? const Icon(
+                    Icons.push_pin,
+                    color: Color(0xff445756),
+                  )
+                : const Icon(Icons.panorama_fish_eye,
+                    color: Color(0xffcccccc)))));
+        return DataRow(cells: lister);
+      }).toList();
 
-  List<DataCell> getCells(List<dynamic> cells) =>
-      cells.map((data) => DataCell(
-          Align(
-              alignment: Alignment.centerRight,
-              child: Text(data.toString())
-          ))
-      ).toList();
+  List<DataCell> getCells(List<dynamic> cells) => cells
+      .map((data) => DataCell(Align(
+          alignment: Alignment.centerRight, child: Text(data.toString()))))
+      .toList();
+
   void onSort(int columnIndex, bool ascending) {
-    users.sort((user1, user2) =>
-        compareString(ascending, user1[headerLabel[columnIndex]].toString(), user2[headerLabel[columnIndex]].toString()));
+    users.sort((user1, user2) => compareString(
+        ascending,
+        user1[headerLabel[columnIndex]].toString(),
+        user2[headerLabel[columnIndex]].toString()));
 
     setState(() {
       sortColumnIndex = columnIndex;
@@ -220,6 +221,8 @@ class _SortablePageState extends State<SortablePage> {
 }
 
 extension StringExtension on String {
-  String capitalize() => "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+  String capitalize() =>
+      "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+
   String get toTitle => split(" ").map((str) => str.capitalize()).join(" ");
 }

@@ -15,51 +15,52 @@ class VariantView extends StatefulWidget {
 
 class _VariantView extends State<VariantView> {
   @override
-  Widget build(BuildContext context)  {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(
           color: Colors.white, //change your color here
         ),
-        title: Text(widget.country + " Variants", style: const TextStyle(color: Colors.white)),
+        title: Text(widget.country + " Variants",
+            style: const TextStyle(color: Colors.white)),
         centerTitle: true,
         flexibleSpace: Container(
-          decoration: BoxDecoration(
-              color: Theme.of(context).scaffoldBackgroundColor
-          ),
+          decoration:
+              BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor),
         ),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
-            child: Row(
-              children: [
-                Padding(
+            child: Row(children: [
+              Padding(
                   padding: const EdgeInsets.only(right: 20),
                   child: IconButton(
                     icon: const Icon(Icons.content_copy),
                     tooltip: "Copy selected variants to clipboard",
                     onPressed: () async {
-                      await Clipboard.setData(ClipboardData(text: selections.toString().replaceAll("[", '').replaceAll("]", '').replaceAll(", ", "\n"))).then((_){
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(content: Text('Copied variants to clipboard')));
+                      await Clipboard.setData(ClipboardData(
+                              text: selections
+                                  .toString()
+                                  .replaceAll("[", '')
+                                  .replaceAll("]", '')
+                                  .replaceAll(", ", "\n")))
+                          .then((_) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Copied variants to clipboard')));
                       });
                     },
-                  )
-                ),
-                Padding(
+                  )),
+              Padding(
                   padding: const EdgeInsets.only(right: 20),
                   child: ElevatedButton(
                       style: TextButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 18),
-                        backgroundColor: Colors.white
-                      ),   //style
-                      onPressed: () => launchUrl(Uri.parse('https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome')),
-                    child: const Text('Compare')
-                  )
-                )
-
-              ]
-            ),
+                          textStyle: const TextStyle(fontSize: 18),
+                          backgroundColor: Colors.white), //style
+                      onPressed: () => launchUrl(Uri.parse(
+                          'https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome')),
+                      child: const Text('Compare')))
+            ]),
           ),
         ],
       ),
@@ -76,8 +77,14 @@ class SortablePage extends StatefulWidget {
 }
 
 class _SortablePageState extends State<SortablePage> {
-
-  List<String> headerLabel = ['selected', 'accession', 'geographical location', 'date collected', 'generated', 'pinned'];
+  List<String> headerLabel = [
+    'selected',
+    'accession',
+    'geographical location',
+    'date collected',
+    'generated',
+    'pinned'
+  ];
 
   List users = [
     {
@@ -179,24 +186,23 @@ class _SortablePageState extends State<SortablePage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: Stack(
-      children: [
-        Container(color: Theme.of(context).backgroundColor),
-        Align(
-            alignment: Alignment.topCenter,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                child: buildDataTable(),
-              ),
-            )
+        body: Stack(
+          children: [
+            Container(color: Theme.of(context).backgroundColor),
+            Align(
+                alignment: Alignment.topCenter,
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    child: buildDataTable(),
+                  ),
+                )),
+          ],
         ),
-      ],
-    ),
-  );
+      );
 
   Widget buildDataTable() {
     return SizedBox(
@@ -223,27 +229,30 @@ class _SortablePageState extends State<SortablePage> {
     );*/
   }
 
-  List<DataColumn> getColumns(List<String> columns) => columns.map((String column) => DataColumn(
-    label: Expanded(child: Text(column.toTitle, textAlign: TextAlign.center)),
-    onSort: onSort,
-  )).toList();
+  List<DataColumn> getColumns(List<String> columns) => columns
+      .map((String column) => DataColumn(
+            label: Expanded(
+                child: Text(column.toTitle, textAlign: TextAlign.center)),
+            onSort: onSort,
+          ))
+      .toList();
 
   List<DataRow> getRows(List users) => users.map((user) {
-    List<DataCell> lister;
+        List<DataCell> lister;
 
-    lister = getCells(
-        [user["accession"],
+        lister = getCells([
+          user["accession"],
           user["geographical location"],
           user["date collected"],
-          user["generated"] ? "Yes" : "Actual"].reversed.toList()
-    );
+          user["generated"] ? "Yes" : "Actual"
+        ].reversed.toList());
 
-    lister.add(DataCell(
-
-        Align(
+        lister.add(DataCell(Align(
           alignment: Alignment.centerRight,
           child: IconButton(
-            icon: user["selected"] ? const Icon(Icons.done_sharp): const Icon(Icons.check_box_outline_blank),
+            icon: user["selected"]
+                ? const Icon(Icons.done_sharp)
+                : const Icon(Icons.check_box_outline_blank),
             color: const Color(0xff445756),
             onPressed: () {
               setState(() {
@@ -256,16 +265,16 @@ class _SortablePageState extends State<SortablePage> {
               });
             },
           ),
-        )
-    ));
+        )));
 
-    lister = lister.reversed.toList();
+        lister = lister.reversed.toList();
 
-    lister.add(DataCell(
-        Align(
+        lister.add(DataCell(Align(
           alignment: Alignment.centerRight,
           child: IconButton(
-            icon: user["pinned"] ? const Icon(Icons.push_pin): const Icon(Icons.push_pin_outlined),
+            icon: user["pinned"]
+                ? const Icon(Icons.push_pin)
+                : const Icon(Icons.push_pin_outlined),
             color: const Color(0xff445756),
             onPressed: () {
               setState(() {
@@ -273,23 +282,21 @@ class _SortablePageState extends State<SortablePage> {
               });
             },
           ),
-        )
+        )));
 
-    ));
+        return DataRow(cells: lister);
+      }).toList();
 
-    return DataRow(cells: lister);
-  }).toList();
+  List<DataCell> getCells(List<dynamic> cells) => cells
+      .map((data) => DataCell(Align(
+          alignment: Alignment.centerRight, child: Text(data.toString()))))
+      .toList();
 
-  List<DataCell> getCells(List<dynamic> cells) =>
-      cells.map((data) => DataCell(
-          Align(
-              alignment: Alignment.centerRight,
-              child: Text(data.toString())
-          ))
-      ).toList();
   void onSort(int columnIndex, bool ascending) {
-    users.sort((user1, user2) =>
-        compareString(ascending, user1[headerLabel[columnIndex]].toString(), user2[headerLabel[columnIndex]].toString()));
+    users.sort((user1, user2) => compareString(
+        ascending,
+        user1[headerLabel[columnIndex]].toString(),
+        user2[headerLabel[columnIndex]].toString()));
 
     setState(() {
       sortColumnIndex = columnIndex;
@@ -302,6 +309,8 @@ class _SortablePageState extends State<SortablePage> {
 }
 
 extension StringExtension on String {
-  String capitalize() => "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+  String capitalize() =>
+      "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+
   String get toTitle => split(" ").map((str) => str.capitalize()).join(" ");
 }
