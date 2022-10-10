@@ -100,7 +100,7 @@ class _Login extends State<Login> {
                                       Navigator.pop(context);
                                       return;
                                     }
-                                    throw CustomException("Verify account email");
+                                    throw CustomException("Email not verified");
                                   });
                                 } on FirebaseAuthException catch (e) {
                                   String error = "Server error: " + e.code;
@@ -111,6 +111,28 @@ class _Login extends State<Login> {
                                   }
                                   createErrorScreen (error, context, "Sign in");
                                 } on CustomException catch (e) {
+                                  if (e.cause == "Email not verified") {
+                                    showDialog<void>(
+                                      context: context,
+                                      builder: (_) => AlertDialog(
+                                        title: const Text("Sign in Failure"),
+                                        content: const Text("Verify account email"),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: const Text('Resend Email'),
+                                            onPressed: () async {
+                                              await user!.sendEmailVerification();
+                                            },
+                                          ),
+                                          TextButton(
+                                            child: const Text('OK'),
+                                            onPressed: () => Navigator.pop(context),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                    return;
+                                  }
                                   createErrorScreen (e.cause, context, "Sign in");
                                 } catch (e) {
                                   createErrorScreen (e.toString(), context, "Sign in");
