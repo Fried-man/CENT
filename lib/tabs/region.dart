@@ -3,7 +3,6 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:genome_2133/views/variant-view.dart';
@@ -244,7 +243,7 @@ class _RegionCard extends State<RegionCard> {
                                 children: [
                                   for (int i = 0; i < fakeCount; i++)
                                     Padding(
-                                      padding: const EdgeInsets.all(2.0),
+                                      padding: const EdgeInsets.all(1.0),
                                       child: TextButton(
                                         style: TextButton.styleFrom(
                                             textStyle:
@@ -265,7 +264,7 @@ class _RegionCard extends State<RegionCard> {
                               ),
                             )),
                         Padding(
-                          padding: EdgeInsets.only(right: 18),
+                          padding: const EdgeInsets.only(right: 18),
                           child: Align(
                             alignment: Alignment.centerRight,
                             child: ElevatedButton(
@@ -295,10 +294,10 @@ class _RegionCard extends State<RegionCard> {
                           ),
                         ),
                         Image.asset(
-                          "assets/images/fake_report.png",
+                          "assets/images/fake_report.png", // TODO: autogenerate report diagram
                         ),
                         Padding(
-                          padding: EdgeInsets.only(right: 18),
+                          padding: const EdgeInsets.only(right: 18),
                           child: Align(
                             alignment: Alignment.centerRight,
                             child: ElevatedButton(
