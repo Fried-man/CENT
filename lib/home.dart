@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:genome_2133/tabs/contact.dart';
@@ -19,6 +17,14 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
+  late GoogleMapController _mapController;
+
+  final LatLng _initMapCenter = const LatLng(20, 0);
+
+  void _onMapCreated(GoogleMapController controller) {
+    _mapController = controller;
+  }
+
   @override
   void initState() {
     windows = [];
@@ -35,11 +41,9 @@ class _Home extends State<Home> {
               mapType: MapType.hybrid,
               zoomControlsEnabled: false,
               scrollGesturesEnabled: false,
-              initialCameraPosition: const CameraPosition(
-                  bearing: 0, target: LatLng(20, 0), tilt: 0, zoom: 3),
-              onMapCreated: (GoogleMapController controller) {
-                Completer().complete(controller);
-              },
+              initialCameraPosition: CameraPosition(
+                  bearing: 0, target: _initMapCenter, tilt: 0, zoom: 3),
+              onMapCreated: _onMapCreated,
             ),
             Padding(
               padding: const EdgeInsets.all(4.0),
@@ -49,7 +53,7 @@ class _Home extends State<Home> {
                   headerButton(context, "Select Region", () async {
                     showDialog(
                       context: context,
-                      builder: (_) => Region(updateParent: () {
+                      builder: (_) => Region(mapController: _mapController, updateParent: () {
                         setState(() {});
                       }),
                     ).then((value) {
