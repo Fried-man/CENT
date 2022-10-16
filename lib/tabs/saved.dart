@@ -41,7 +41,7 @@ class _SortablePageState extends State<SortablePage> {
     'generated',
     'pinned'
   ];
-  List users = [
+  List<Map> fakeData = [
     {
       "accession": "NC_045512",
       "geographical location": "China",
@@ -131,106 +131,116 @@ class _SortablePageState extends State<SortablePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        stream: FirebaseFirestore.instance.doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (!snapshot.hasData) return Container();
-          return Text(snapshot.data);
-        },
-      ),
-    );
-    return Scaffold(
       body: Stack(
         children: [
           Container(color: Theme.of(context).primaryColor),
-          Align(
-              alignment: Alignment.topCenter,
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  child: buildDataTable(),
-                ),
-              )),
+          StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+            stream: FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
+            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+              if (!snapshot.hasData) return Container();
+
+              List users = [];
+
+              List<DataCell> getCells(List<dynamic> cells) => cells
+                  .map((data) => DataCell(Align(
+                  alignment: Alignment.centerRight, child: Text(data.toString()))))
+                  .toList();
+
+              int compareString(bool ascending, String value1, String value2) =>
+                  ascending ? value1.compareTo(value2) : value2.compareTo(value1);
+
+              void onSort(int columnIndex, bool ascending) {
+                users.sort((user1, user2) => compareString(
+                    ascending,
+                    user1[headerLabel[columnIndex]].toString(),
+                    user2[headerLabel[columnIndex]].toString()));
+
+                setState(() {
+                  sortColumnIndex = columnIndex;
+                  isAscending = ascending;
+                });
+              }
+
+              List<DataColumn> getColumns(List<String> columns) => columns
+                  .map((String column) => DataColumn(
+                label: Expanded(
+                    child: Text(column.toTitle, textAlign: TextAlign.center)),
+                onSort: onSort,
+              ))
+                  .toList();
+
+              List<DataRow> getRows(List users) => users.map((user) {
+                List<DataCell> lister = getCells([
+                  user["accession"],
+                  user["geographical location"],
+                  user["date collected"],
+                  user["generated"] ? "Yes" : "Actual"
+                ]);
+
+                lister.add(DataCell(Align(
+                    alignment: Alignment.centerRight,
+                    child: user["pinned"]
+                        ? const Icon(
+                      Icons.push_pin,
+                      color: Color(0xff445756),
+                    )
+                        : const Icon(Icons.panorama_fish_eye,
+                        color: Color(0xffcccccc)))));
+                return DataRow(cells: lister);
+              }).toList();
+
+
+
+              for (String id in snapshot.data["saved"]) {
+                int currLength = users.length;
+                for (Map variant in fakeData) {
+                  if (variant["accession"] == id) {
+                    users.add(variant);
+                    break;
+                  }
+                }
+
+                if (currLength == users.length) {
+                  Map curr = {"accession" : id};
+                  for (String attribute in headerLabel) {
+                    if (attribute != "accession") {
+                      curr[attribute] = attribute != "generated" && attribute != "pinned" ? "no data" : false;
+                    }
+                  }
+                  users.add(curr);
+                }
+              }
+
+
+              if (snapshot.data["saved"].isEmpty) {
+                return const Center(child: Text("No saved variants"));
+              }
+
+              return Align(
+                  alignment: Alignment.topCenter,
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: DataTable(
+                          sortAscending: isAscending,
+                          sortColumnIndex: sortColumnIndex,
+                          columns: getColumns(headerLabel),
+                          rows: getRows(users),
+                        ),
+                      ),
+                    ),
+                  ));
+            },
+          )
         ],
       ),
     );
   }
-
-  Widget buildDataTable() {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      child: DataTable(
-        sortAscending: isAscending,
-        sortColumnIndex: sortColumnIndex,
-        columns: getColumns(headerLabel),
-        rows: getRows(users),
-      ),
-    );
-    /*return FutureBuilder(
-      future: rootBundle.loadString("assets/data.json"),
-      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-        if (!snapshot.hasData) return Container();
-        users = json.decode(snapshot.data!)["Fake Data"];
-        return DataTable(
-          sortAscending: isAscending,
-          sortColumnIndex: sortColumnIndex,
-          columns: getColumns(['Accession', 'Geographical Location', 'Date Collected', 'Generated', 'Pinned']),
-          rows: getRows(users),
-        );
-      }
-    );*/
-  }
-
-  List<DataColumn> getColumns(List<String> columns) => columns
-      .map((String column) => DataColumn(
-            label: Expanded(
-                child: Text(column.toTitle, textAlign: TextAlign.center)),
-            onSort: onSort,
-          ))
-      .toList();
-
-  List<DataRow> getRows(List users) => users.map((user) {
-        List<DataCell> lister = getCells([
-          user["accession"],
-          user["geographical location"],
-          user["date collected"],
-          user["generated"] ? "Yes" : "Actual"
-        ]);
-
-        lister.add(DataCell(Align(
-            alignment: Alignment.centerRight,
-            child: user["pinned"]
-                ? const Icon(
-                    Icons.push_pin,
-                    color: Color(0xff445756),
-                  )
-                : const Icon(Icons.panorama_fish_eye,
-                    color: Color(0xffcccccc)))));
-        return DataRow(cells: lister);
-      }).toList();
-
-  List<DataCell> getCells(List<dynamic> cells) => cells
-      .map((data) => DataCell(Align(
-          alignment: Alignment.centerRight, child: Text(data.toString()))))
-      .toList();
-
-  void onSort(int columnIndex, bool ascending) {
-    users.sort((user1, user2) => compareString(
-        ascending,
-        user1[headerLabel[columnIndex]].toString(),
-        user2[headerLabel[columnIndex]].toString()));
-
-    setState(() {
-      sortColumnIndex = columnIndex;
-      isAscending = ascending;
-    });
-  }
-
-  int compareString(bool ascending, String value1, String value2) =>
-      ascending ? value1.compareTo(value2) : value2.compareTo(value1);
 }
 
 extension StringExtension on String {

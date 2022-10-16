@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -89,8 +90,9 @@ class _Login extends State<Login> {
                           try {
                             for (String typeText in inputText.keys) {
                               // null checks
-                              if (inputText[typeText]!.text.isEmpty)
+                              if (inputText[typeText]!.text.isEmpty) {
                                 throw CustomException('Fill in all fields');
+                              }
                             }
                             await FirebaseAuth.instance
                                 .signInWithEmailAndPassword(
@@ -196,6 +198,7 @@ class _Login extends State<Login> {
                                             ],
                                           ),
                                         ));
+                                await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).set({"saved" : []});
                                 await FirebaseAuth.instance
                                     .signOut(); // .then((value) => user = null);
                               }
