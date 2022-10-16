@@ -3,6 +3,22 @@
     "United States of America": {
       "lat": 37,
       "long": -95
+    },
+    "Afghanistan": {
+      "lat": 34,
+      "long": 67
+    },
+    "Albania": {
+      "lat": 41,
+      "long": 20
+    },
+    "Algeria": {
+      "lat": 28,
+      "long": 1.6
+    },
+    "Andorra": {
+      "lat": 42,
+      "long": 1.5
     }
   },
   "Countries" : [
