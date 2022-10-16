@@ -6,14 +6,17 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:genome_2133/views/variant-view.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../home.dart';
 
 class Region extends StatefulWidget {
   final Function updateParent;
+  // is this necessary?
+  final GoogleMapController mapController;
 
-  const Region({Key? key, required this.updateParent}) : super(key: key);
+  const Region({Key? key, required this.updateParent, required this.mapController}) : super(key: key);
 
   @override
   State<Region> createState() => _Region();
@@ -85,6 +88,7 @@ class _Region extends State<Region> {
                                       RegionCard(
                                         country: countries[index],
                                         updateParent: widget.updateParent,
+                                        mapController: widget.mapController,
                                       )
                                     ]);
                                   },
@@ -115,9 +119,10 @@ class _Region extends State<Region> {
 class RegionCard extends StatefulWidget {
   final String country;
   final Function updateParent;
+  final GoogleMapController mapController;
 
   const RegionCard(
-      {Key? key, required this.country, required this.updateParent})
+      {Key? key, required this.country, required this.updateParent, required this.mapController})
       : super(key: key);
 
   @override
@@ -137,25 +142,35 @@ class _RegionCard extends State<RegionCard> {
   bool isClosed = false;
   late int fakeCount;
 
+  // turned off random placement so that it sits to right
   Offset position = Offset(
-      Random().nextDouble() *
-          ((window.physicalSize / window.devicePixelRatio).width -
-              (window.physicalSize / window.devicePixelRatio).width / 3),
-      100 +
-          Random().nextDouble() *
-              ((window.physicalSize / window.devicePixelRatio).height -
-                  (window.physicalSize / window.devicePixelRatio).height / 2 -
-                  100));
+      ((window.physicalSize / window.devicePixelRatio).width -
+          (window.physicalSize / window.devicePixelRatio).width / 3),
+      ((window.physicalSize / window.devicePixelRatio).height -
+          (window.physicalSize / window.devicePixelRatio).height / 2 - 225));
 
   getPosition() => position;
 
   void updatePosition(Offset newPosition) =>
       setState(() => position = newPosition);
 
+  final LatLng _initMapCenter = const LatLng(20, 0);
+
+  _updateMap() async {
+    final String response = await rootBundle.loadString('assets/data.json');
+    final data = await json.decode(response);
+    //need to update data.json - currently only USA
+    final countryCoordinates = data["Coordinates"][widget.country];
+    widget.mapController.animateCamera(CameraUpdate.newLatLngZoom(
+      LatLng(countryCoordinates["lat"], countryCoordinates["long"] + 20.0), 4));
+  }
+
   @override
   void initState() {
     fakeCount = Random().nextInt(30) + 12;
     super.initState();
+    // is this the safest way to call async method like this?
+    _updateMap();
   }
 
   @override
@@ -208,6 +223,9 @@ class _RegionCard extends State<RegionCard> {
                         onTap: () {
                           // TODO: add cleanup to home array
                           setState(() {
+                            // need to handle cases where multiple cards?
+                            widget.mapController.animateCamera(CameraUpdate.newLatLngZoom(
+                                _initMapCenter, 3));
                             isClosed = true;
                           });
                         },
