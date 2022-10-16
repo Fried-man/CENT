@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Saved extends StatefulWidget {
@@ -127,24 +129,35 @@ class _SortablePageState extends State<SortablePage> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Stack(
-          children: [
-            Container(color: Theme.of(context).primaryColor),
-            Align(
-                alignment: Alignment.topCenter,
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        stream: FirebaseFirestore.instance.doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (!snapshot.hasData) return Container();
+          return Text(snapshot.data);
+        },
+      ),
+    );
+    return Scaffold(
+      body: Stack(
+        children: [
+          Container(color: Theme.of(context).primaryColor),
+          Align(
+              alignment: Alignment.topCenter,
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    child: buildDataTable(),
-                  ),
-                )),
-          ],
-        ),
-      );
+                  scrollDirection: Axis.vertical,
+                  child: buildDataTable(),
+                ),
+              )),
+        ],
+      ),
+    );
+  }
 
   Widget buildDataTable() {
     return SizedBox(
