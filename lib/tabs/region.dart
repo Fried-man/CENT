@@ -57,7 +57,7 @@ class _Region extends State<Region> {
                         padding: const EdgeInsets.all(16),
                         children: [
                           for (int index = 0; index < countries.length; index++)
-                            if (isValid(countries[index], search.text))
+                            if (isValid(countries[index]["country"], search.text))
                               Padding(
                                 padding: const EdgeInsets.all(4.0),
                                 child: ElevatedButton(
@@ -68,7 +68,7 @@ class _Region extends State<Region> {
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
-                                              countries[index],
+                                              countries[index]["country"],
                                               style: TextStyle(
                                                   fontSize:
                                                       MediaQuery.of(context)
@@ -117,7 +117,7 @@ class _Region extends State<Region> {
 }
 
 class RegionCard extends StatefulWidget {
-  final String country;
+  final Map country;
   final Function updateParent;
   final GoogleMapController mapController;
 
@@ -130,7 +130,7 @@ class RegionCard extends StatefulWidget {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return country;
+    return country["country"];
   }
 
   Offset getPosition() => const Offset(0, 0);
@@ -157,12 +157,9 @@ class _RegionCard extends State<RegionCard> {
   final LatLng _initMapCenter = const LatLng(20, 0);
 
   _updateMap() async {
-    final String response = await rootBundle.loadString('assets/data.json');
-    final data = await json.decode(response);
-    //need to update data.json - currently only USA
-    final countryCoordinates = data["Coordinates"][widget.country];
     widget.mapController.animateCamera(CameraUpdate.newLatLngZoom(
-      LatLng(countryCoordinates["lat"], countryCoordinates["long"] + 20.0), 4));
+      LatLng(widget.country["latitude"],
+          widget.country["longitude"] + (-10.0 * widget.country["zoom"] + 60)), widget.country["zoom"]));
   }
 
   @override
@@ -209,7 +206,7 @@ class _RegionCard extends State<RegionCard> {
                       SizedBox(
                         width: MediaQuery.of(context).size.height / 3.5,
                         child: AutoSizeText(
-                          widget.country + " Details",
+                          widget.country["country"],
                           maxLines: 1,
                           style: const TextStyle(
                               color: Colors.white, fontSize: 40),

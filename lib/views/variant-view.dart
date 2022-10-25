@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 List selections = [];
 
 class VariantView extends StatefulWidget {
-  final String country;
+  final Map country;
 
   const VariantView({Key? key, required this.country}) : super(key: key);
 
@@ -21,7 +21,7 @@ class _VariantView extends State<VariantView> {
         iconTheme: const IconThemeData(
           color: Colors.white, //change your color here
         ),
-        title: Text(widget.country + " Variants",
+        title: Text(widget.country["country"] + " Variants",
             style: const TextStyle(color: Colors.white)),
         centerTitle: true,
         flexibleSpace: Container(
