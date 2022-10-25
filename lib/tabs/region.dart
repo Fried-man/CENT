@@ -6,8 +6,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:genome_2133/views/variant-view.dart';
+import 'package:genome_2133/views/variant-card.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../home.dart';
 
@@ -139,6 +139,97 @@ class RegionCard extends StatefulWidget {
 }
 
 class _RegionCard extends State<RegionCard> {
+  List<dynamic> variants = [
+    {
+      "accession": "NC_045512",
+      "geographical location": "China",
+      "date collected": 2019,
+      "generated": false,
+      "pinned": false,
+      "selected": false
+    },
+    {
+      "accession": "L00000001",
+      "geographical location": "China",
+      "date collected": 2019,
+      "generated": true,
+      "pinned": false,
+      "selected": false
+    },
+    {
+      "accession": "NC_045512",
+      "geographical location": "China",
+      "date collected": 2019,
+      "generated": false,
+      "pinned": false,
+      "selected": false
+    },
+    {
+      "accession": "MN938384",
+      "geographical location": "China: Shenzhen",
+      "date collected": 2020,
+      "generated": false,
+      "pinned": false,
+      "selected": false
+    },
+    {
+      "accession": "L00000002",
+      "geographical location": "China",
+      "date collected": 2020,
+      "generated": true,
+      "pinned": false,
+      "selected": false
+    },
+    {
+      "accession": "MN938384",
+      "geographical location": "China: Shenzhen",
+      "date collected": 2020,
+      "generated": false,
+      "pinned": false,
+      "selected": false
+    },
+    {
+      "accession": "MT027063",
+      "geographical location": "USA: CA",
+      "date collected": 2020,
+      "generated": false,
+      "pinned": false,
+      "selected": false
+    },
+    {
+      "accession": "L00000003",
+      "geographical location": "China",
+      "date collected": 2022,
+      "generated": true,
+      "pinned": false,
+      "selected": false
+    },
+    {
+      "accession": "ON247308",
+      "geographical location": "USA: CA",
+      "date collected": 2020,
+      "generated": false,
+      "pinned": false,
+      "selected": false
+    },
+    {
+      "accession": "L00000003",
+      "geographical location": "China",
+      "date collected": 2021,
+      "generated": true,
+      "pinned": false,
+      "selected": false
+    },
+    {
+      "accession": "ON247308",
+      "geographical location": "USA: MS",
+      "date collected": 2022,
+      "generated": false,
+      "pinned": false,
+      "selected": false
+    }
+  ];
+
   bool isClosed = false;
   late int fakeCount;
 
@@ -245,7 +336,7 @@ class _RegionCard extends State<RegionCard> {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "Current Variants",
+                              "Variants:",
                               style: TextStyle(fontSize: 30),
                             ),
                           ),
@@ -256,18 +347,25 @@ class _RegionCard extends State<RegionCard> {
                               alignment: Alignment.center,
                               child: Wrap(
                                 children: [
-                                  for (int i = 0; i < fakeCount; i++)
+                                  for (int i = 0; i < variants.length; i++)
                                     Padding(
                                       padding: const EdgeInsets.all(1.0),
                                       child: TextButton(
                                         style: TextButton.styleFrom(
                                             textStyle:
                                                 const TextStyle(fontSize: 13)),
-                                        onPressed: () => launchUrl(Uri.parse(
-                                            'https://www.ncbi.nlm.nih.gov/nuccore/OP365008')),
-                                        child: const Text(
-                                          "OM995898",
-                                          style: TextStyle(
+                                        onPressed: () async {
+                                          showDialog(
+                                              context: context,
+                                              builder: (_) => VariantCard(
+                                                  variant: variants[i],
+                                                  updateParent: widget.updateParent
+                                              )
+                                          );
+                                        },
+                                        child: Text(
+                                          variants[i]["accession"],
+                                          style: const TextStyle(
                                             color: Colors.blue,
                                             decoration:
                                                 TextDecoration.underline,
@@ -290,7 +388,10 @@ class _RegionCard extends State<RegionCard> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => VariantView(
-                                          country: widget.country))),
+                                          country: widget.country,
+                                          variants: variants,
+                                          updateParent: widget.updateParent,
+                                      ))),
                               child: const Text(
                                 "Further Info",
                                 style: TextStyle(

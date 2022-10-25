@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:genome_2133/views/variant-card.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 List selections = [];
 
 class VariantView extends StatefulWidget {
   final Map country;
+  final List<dynamic> variants;
+  final Function updateParent;
 
-  const VariantView({Key? key, required this.country}) : super(key: key);
+  const VariantView({Key? key, required this.country, required this.variants, required this.updateParent}) : super(key: key);
 
   @override
   State<VariantView> createState() => _VariantView();
@@ -64,13 +67,19 @@ class _VariantView extends State<VariantView> {
           ),
         ],
       ),
-      body: const SortablePage(),
+      body: SortablePage(
+        items: widget.variants,
+        updateParent: widget.updateParent,
+      ),
     );
   }
 }
 
 class SortablePage extends StatefulWidget {
-  const SortablePage({Key? key}) : super(key: key);
+  final List<dynamic> items;
+  final Function updateParent;
+
+  const SortablePage({Key? key, required this.items, required this.updateParent}) : super(key: key);
 
   @override
   _SortablePageState createState() => _SortablePageState();
@@ -86,96 +95,96 @@ class _SortablePageState extends State<SortablePage> {
     'pinned'
   ];
 
-  List users = [
-    {
-      "accession": "NC_045512",
-      "geographical location": "China",
-      "date collected": 2019,
-      "generated": false,
-      "pinned": false,
-      "selected": false
-    },
-    {
-      "accession": "L00000001",
-      "geographical location": "China",
-      "date collected": 2019,
-      "generated": true,
-      "pinned": false,
-      "selected": false
-    },
-    {
-      "accession": "NC_045512",
-      "geographical location": "China",
-      "date collected": 2019,
-      "generated": false,
-      "pinned": false,
-      "selected": false
-    },
-    {
-      "accession": "MN938384",
-      "geographical location": "China: Shenzhen",
-      "date collected": 2020,
-      "generated": false,
-      "pinned": false,
-      "selected": false
-    },
-    {
-      "accession": "L00000002",
-      "geographical location": "China",
-      "date collected": 2020,
-      "generated": true,
-      "pinned": false,
-      "selected": false
-    },
-    {
-      "accession": "MN938384",
-      "geographical location": "China: Shenzhen",
-      "date collected": 2020,
-      "generated": false,
-      "pinned": false,
-      "selected": false
-    },
-    {
-      "accession": "MT027063",
-      "geographical location": "USA: CA",
-      "date collected": 2020,
-      "generated": false,
-      "pinned": false,
-      "selected": false
-    },
-    {
-      "accession": "L00000003",
-      "geographical location": "China",
-      "date collected": 2022,
-      "generated": true,
-      "pinned": false,
-      "selected": false
-    },
-    {
-      "accession": "ON247308",
-      "geographical location": "USA: CA",
-      "date collected": 2020,
-      "generated": false,
-      "pinned": false,
-      "selected": false
-    },
-    {
-      "accession": "L00000003",
-      "geographical location": "China",
-      "date collected": 2021,
-      "generated": true,
-      "pinned": false,
-      "selected": false
-    },
-    {
-      "accession": "ON247308",
-      "geographical location": "USA: MS",
-      "date collected": 2022,
-      "generated": false,
-      "pinned": false,
-      "selected": false
-    }
-  ];
+  // List users = [
+  //   {
+  //     "accession": "NC_045512",
+  //     "geographical location": "China",
+  //     "date collected": 2019,
+  //     "generated": false,
+  //     "pinned": false,
+  //     "selected": false
+  //   },
+  //   {
+  //     "accession": "L00000001",
+  //     "geographical location": "China",
+  //     "date collected": 2019,
+  //     "generated": true,
+  //     "pinned": false,
+  //     "selected": false
+  //   },
+  //   {
+  //     "accession": "NC_045512",
+  //     "geographical location": "China",
+  //     "date collected": 2019,
+  //     "generated": false,
+  //     "pinned": false,
+  //     "selected": false
+  //   },
+  //   {
+  //     "accession": "MN938384",
+  //     "geographical location": "China: Shenzhen",
+  //     "date collected": 2020,
+  //     "generated": false,
+  //     "pinned": false,
+  //     "selected": false
+  //   },
+  //   {
+  //     "accession": "L00000002",
+  //     "geographical location": "China",
+  //     "date collected": 2020,
+  //     "generated": true,
+  //     "pinned": false,
+  //     "selected": false
+  //   },
+  //   {
+  //     "accession": "MN938384",
+  //     "geographical location": "China: Shenzhen",
+  //     "date collected": 2020,
+  //     "generated": false,
+  //     "pinned": false,
+  //     "selected": false
+  //   },
+  //   {
+  //     "accession": "MT027063",
+  //     "geographical location": "USA: CA",
+  //     "date collected": 2020,
+  //     "generated": false,
+  //     "pinned": false,
+  //     "selected": false
+  //   },
+  //   {
+  //     "accession": "L00000003",
+  //     "geographical location": "China",
+  //     "date collected": 2022,
+  //     "generated": true,
+  //     "pinned": false,
+  //     "selected": false
+  //   },
+  //   {
+  //     "accession": "ON247308",
+  //     "geographical location": "USA: CA",
+  //     "date collected": 2020,
+  //     "generated": false,
+  //     "pinned": false,
+  //     "selected": false
+  //   },
+  //   {
+  //     "accession": "L00000003",
+  //     "geographical location": "China",
+  //     "date collected": 2021,
+  //     "generated": true,
+  //     "pinned": false,
+  //     "selected": false
+  //   },
+  //   {
+  //     "accession": "ON247308",
+  //     "geographical location": "USA: MS",
+  //     "date collected": 2022,
+  //     "generated": false,
+  //     "pinned": false,
+  //     "selected": false
+  //   }
+  // ];
   int? sortColumnIndex;
   bool isAscending = false;
 
@@ -211,7 +220,7 @@ class _SortablePageState extends State<SortablePage> {
         sortAscending: isAscending,
         sortColumnIndex: sortColumnIndex,
         columns: getColumns(headerLabel),
-        rows: getRows(users),
+        rows: getRows(widget.items),
       ),
     );
     /*return FutureBuilder(
@@ -237,15 +246,30 @@ class _SortablePageState extends State<SortablePage> {
           ))
       .toList();
 
-  List<DataRow> getRows(List users) => users.map((user) {
+  List<DataRow> getRows(List items) => items.map((user) {
         List<DataCell> lister;
 
         lister = getCells([
-          user["accession"],
+          // user["accession"],
           user["geographical location"],
           user["date collected"],
           user["generated"] ? "Yes" : "Actual"
         ].reversed.toList());
+
+        lister.add(DataCell(
+          Align(
+            alignment: Alignment.centerRight,
+            child: Text(user["accession"].toString())
+          ),
+          onTap: () async {
+            Navigator.pop(context, [
+              VariantCard(
+                  variant: user,
+                  updateParent: widget.updateParent
+              )
+            ]);
+          }
+        ));
 
         lister.add(DataCell(Align(
           alignment: Alignment.centerRight,
@@ -293,7 +317,7 @@ class _SortablePageState extends State<SortablePage> {
       .toList();
 
   void onSort(int columnIndex, bool ascending) {
-    users.sort((user1, user2) => compareString(
+    widget.items.sort((user1, user2) => compareString(
         ascending,
         user1[headerLabel[columnIndex]].toString(),
         user2[headerLabel[columnIndex]].toString()));
