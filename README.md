@@ -18,6 +18,15 @@ The system being developed by Team 2133 is an application which can provide info
 - [Repository's Wikipedia](https://github.com/Fried-man/genome_2133/wiki)
 - [Useful Links](https://github.com/Fried-man/genome_2133/wiki/Resources)
 # Release Notes
+## v1.3.0
+### Features
+* Saved variant table added to user accounts - will allow saving of variants in future version of application
+* Added animated Google Maps functionality when selecting a region
+### Bug Fixes
+* Fixed Google Maps Controller to support changing of map
+### Known Issues
+* Still able to open multiple region cards - due to unique implementation to support card feature
+
 ## v1.2.0
 ### Features 
 * Multiselect for variants - can select group of variants to copy from a list displayed to the user 
