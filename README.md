@@ -26,6 +26,8 @@ The system being developed by Team 2133 is an application which can provide info
 * Fixed Google Maps Controller to support changing of map
 ### Known Issues
 * Still able to open multiple region cards - due to unique implementation to support card feature
+* Still running data cleaning - expected to end by this week or next due to the sheer volumne of data
+* Architecting the model has proven to be more difficult than initally presumed, at least to the degree of accuracy desired
 
 ## v0.2.0
 ### Features 
