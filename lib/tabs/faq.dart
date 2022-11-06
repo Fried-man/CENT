@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 
 AlertDialog faq(context) {
   return AlertDialog(
-    title: const Center(child: Text("FAQ")),
+    title: const Center(child: Text("Frequently Asked Questions")),
     content: SizedBox(
         width: MediaQuery.of(context).size.width / 4,
         height: MediaQuery.of(context).size.height / 2,
