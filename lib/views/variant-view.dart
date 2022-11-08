@@ -265,7 +265,6 @@ class _SortablePageState extends State<SortablePage> {
             Navigator.pop(context, [
               VariantCard(
                   variant: user,
-                  updateParent: widget.updateParent
               )
             ]);
           }

@@ -207,6 +207,7 @@ class _Region extends State<Region> {
                                     RegionCard selectedCountry = RegionCard(
                                       country: countries[index],
                                       mapController: widget.mapController,
+                                      updateParent: widget.updateParent,
                                     );
                                     Navigator.pop(context, [
                                       Window(
@@ -244,9 +245,10 @@ class RegionCard extends StatefulWidget {
   final Map country;
   final GoogleMapController mapController;
   final LatLng _initMapCenter = const LatLng(20, 0);
+  final Function updateParent;
 
   const RegionCard(
-      {Key? key, required this.country, required this.mapController})
+      {Key? key, required this.country, required this.mapController, required this.updateParent})
       : super(key: key);
 
   @override
@@ -402,14 +404,16 @@ class _RegionCard extends State<RegionCard> {
                           style: TextButton.styleFrom(
                               textStyle:
                               const TextStyle(fontSize: 13)),
-                          onPressed: () async {
-                            showDialog(
-                                context: context,
-                                builder: (_) => VariantCard(
-                                    variant: variants[i],
-                                    updateParent: (){print("implement this");}
-                                )
+                          onPressed: () {
+                            VariantCard selectedVariant = VariantCard(
+                              variant: variants[i],
                             );
+                            windows.add(Window(
+                              title: selectedVariant.toString(),
+                              body: selectedVariant,
+                              updateParent: widget.updateParent,
+                            ));
+                            widget.updateParent();
                           },
                           child: Text(
                             variants[i]["accession"],
