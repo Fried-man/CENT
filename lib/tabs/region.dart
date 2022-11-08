@@ -68,7 +68,7 @@ class _Window extends State<Window> {
           child: Column(
             children: [
               Container(
-                color: Colors.indigo,
+                color: Theme.of(context).scaffoldBackgroundColor,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -417,8 +417,8 @@ class _RegionCard extends State<RegionCard> {
                           },
                           child: Text(
                             variants[i]["accession"],
-                            style: const TextStyle(
-                              color: Colors.blue,
+                            style: TextStyle(
+                              color: Theme.of(context).scaffoldBackgroundColor,
                               decoration:
                               TextDecoration.underline,
                             ),
