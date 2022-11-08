@@ -26,9 +26,12 @@ class VariantCard extends StatefulWidget {
 }
 
 class _VariantCard extends State<VariantCard> {
+  late String saveStatus; // TODO: fix remove from saved box going to add when moving
+
   @override
   void initState() {
     super.initState();
+    saveStatus = "Add to Saved";
   }
 
   @override
@@ -88,8 +91,27 @@ class _VariantCard extends State<VariantCard> {
           StreamBuilder<DocumentSnapshot>(
             stream: FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
             builder: (context, snapshot) {
-              if (!snapshot.hasData) return Container();
+              if (!snapshot.hasData) {
+                return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ElevatedButton(
+                    onPressed: (){
+                      print("loading saved...");
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        saveStatus,
+                        style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width / 100,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ),
+                );
+              }
 
+              saveStatus = (snapshot.data!["saved"] as List).contains(widget.variant["accession"]) ? "Remove from Saved" : "Add to Saved";
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: ElevatedButton(
@@ -104,7 +126,7 @@ class _VariantCard extends State<VariantCard> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      (snapshot.data!["saved"] as List).contains(widget.variant["accession"]) ? "Remove from Saved" : "Add to Saved",
+                      saveStatus,
                       style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width / 100,
                           color: Colors.black),
