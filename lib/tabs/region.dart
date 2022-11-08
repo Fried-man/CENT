@@ -11,6 +11,126 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../home.dart';
 
+class Window extends StatefulWidget {
+  final Function updateParent;
+  final String title;
+  final Widget body;
+
+  const Window({Key? key, required this.updateParent, required this.title, required this.body}) : super(key: key);
+
+  @override
+  State<Window> createState() => _Window();
+
+  Offset getPosition() => const Offset(0, 0);
+
+  void updatePosition(Offset newPosition) {}
+}
+
+class _Window extends State<Window> {
+  bool isClosed = false;
+
+  // turned off random placement so that it sits to right
+  Offset position = Offset(
+      ((window.physicalSize / window.devicePixelRatio).width -
+          (window.physicalSize / window.devicePixelRatio).width / 3),
+      ((window.physicalSize / window.devicePixelRatio).height -
+          (window.physicalSize / window.devicePixelRatio).height / 2 - 225));
+
+  getPosition() => position;
+
+  void updatePosition(Offset newPosition) =>
+      setState(() => position = newPosition);
+
+  @override
+  Widget build(BuildContext context) {
+    if (isClosed) return Container();
+
+    void riseStack() {
+      // Change stack function
+      if (widget == windows.last) return;
+
+      // TODO: fix position swap bug
+      /*windows.remove(widget);
+      windows.add(widget);
+
+      widget.updateParent();*/
+    }
+
+    Widget content = SizedBox(
+      height: MediaQuery.of(context).size.height / 2,
+      width: MediaQuery.of(context).size.height / 3,
+      child: GestureDetector(
+        onTap: () {
+          riseStack();
+        },
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Column(
+            children: [
+              Container(
+                color: Colors.indigo,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.height / 3.5,
+                        child: AutoSizeText(
+                          widget.title, // widget.country["country"]
+                          maxLines: 1,
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 40),
+                        ),
+                      ),
+                      GestureDetector(
+                        child: const Icon(
+                          Icons.close,
+                          color: Colors.white,
+                        ),
+                        onTap: () {
+                          // TODO: add cleanup to home array
+                          setState(() {
+                            // need to handle cases where multiple cards?
+                            if (widget.body is RegionCard) {
+                              (widget.body as RegionCard).centerMap();
+                            }
+                            isClosed = true;
+                          });
+                        },
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  color: Colors.white,
+                  child: widget.body,
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+
+    return Positioned(
+      left: position.dx,
+      top: position.dy,
+      child: Draggable(
+          maxSimultaneousDrags: 1,
+          feedback: Material(type: MaterialType.transparency, child: content),
+          childWhenDragging: Container(),
+          onDragEnd: (details) {
+            updatePosition(details.offset);
+            riseStack();
+          },
+          child: content),
+    );
+  }
+}
+
 class Region extends StatefulWidget {
   final Function updateParent;
   // is this necessary?
@@ -84,11 +204,15 @@ class _Region extends State<Region> {
                                     ],
                                   ),
                                   onPressed: () {
+                                    RegionCard selectedCountry = RegionCard(
+                                      country: countries[index],
+                                      mapController: widget.mapController,
+                                    );
                                     Navigator.pop(context, [
-                                      RegionCard(
-                                        country: countries[index],
+                                      Window(
                                         updateParent: widget.updateParent,
-                                        mapController: widget.mapController,
+                                        title: selectedCountry.toString(),
+                                        body: selectedCountry,
                                       )
                                     ]);
                                   },
@@ -118,11 +242,11 @@ class _Region extends State<Region> {
 
 class RegionCard extends StatefulWidget {
   final Map country;
-  final Function updateParent;
   final GoogleMapController mapController;
+  final LatLng _initMapCenter = const LatLng(20, 0);
 
   const RegionCard(
-      {Key? key, required this.country, required this.updateParent, required this.mapController})
+      {Key? key, required this.country, required this.mapController})
       : super(key: key);
 
   @override
@@ -133,9 +257,10 @@ class RegionCard extends StatefulWidget {
     return country["country"];
   }
 
-  Offset getPosition() => const Offset(0, 0);
-
-  void updatePosition(Offset newPosition) {}
+  void centerMap () {
+    mapController.animateCamera(CameraUpdate.newLatLngZoom(
+        _initMapCenter, 3));
+  }
 }
 
 class _RegionCard extends State<RegionCard> {
@@ -230,22 +355,7 @@ class _RegionCard extends State<RegionCard> {
     }
   ];
 
-  bool isClosed = false;
   late int fakeCount;
-
-  // turned off random placement so that it sits to right
-  Offset position = Offset(
-      ((window.physicalSize / window.devicePixelRatio).width -
-          (window.physicalSize / window.devicePixelRatio).width / 3),
-      ((window.physicalSize / window.devicePixelRatio).height -
-          (window.physicalSize / window.devicePixelRatio).height / 2 - 225));
-
-  getPosition() => position;
-
-  void updatePosition(Offset newPosition) =>
-      setState(() => position = newPosition);
-
-  final LatLng _initMapCenter = const LatLng(20, 0);
 
   _updateMap() async {
     widget.mapController.animateCamera(CameraUpdate.newLatLngZoom(
@@ -263,194 +373,111 @@ class _RegionCard extends State<RegionCard> {
 
   @override
   Widget build(BuildContext context) {
-    if (isClosed) return Container();
-
-    void riseStack() {
-      // Change stack function
-      if (widget == windows.last) return;
-
-      // TODO: fix position swap bug
-      /*windows.remove(widget);
-      windows.add(widget);
-
-      widget.updateParent();*/
-    }
-
-    Widget content = SizedBox(
-      height: MediaQuery.of(context).size.height / 2,
-      width: MediaQuery.of(context).size.height / 3,
-      child: GestureDetector(
-        onTap: () {
-          riseStack();
-        },
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Column(
-            children: [
-              Container(
-                color: Colors.indigo,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.height / 3.5,
-                        child: AutoSizeText(
-                          widget.country["country"],
-                          maxLines: 1,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 40),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+      child: ListView(
+        shrinkWrap: true,
+        primary: false,
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(top: 8),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Variants:",
+                style: TextStyle(fontSize: 30),
+              ),
+            ),
+          ),
+          Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16),
+              child: Align(
+                alignment: Alignment.center,
+                child: Wrap(
+                  children: [
+                    for (int i = 0; i < variants.length; i++)
+                      Padding(
+                        padding: const EdgeInsets.all(1.0),
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                              textStyle:
+                              const TextStyle(fontSize: 13)),
+                          onPressed: () async {
+                            showDialog(
+                                context: context,
+                                builder: (_) => VariantCard(
+                                    variant: variants[i],
+                                    updateParent: (){print("implement this");}
+                                )
+                            );
+                          },
+                          child: Text(
+                            variants[i]["accession"],
+                            style: const TextStyle(
+                              color: Colors.blue,
+                              decoration:
+                              TextDecoration.underline,
+                            ),
+                          ),
                         ),
                       ),
-                      GestureDetector(
-                        child: const Icon(
-                          Icons.close,
-                          color: Colors.white,
-                        ),
-                        onTap: () {
-                          // TODO: add cleanup to home array
-                          setState(() {
-                            // need to handle cases where multiple cards?
-                            widget.mapController.animateCamera(CameraUpdate.newLatLngZoom(
-                                _initMapCenter, 3));
-                            isClosed = true;
-                          });
-                        },
-                      )
-                    ],
-                  ),
+                  ],
+                ),
+              )),
+          Padding(
+            padding: const EdgeInsets.only(right: 18),
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: ElevatedButton(
+                style: TextButton.styleFrom(
+                  textStyle: const TextStyle(fontSize: 20),
+                ),
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => VariantView(
+                          country: widget.country,
+                          variants: variants,
+                          updateParent: (){print("implement this");},
+                        ))),
+                child: const Text(
+                  "Further Info",
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
                 ),
               ),
-              Expanded(
-                child: Container(
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                    child: ListView(
-                      shrinkWrap: true,
-                      primary: false,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(top: 8),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Variants:",
-                              style: TextStyle(fontSize: 30),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.only(left: 16, right: 16),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Wrap(
-                                children: [
-                                  for (int i = 0; i < variants.length; i++)
-                                    Padding(
-                                      padding: const EdgeInsets.all(1.0),
-                                      child: TextButton(
-                                        style: TextButton.styleFrom(
-                                            textStyle:
-                                                const TextStyle(fontSize: 13)),
-                                        onPressed: () async {
-                                          showDialog(
-                                              context: context,
-                                              builder: (_) => VariantCard(
-                                                  variant: variants[i],
-                                                  updateParent: widget.updateParent
-                                              )
-                                          );
-                                        },
-                                        child: Text(
-                                          variants[i]["accession"],
-                                          style: const TextStyle(
-                                            color: Colors.blue,
-                                            decoration:
-                                                TextDecoration.underline,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            )),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 18),
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: ElevatedButton(
-                              style: TextButton.styleFrom(
-                                textStyle: const TextStyle(fontSize: 20),
-                              ),
-                              onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => VariantView(
-                                          country: widget.country,
-                                          variants: variants,
-                                          updateParent: widget.updateParent,
-                                      ))),
-                              child: const Text(
-                                "Further Info",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Report",
-                            style: TextStyle(fontSize: 30),
-                          ),
-                        ),
-                        Image.asset(
-                          "assets/images/fake_report.png", // TODO: autogenerate report diagram
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 18),
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: ElevatedButton(
-                              onPressed: () => debugPrint('pressedTextButton:'),
-                              child: const Text(
-                                "Further Info",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              )
-            ],
+            ),
           ),
-        ),
+          const Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "Report",
+              style: TextStyle(fontSize: 30),
+            ),
+          ),
+          Image.asset(
+            "assets/images/fake_report.png", // TODO: autogenerate report diagram
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 18),
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: ElevatedButton(
+                onPressed: () => debugPrint('pressedTextButton:'),
+                child: const Text(
+                  "Further Info",
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
-    );
-
-    return Positioned(
-      left: position.dx,
-      top: position.dy,
-      child: Draggable(
-          maxSimultaneousDrags: 1,
-          feedback: Material(type: MaterialType.transparency, child: content),
-          childWhenDragging: Container(),
-          onDragEnd: (details) {
-            updatePosition(details.offset);
-            riseStack();
-          },
-          child: content),
     );
   }
 }

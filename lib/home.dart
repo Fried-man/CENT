@@ -7,7 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'main.dart';
 import 'tabs/faq.dart';
 
-late List<RegionCard> windows;
+late List<Window> windows;
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
