@@ -442,7 +442,7 @@ class _RegionCard extends State<RegionCard> {
                         builder: (context) => VariantView(
                           country: widget.country,
                           variants: variants,
-                          updateParent: (){print("implement this");},
+                          updateParent: widget.updateParent,
                         ))),
                 child: const Text(
                   "Further Info",

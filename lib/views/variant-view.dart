@@ -3,6 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:genome_2133/views/variant-card.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../home.dart';
+import '../tabs/region.dart';
+
 List selections = [];
 
 class VariantView extends StatefulWidget {
@@ -261,12 +264,17 @@ class _SortablePageState extends State<SortablePage> {
             alignment: Alignment.centerRight,
             child: Text(user["accession"].toString())
           ),
-          onTap: () async {
-            Navigator.pop(context, [
-              VariantCard(
-                  variant: user,
-              )
-            ]);
+          onTap: () {
+            Navigator.pop(context);
+            VariantCard selectedVariant = VariantCard(
+              variant: user,
+            );
+            windows.add(Window(
+              title: selectedVariant.toString(),
+              body: selectedVariant,
+              updateParent: widget.updateParent,
+            ));
+            widget.updateParent();
           }
         ));
 
