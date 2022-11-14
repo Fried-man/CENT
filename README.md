@@ -18,6 +18,19 @@ The system being developed by Team 2133 is an application which can provide info
 - [Repository's Wikipedia](https://github.com/Fried-man/genome_2133/wiki)
 - [Useful Links](https://github.com/Fried-man/genome_2133/wiki/Resources)
 # Release Notes
+## v0.4.0
+### Features
+* Added new variant card - selecting a variant from a region pulls up additional info about the genome sequence, a link to the vairant on NCBI, and the ability to add the variant to a user's Saved list
+* New relational database created in Azure - will allow final connection between backend and frontend to populate website with data
+* New Postgres SQL commands allow us to filter genomes by region, date, etc. - 650,000 have been segregated so far
+* [Minor] Moved FAQ menu to new button in bottom right of home screen - cleans up home screen tabs selection
+### Bug Fixes
+* Data cleaning has allowed us to finally store and work with genomic sequence data
+* Made "card" feature universal - can now instantiate and remove cards at will
+### Known Issues
+* New variant card throws null error for non-logged in users
+* API request needs to be created for relational database
+
 ## v0.3.0
 ### Features
 * Saved variant table added to user accounts - will allow saving of variants in future version of application
@@ -26,7 +39,7 @@ The system being developed by Team 2133 is an application which can provide info
 * Fixed Google Maps Controller to support changing of map
 ### Known Issues
 * Still able to open multiple region cards - due to unique implementation to support card feature
-* Still running data cleaning - expected to end by this week or next due to the sheer volumne of data
+* Still running data cleaning - expected to end by this week or next due to the sheer volume of data
 * Architecting the model has proven to be more difficult than initally presumed, at least to the degree of accuracy desired
 
 ## v0.2.0
