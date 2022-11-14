@@ -34,6 +34,12 @@ class _Home extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          showDialog(context: context, builder: (_) => faq(context));
+        },
+        child: const Icon(Icons.question_mark),
+      ),
       body: SafeArea(
         child: Stack(
           children: [
@@ -67,9 +73,6 @@ class _Home extends State<Home> {
                   headerButton(context, "Contact Us", () async {
                     showDialog(
                         context: context, builder: (_) => contact(context));
-                  }),
-                  headerButton(context, "FAQ", () async {
-                    showDialog(context: context, builder: (_) => faq(context));
                   }),
                   if (user != null)
                     headerButton(context, "My Saved", () {
