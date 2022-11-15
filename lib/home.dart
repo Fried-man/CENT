@@ -51,47 +51,50 @@ class _Home extends State<Home> {
                   bearing: 0, target: _initMapCenter, tilt: 0, zoom: 3),
               onMapCreated: _onMapCreated,
             ),
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  headerButton(context, "Select Region", () async {
-                    showDialog(
-                      context: context,
-                      builder: (_) => Region(mapController: _mapController, updateParent: () {
-                        setState(() {});
-                      }),
-                    ).then((value) {
-                      if (value != null) {
-                        setState(() {
-                          windows.add(value[0]);
-                        });
-                      }
-                    });
-                  }),
-                  headerButton(context, "Contact Us", () async {
-                    showDialog(
-                        context: context, builder: (_) => contact(context));
-                  }),
-                  if (user != null)
-                    headerButton(context, "My Saved", () {
-                      Navigator.pushNamed(context, '/saved');
-                    }),
-                  headerButton(context, user == null ? "Login" : "Log Out",
-                      () async {
-                    if (user == null) {
-                      Navigator.pushNamed(context, '/login')
-                          .then((value) => setState(() {}));
-                    } else {
-                      await FirebaseAuth.instance.signOut().then((value) {
-                        user = null;
-                        setState(() {});
+            ColoredBox(
+              color: Theme.of(context).dialogBackgroundColor,
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    headerButton(context, "Select Region", () async {
+                      showDialog(
+                        context: context,
+                        builder: (_) => Region(mapController: _mapController, updateParent: () {
+                          setState(() {});
+                        }),
+                      ).then((value) {
+                        if (value != null) {
+                          setState(() {
+                            windows.add(value[0]);
+                          });
+                        }
                       });
-                    }
-                  })
-                ],
-              ),
+                    }),
+                    headerButton(context, "Contact Us", () async {
+                      showDialog(
+                          context: context, builder: (_) => contact(context));
+                    }),
+                    if (user != null)
+                      headerButton(context, "My Saved", () {
+                        Navigator.pushNamed(context, '/saved');
+                      }),
+                    headerButton(context, user == null ? "Login" : "Log Out",
+                            () async {
+                          if (user == null) {
+                            Navigator.pushNamed(context, '/login')
+                                .then((value) => setState(() {}));
+                          } else {
+                            await FirebaseAuth.instance.signOut().then((value) {
+                              user = null;
+                              setState(() {});
+                            });
+                          }
+                        })
+                  ],
+                ),
+              )
             ),
             for (Widget pane in windows) pane,
           ],
