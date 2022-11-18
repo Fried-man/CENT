@@ -454,32 +454,45 @@ class _RegionCard extends State<RegionCard> {
               ),
             ),
           ),
-          const Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "Report",
-              style: TextStyle(fontSize: 30),
-            ),
-          ),
-          Image.asset(
-            "assets/images/fake_report.png", // TODO: autogenerate report diagram
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 18),
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: ElevatedButton(
-                onPressed: () => debugPrint('pressedTextButton:'),
-                child: const Text(
-                  "Further Info",
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
+          const Padding(
+            padding: EdgeInsets.only(right: 18),
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Future Variants",
+                    style: TextStyle(fontSize: 30),
+                  ),
                 ),
+              ),
+          Padding(
+            padding: EdgeInsets.only(right: 18),
+            child: Align(
+                alignment: Alignment.centerRight,
+                child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text(
+                      "Predict",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black)
+                    )
               ),
             ),
           ),
+          const Padding(
+            padding: EdgeInsets.only(right: 10),
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                  "     This button is \n currently disabled",
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black)
+              ),
+            )
+          )
         ],
       ),
     );
