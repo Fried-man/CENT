@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:genome_2133/tabs/contact.dart';
@@ -8,7 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'main.dart';
 import 'tabs/faq.dart';
 
-late List<RegionCard> windows;
+late List<Window> windows;
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -18,6 +17,14 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
+  late GoogleMapController _mapController;
+
+  final LatLng _initMapCenter = const LatLng(20, 0);
+
+  void _onMapCreated(GoogleMapController controller) {
+    _mapController = controller;
+  }
+
   @override
   void initState() {
     windows = [];
@@ -27,6 +34,12 @@ class _Home extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          showDialog(context: context, builder: (_) => faq(context));
+        },
+        child: const Icon(Icons.question_mark),
+      ),
       body: SafeArea(
         child: Stack(
           children: [
@@ -34,25 +47,21 @@ class _Home extends State<Home> {
               mapType: MapType.hybrid,
               zoomControlsEnabled: false,
               scrollGesturesEnabled: false,
-              initialCameraPosition: const CameraPosition(
-                  bearing: 0,
-                  target: LatLng(20, 0),
-                  tilt: 0,
-                  zoom: 3
-              ),
-              onMapCreated: (GoogleMapController controller) {
-                Completer().complete(controller);
-              },
+              initialCameraPosition: CameraPosition(
+                  bearing: 0, target: _initMapCenter, tilt: 0, zoom: 3),
+              onMapCreated: _onMapCreated,
             ),
             Padding(
               padding: const EdgeInsets.all(4.0),
-              child: Row (
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   headerButton(context, "Select Region", () async {
                     showDialog(
                       context: context,
-                      builder: (_) => Region(updateParent: (){setState(() {});}),
+                      builder: (_) => Region(mapController: _mapController, updateParent: () {
+                        setState(() {});
+                      }),
                     ).then((value) {
                       if (value != null) {
                         setState(() {
@@ -63,23 +72,17 @@ class _Home extends State<Home> {
                   }),
                   headerButton(context, "Contact Us", () async {
                     showDialog(
-                        context: context,
-                        builder: (_) => contact(context)
-                    );
-                  }),
-                  headerButton(context, "FAQ", () async {
-                     showDialog(
-                         context: context,
-                         builder: (_) => faq(context)
-                     );
+                        context: context, builder: (_) => contact(context));
                   }),
                   if (user != null)
-                  headerButton(context, "My Saved", (){
-                    Navigator.pushNamed(context, '/saved');
-                  }),
-                  headerButton(context, user == null ? "Login" : "Log Out", () async {
+                    headerButton(context, "My Saved", () {
+                      Navigator.pushNamed(context, '/saved');
+                    }),
+                  headerButton(context, user == null ? "Login" : "Log Out",
+                      () async {
                     if (user == null) {
-                      Navigator.pushNamed(context, '/login').then((value) => setState(() {}));
+                      Navigator.pushNamed(context, '/login')
+                          .then((value) => setState(() {}));
                     } else {
                       await FirebaseAuth.instance.signOut().then((value) {
                         user = null;
@@ -90,8 +93,7 @@ class _Home extends State<Home> {
                 ],
               ),
             ),
-            for (Widget pane in windows)
-              pane,
+            for (Widget pane in windows) pane,
           ],
         ),
       ),
@@ -99,7 +101,7 @@ class _Home extends State<Home> {
   }
 }
 
-Widget headerButton (var context, String text, void Function() action) {
+Widget headerButton(var context, String text, void Function() action) {
   return Expanded(
     child: Padding(
       padding: const EdgeInsets.all(8.0),
@@ -110,9 +112,8 @@ Widget headerButton (var context, String text, void Function() action) {
           child: Text(
             text,
             style: TextStyle(
-              fontSize: MediaQuery.of(context).size.width / 50,
-              color: Colors.black
-            ),
+                fontSize: MediaQuery.of(context).size.width / 50,
+                color: Colors.black),
           ),
         ),
       ),
