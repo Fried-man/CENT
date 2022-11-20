@@ -80,24 +80,26 @@ class _Window extends State<Window> {
                           widget.title, // widget.country["country"]
                           maxLines: 1,
                           style: const TextStyle(
-                              color: Colors.white, fontSize: 40),
+                              color: Colors.white, fontSize: 40.0),
                         ),
                       ),
-                      GestureDetector(
-                        child: const Icon(
-                          Icons.close,
-                          color: Colors.white,
-                        ),
-                        onTap: () {
-                          // TODO: add cleanup to home array
-                          setState(() {
-                            // need to handle cases where multiple cards?
-                            if (widget.body is RegionCard) {
-                              (widget.body as RegionCard).centerMap();
-                            }
-                            isClosed = true;
-                          });
-                        },
+                      Expanded(
+                        child: GestureDetector(
+                          child: const Icon(
+                            Icons.close,
+                            color: Colors.white,
+                          ),
+                          onTap: () {
+                            // TODO: add cleanup to home array
+                            setState(() {
+                              // need to handle cases where multiple cards?
+                              if (widget.body is RegionCard) {
+                                (widget.body as RegionCard).centerMap();
+                              }
+                              isClosed = true;
+                            });
+                          },
+                        )
                       )
                     ],
                   ),
