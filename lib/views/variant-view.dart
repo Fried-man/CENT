@@ -157,11 +157,30 @@ class _SortablePageState extends State<SortablePage> {
 
         List<dynamic> data = [];
         for (String key in headerLabel) {
-          if (key != "selected" && key != "pinned") {
+          if (key != "accession" && key != "selected" && key != "pinned") {
             data.add(user[key]);
           }
         }
-        lister = getCells(data);
+        lister = getCells(data.reversed.toList());
+
+        lister.add(DataCell(
+            Align(
+                alignment: Alignment.centerRight,
+                child: Text(user["accession"].toString())
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              VariantCard selectedVariant = VariantCard(
+                variant: user,
+              );
+              windows.add(Window(
+                title: selectedVariant.toString(),
+                body: selectedVariant,
+                updateParent: widget.updateParent,
+              ));
+              widget.updateParent();
+            }
+        ));
 
         lister.add(DataCell(Align(
           alignment: Alignment.centerRight,
