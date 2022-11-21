@@ -3,11 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:genome_2133/views/variant-card.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../home.dart';
+import '../tabs/region.dart';
+
 List selections = [];
 
 class VariantView extends StatefulWidget {
   final Map country;
-  final List<dynamic> variants;
+  final List<Map<String, dynamic>> variants;
   final Function updateParent;
 
   const VariantView({Key? key, required this.country, required this.variants, required this.updateParent}) : super(key: key);
@@ -76,7 +79,7 @@ class _VariantView extends State<VariantView> {
 }
 
 class SortablePage extends StatefulWidget {
-  final List<dynamic> items;
+  final List<Map<String, dynamic>> items;
   final Function updateParent;
 
   const SortablePage({Key? key, required this.items, required this.updateParent}) : super(key: key);
@@ -86,110 +89,13 @@ class SortablePage extends StatefulWidget {
 }
 
 class _SortablePageState extends State<SortablePage> {
-  List<String> headerLabel = [
-    'selected',
-    'accession',
-    'geographical location',
-    'date collected',
-    'generated',
-    'pinned'
-  ];
-
-  // List users = [
-  //   {
-  //     "accession": "NC_045512",
-  //     "geographical location": "China",
-  //     "date collected": 2019,
-  //     "generated": false,
-  //     "pinned": false,
-  //     "selected": false
-  //   },
-  //   {
-  //     "accession": "L00000001",
-  //     "geographical location": "China",
-  //     "date collected": 2019,
-  //     "generated": true,
-  //     "pinned": false,
-  //     "selected": false
-  //   },
-  //   {
-  //     "accession": "NC_045512",
-  //     "geographical location": "China",
-  //     "date collected": 2019,
-  //     "generated": false,
-  //     "pinned": false,
-  //     "selected": false
-  //   },
-  //   {
-  //     "accession": "MN938384",
-  //     "geographical location": "China: Shenzhen",
-  //     "date collected": 2020,
-  //     "generated": false,
-  //     "pinned": false,
-  //     "selected": false
-  //   },
-  //   {
-  //     "accession": "L00000002",
-  //     "geographical location": "China",
-  //     "date collected": 2020,
-  //     "generated": true,
-  //     "pinned": false,
-  //     "selected": false
-  //   },
-  //   {
-  //     "accession": "MN938384",
-  //     "geographical location": "China: Shenzhen",
-  //     "date collected": 2020,
-  //     "generated": false,
-  //     "pinned": false,
-  //     "selected": false
-  //   },
-  //   {
-  //     "accession": "MT027063",
-  //     "geographical location": "USA: CA",
-  //     "date collected": 2020,
-  //     "generated": false,
-  //     "pinned": false,
-  //     "selected": false
-  //   },
-  //   {
-  //     "accession": "L00000003",
-  //     "geographical location": "China",
-  //     "date collected": 2022,
-  //     "generated": true,
-  //     "pinned": false,
-  //     "selected": false
-  //   },
-  //   {
-  //     "accession": "ON247308",
-  //     "geographical location": "USA: CA",
-  //     "date collected": 2020,
-  //     "generated": false,
-  //     "pinned": false,
-  //     "selected": false
-  //   },
-  //   {
-  //     "accession": "L00000003",
-  //     "geographical location": "China",
-  //     "date collected": 2021,
-  //     "generated": true,
-  //     "pinned": false,
-  //     "selected": false
-  //   },
-  //   {
-  //     "accession": "ON247308",
-  //     "geographical location": "USA: MS",
-  //     "date collected": 2022,
-  //     "generated": false,
-  //     "pinned": false,
-  //     "selected": false
-  //   }
-  // ];
+  late List<String> headerLabel;
   int? sortColumnIndex;
   bool isAscending = false;
 
   @override
   void initState() {
+    headerLabel = List<String>.from(widget.items.first.keys);
     super.initState();
   }
 
@@ -249,25 +155,31 @@ class _SortablePageState extends State<SortablePage> {
   List<DataRow> getRows(List items) => items.map((user) {
         List<DataCell> lister;
 
-        lister = getCells([
-          // user["accession"],
-          user["geographical location"],
-          user["date collected"],
-          user["generated"] ? "Yes" : "Actual"
-        ].reversed.toList());
+        List<dynamic> data = [];
+        for (String key in headerLabel) {
+          if (key != "accession" && key != "selected" && key != "pinned") {
+            data.add(user[key]);
+          }
+        }
+        lister = getCells(data.reversed.toList());
 
         lister.add(DataCell(
-          Align(
-            alignment: Alignment.centerRight,
-            child: Text(user["accession"].toString())
-          ),
-          onTap: () async {
-            Navigator.pop(context, [
-              VariantCard(
-                  variant: user,
-              )
-            ]);
-          }
+            Align(
+                alignment: Alignment.centerRight,
+                child: Text(user["accession"].toString())
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              VariantCard selectedVariant = VariantCard(
+                variant: user,
+              );
+              windows.add(Window(
+                title: selectedVariant.toString(),
+                body: selectedVariant,
+                updateParent: widget.updateParent,
+              ));
+              widget.updateParent();
+            }
         ));
 
         lister.add(DataCell(Align(
@@ -280,7 +192,7 @@ class _SortablePageState extends State<SortablePage> {
             onPressed: () {
               setState(() {
                 user["selected"] = !user["selected"];
-                if (user["selected"] && !user["generated"]) {
+                if (user["selected"]) {
                   selections.add(user["accession"]);
                 } else {
                   selections.remove(user["accession"]);
@@ -289,8 +201,6 @@ class _SortablePageState extends State<SortablePage> {
             },
           ),
         )));
-
-        lister = lister.reversed.toList();
 
         lister.add(DataCell(Align(
           alignment: Alignment.centerRight,
