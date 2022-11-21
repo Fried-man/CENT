@@ -272,99 +272,6 @@ class RegionCard extends StatefulWidget {
 }
 
 class _RegionCard extends State<RegionCard> {
-  List<dynamic> variants = [
-    {
-      "accession": "NC_045512",
-      "geographical location": "China",
-      "date collected": 2019,
-      "generated": false,
-      "pinned": false,
-      "selected": false
-    },
-    {
-      "accession": "L00000001",
-      "geographical location": "China",
-      "date collected": 2019,
-      "generated": true,
-      "pinned": false,
-      "selected": false
-    },
-    {
-      "accession": "NC_045512",
-      "geographical location": "China",
-      "date collected": 2019,
-      "generated": false,
-      "pinned": false,
-      "selected": false
-    },
-    {
-      "accession": "MN938384",
-      "geographical location": "China: Shenzhen",
-      "date collected": 2020,
-      "generated": false,
-      "pinned": false,
-      "selected": false
-    },
-    {
-      "accession": "L00000002",
-      "geographical location": "China",
-      "date collected": 2020,
-      "generated": true,
-      "pinned": false,
-      "selected": false
-    },
-    {
-      "accession": "MN938384",
-      "geographical location": "China: Shenzhen",
-      "date collected": 2020,
-      "generated": false,
-      "pinned": false,
-      "selected": false
-    },
-    {
-      "accession": "MT027063",
-      "geographical location": "USA: CA",
-      "date collected": 2020,
-      "generated": false,
-      "pinned": false,
-      "selected": false
-    },
-    {
-      "accession": "L00000003",
-      "geographical location": "China",
-      "date collected": 2022,
-      "generated": true,
-      "pinned": false,
-      "selected": false
-    },
-    {
-      "accession": "ON247308",
-      "geographical location": "USA: CA",
-      "date collected": 2020,
-      "generated": false,
-      "pinned": false,
-      "selected": false
-    },
-    {
-      "accession": "L00000003",
-      "geographical location": "China",
-      "date collected": 2021,
-      "generated": true,
-      "pinned": false,
-      "selected": false
-    },
-    {
-      "accession": "ON247308",
-      "geographical location": "USA: MS",
-      "date collected": 2022,
-      "generated": false,
-      "pinned": false,
-      "selected": false
-    }
-  ];
-
-  late int fakeCount;
-
   _updateMap() async {
     widget.mapController.animateCamera(CameraUpdate.newLatLngZoom(
       LatLng(widget.country["latitude"],
@@ -373,7 +280,6 @@ class _RegionCard extends State<RegionCard> {
 
   @override
   void initState() {
-    fakeCount = Random().nextInt(30) + 12;
     super.initState();
     // is this the safest way to call async method like this?
     _updateMap();
@@ -414,11 +320,12 @@ class _RegionCard extends State<RegionCard> {
             builder: (context, snapshot) {
               if (!snapshot.hasData) return Container();
               if (snapshot.data!.containsKey("error")) {
-                print(snapshot.data!["error"]);
-                return Container();
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(child: Text(snapshot.data!["error"])),
+                );
               }
 
-              print(snapshot.data);
               return Column(
                 children: [
                   const Padding(
@@ -476,14 +383,22 @@ class _RegionCard extends State<RegionCard> {
                         style: TextButton.styleFrom(
                           textStyle: const TextStyle(fontSize: 20),
                         ),
-                        onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => VariantView(
-                                  country: widget.country,
-                                  variants: variants,
-                                  updateParent: widget.updateParent,
-                                ))),
+                        onPressed: () {
+                          List<Map<String, dynamic>> regionView = List<Map<String, dynamic>>.from(snapshot.data!["accessions"]);
+                          for (Map<String, dynamic> variant in regionView) {
+                            variant["selected"] = false;
+                            variant["pinned"] = false;
+                          }
+
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => VariantView(
+                                    country: widget.country,
+                                    variants: regionView,
+                                    updateParent: widget.updateParent,
+                                  )));
+                        },
                         child: const Text(
                           "Further Info",
                           style: TextStyle(
