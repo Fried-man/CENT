@@ -383,8 +383,8 @@ class _RegionCard extends State<RegionCard> {
                         style: TextButton.styleFrom(
                           textStyle: const TextStyle(fontSize: 20),
                         ),
-                        onPressed: () {
-                          List<Map<String, dynamic>> regionView = List<Map<String, dynamic>>.from(snapshot.data!["accessions"]);
+                        onPressed: () async {
+                          List<Map<String, dynamic>> regionView = List<Map<String, dynamic>>.from((await getVariantsRegion(country: widget.country["country"], count: 1000))["accessions"]);
                           for (Map<String, dynamic> variant in regionView) {
                             variant["selected"] = false;
                             variant["pinned"] = false;
