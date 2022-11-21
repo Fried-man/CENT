@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
 
@@ -8,6 +9,9 @@ import 'package:flutter/services.dart';
 import 'package:genome_2133/views/variant-view.dart';
 import 'package:genome_2133/views/variant-card.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 import '../home.dart';
 
@@ -375,6 +379,28 @@ class _RegionCard extends State<RegionCard> {
     _updateMap();
   }
 
+  Future<Map<String, dynamic>> getVariantsRegion ({String region = "", String country = "", String state = "", int count = 10}) async {
+    var headers = {
+      'Content-Type': 'text/plain'
+    };
+    var request = http.Request('POST', Uri.parse('https://genome2133functions.azurewebsites.net/api/GetAccessionsByRegion?code=e58u_e3ljQhe8gX3lElCZ79Ep3DOGcoiA54YzkamEEeDAzFuEobmzQ=='));
+    request.body = '''{''' +
+      (region.isNotEmpty ? '''\n    "region": "''' + region + '''",''' : "") +
+      (country.isNotEmpty ? '''\n    "country": "''' + country + '''",''' : "") +
+      (state.isNotEmpty ? '''\n    "state": "''' + state + '''",''' : "") + '''
+      \n    "count": ''' + count.toString() + '''
+      \n}''';
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> map = Map<String, dynamic>.from(jsonDecode(await response.stream.bytesToString()));
+      return map;
+    }
+    return {"error" : response.reasonPhrase};
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -383,78 +409,94 @@ class _RegionCard extends State<RegionCard> {
         shrinkWrap: true,
         primary: false,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 8),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Variants:",
-                style: TextStyle(fontSize: 30),
-              ),
-            ),
-          ),
-          Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16),
-              child: Align(
-                alignment: Alignment.center,
-                child: Wrap(
-                  children: [
-                    for (int i = 0; i < variants.length; i++)
-                      Padding(
-                        padding: const EdgeInsets.all(1.0),
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                              textStyle:
-                              const TextStyle(fontSize: 13)),
-                          onPressed: () {
-                            VariantCard selectedVariant = VariantCard(
-                              variant: variants[i],
-                            );
-                            windows.add(Window(
-                              title: selectedVariant.toString(),
-                              body: selectedVariant,
-                              updateParent: widget.updateParent,
-                            ));
-                            widget.updateParent();
-                          },
-                          child: Text(
-                            variants[i]["accession"],
-                            style: TextStyle(
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                              decoration:
-                              TextDecoration.underline,
-                            ),
-                          ),
+          FutureBuilder<Map<String, dynamic>>(
+            future: getVariantsRegion(country: widget.country["country"]),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) return Container();
+              if (snapshot.data!.containsKey("error")) {
+                print(snapshot.data!["error"]);
+                return Container();
+              }
+
+              print(snapshot.data);
+              return Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Variants:",
+                        style: TextStyle(fontSize: 30),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.only(left: 16, right: 16),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Wrap(
+                          children: [
+                            for (Map variant in snapshot.data!["accessions"])
+                              Padding(
+                                padding: const EdgeInsets.all(1.0),
+                                child: TextButton(
+                                  style: TextButton.styleFrom(
+                                      textStyle:
+                                      const TextStyle(fontSize: 13)),
+                                  onPressed: () {
+                                    VariantCard selectedVariant = VariantCard(
+                                      variant: variant,
+                                    );
+                                    windows.add(Window(
+                                      title: selectedVariant.toString(),
+                                      body: selectedVariant,
+                                      updateParent: widget.updateParent,
+                                    ));
+                                    widget.updateParent();
+                                  },
+                                  child: Text(
+                                    variant["accession"]!,
+                                    style: TextStyle(
+                                      color: Theme.of(context).scaffoldBackgroundColor,
+                                      decoration:
+                                      TextDecoration.underline,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      )),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 18),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: ElevatedButton(
+                        style: TextButton.styleFrom(
+                          textStyle: const TextStyle(fontSize: 20),
+                        ),
+                        onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VariantView(
+                                  country: widget.country,
+                                  variants: variants,
+                                  updateParent: widget.updateParent,
+                                ))),
+                        child: const Text(
+                          "Further Info",
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
                         ),
                       ),
-                  ],
-                ),
-              )),
-          Padding(
-            padding: const EdgeInsets.only(right: 18),
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: ElevatedButton(
-                style: TextButton.styleFrom(
-                  textStyle: const TextStyle(fontSize: 20),
-                ),
-                onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => VariantView(
-                          country: widget.country,
-                          variants: variants,
-                          updateParent: widget.updateParent,
-                        ))),
-                child: const Text(
-                  "Further Info",
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
-                ),
-              ),
-            ),
+                    ),
+                  ),
+                ],
+              );
+            }
           ),
           const Align(
             alignment: Alignment.centerLeft,
