@@ -68,7 +68,7 @@ class _VariantCard extends State<VariantCard> {
             );
           }
           
-          return Column(
+          return ListView(
             children: [
               for (String key in snapshot.data!.keys)
                 Padding(
