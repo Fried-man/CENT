@@ -297,7 +297,7 @@ class _RegionCard extends State<RegionCard> {
       (region.isNotEmpty ? '''\n    "region": "''' + region + '''",''' : "") +
       (country.isNotEmpty ? '''\n    "country": "''' + country + '''",''' : "") +
       (state.isNotEmpty ? '''\n    "state": "''' + state + '''",''' : "") + '''
-      \n    "count": ''' + count.toString() + '''
+      \n    "count": ''' + (count < 0 ? '''"all"''' : count.toString()) + '''
       \n}''';
     request.headers.addAll(headers);
 
@@ -387,7 +387,7 @@ class _RegionCard extends State<RegionCard> {
                           textStyle: const TextStyle(fontSize: 20),
                         ),
                         onPressed: () async {
-                          List<Map<String, dynamic>> regionView = List<Map<String, dynamic>>.from((await getVariantsRegion(country: widget.country["country"], count: 1000))["accessions"]);
+                          List<Map<String, dynamic>> regionView = List<Map<String, dynamic>>.from((await getVariantsRegion(country: widget.country["country"], count: -1))["accessions"]);
                           for (Map<String, dynamic> variant in regionView) {
                             variant["selected"] = false;
                             variant["pinned"] = false;
