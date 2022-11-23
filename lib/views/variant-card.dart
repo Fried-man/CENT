@@ -43,7 +43,7 @@ class _VariantCard extends State<VariantCard> {
       'Content-Type': 'text/plain'
     };
     var request = http.Request('POST', Uri.parse('https://genome2133functions.azurewebsites.net/api/GetDataFromAccession?code=1q32fFCX4A7_IrbXC-l-q1aboyDf3Q77hgeJO2lV2L6kAzFuD_mgTg=='));
-    request.body = '''{\n    "accession": "MN985325.1"\n}''';
+    request.body = '''{\n    "accession": "''' + accession + '''"\n}''';
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
