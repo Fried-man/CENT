@@ -72,22 +72,25 @@ class _Window extends State<Window> {
           child: Column(
             children: [
               Container(
+                height: 40,
                 color: Theme.of(context).scaffoldBackgroundColor,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.height / 3.5,
-                        child: AutoSizeText(
-                          widget.title, // widget.country["country"]
-                          maxLines: 1,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 40.0),
+                      Text(
+                        widget.title,
+                        maxLines: 1,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20
                         ),
                       ),
-                      Expanded(
+                      Align(
+                        alignment: Alignment.centerRight,
                         child: GestureDetector(
                           child: const Icon(
                             Icons.close,
@@ -294,7 +297,7 @@ class _RegionCard extends State<RegionCard> {
       (region.isNotEmpty ? '''\n    "region": "''' + region + '''",''' : "") +
       (country.isNotEmpty ? '''\n    "country": "''' + country + '''",''' : "") +
       (state.isNotEmpty ? '''\n    "state": "''' + state + '''",''' : "") + '''
-      \n    "count": ''' + count.toString() + '''
+      \n    "count": ''' + (count < 0 ? '''"all"''' : count.toString()) + '''
       \n}''';
     request.headers.addAll(headers);
 
@@ -384,7 +387,7 @@ class _RegionCard extends State<RegionCard> {
                           textStyle: const TextStyle(fontSize: 20),
                         ),
                         onPressed: () async {
-                          List<Map<String, dynamic>> regionView = List<Map<String, dynamic>>.from((await getVariantsRegion(country: widget.country["country"], count: 1000))["accessions"]);
+                          List<Map<String, dynamic>> regionView = List<Map<String, dynamic>>.from((await getVariantsRegion(country: widget.country["country"], count: -1))["accessions"]);
                           for (Map<String, dynamic> variant in regionView) {
                             variant["selected"] = false;
                             variant["pinned"] = false;
@@ -413,32 +416,45 @@ class _RegionCard extends State<RegionCard> {
               );
             }
           ),
-          const Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "Report",
-              style: TextStyle(fontSize: 30),
-            ),
-          ),
-          Image.asset(
-            "assets/images/fake_report.png", // TODO: autogenerate report diagram
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 18),
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: ElevatedButton(
-                onPressed: () => debugPrint('pressedTextButton:'),
-                child: const Text(
-                  "Further Info",
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
+          const Padding(
+            padding: EdgeInsets.only(right: 18),
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Future Variants",
+                    style: TextStyle(fontSize: 30),
+                  ),
                 ),
+              ),
+          Padding(
+            padding: EdgeInsets.only(right: 18),
+            child: Align(
+                alignment: Alignment.centerRight,
+                child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text(
+                      "Predict",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black)
+                    )
               ),
             ),
           ),
+          const Padding(
+            padding: EdgeInsets.only(right: 10),
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                  "     This button is \n currently disabled",
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black)
+              ),
+            )
+          )
         ],
       ),
     );
