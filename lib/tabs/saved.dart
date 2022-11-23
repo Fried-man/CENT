@@ -9,85 +9,6 @@ List<String> headerLabel = [
   'generated',
   'pinned'
 ];
-List<Map> fakeData = [
-  {
-    "accession": "NC_045512",
-    "geographical location": "China",
-    "date collected": 2019,
-    "generated": false,
-    "pinned": false
-  },
-  {
-    "accession": "L00000001",
-    "geographical location": "China",
-    "date collected": 2019,
-    "generated": true,
-    "pinned": true
-  },
-  {
-    "accession": "NC_045512",
-    "geographical location": "China",
-    "date collected": 2019,
-    "generated": false,
-    "pinned": true
-  },
-  {
-    "accession": "MN938384",
-    "geographical location": "China: Shenzhen",
-    "date collected": 2020,
-    "generated": false,
-    "pinned": false
-  },
-  {
-    "accession": "L00000002",
-    "geographical location": "China",
-    "date collected": 2020,
-    "generated": true,
-    "pinned": true
-  },
-  {
-    "accession": "MN938384",
-    "geographical location": "China: Shenzhen",
-    "date collected": 2020,
-    "generated": false,
-    "pinned": false
-  },
-  {
-    "accession": "MT027063",
-    "geographical location": "USA: CA",
-    "date collected": 2020,
-    "generated": false,
-    "pinned": false
-  },
-  {
-    "accession": "L00000003",
-    "geographical location": "China",
-    "date collected": 2022,
-    "generated": true,
-    "pinned": true
-  },
-  {
-    "accession": "ON247308",
-    "geographical location": "USA: CA",
-    "date collected": 2020,
-    "generated": false,
-    "pinned": false
-  },
-  {
-    "accession": "L00000003",
-    "geographical location": "China",
-    "date collected": 2021,
-    "generated": true,
-    "pinned": true
-  },
-  {
-    "accession": "ON247308",
-    "geographical location": "USA: MS",
-    "date collected": 2022,
-    "generated": false,
-    "pinned": true
-  }
-];
 int? sortColumnIndex;
 bool isAscending = false;
 
@@ -103,7 +24,10 @@ class _Saved extends State<Saved> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("My Saved"),
+        iconTheme: const IconThemeData(
+          color: Colors.white, //change your color here
+        ),
+        title: const Text("My Saved", style: TextStyle(color: Colors.white)),
         centerTitle: true,
         flexibleSpace: Container(
           decoration:
@@ -133,7 +57,7 @@ class _SortablePageState extends State<SortablePage> {
     return Scaffold(
       body: Stack(
         children: [
-          Container(color: Theme.of(context).primaryColor),
+          Container(color: Theme.of(context).backgroundColor),
           StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
             stream: FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -145,12 +69,6 @@ class _SortablePageState extends State<SortablePage> {
 
               for (String id in snapshot.data["saved"]) {
                 int currLength = users.length;
-                for (Map variant in fakeData) {
-                  if (variant["accession"] == id) {
-                    users.add(variant);
-                    break;
-                  }
-                }
 
                 if (currLength == users.length) {
                   Map curr = {"accession" : id};
