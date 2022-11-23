@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:intl/intl.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -81,7 +82,9 @@ class _VariantCard extends State<VariantCard> {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              key + ": " + snapshot.data![key].toString(),
+                              key + ": " + (key.contains("Date") ?
+                                DateFormat("MMMM d, yyyy").format(DateTime.parse(snapshot.data![key].toString())) :
+                                snapshot.data![key].toString()),
                               style: const TextStyle(fontSize: 16),
                             ),
                           ),
