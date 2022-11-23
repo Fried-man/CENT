@@ -72,22 +72,25 @@ class _Window extends State<Window> {
           child: Column(
             children: [
               Container(
+                height: 40,
                 color: Theme.of(context).scaffoldBackgroundColor,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.height / 3.5,
-                        child: AutoSizeText(
-                          widget.title, // widget.country["country"]
-                          maxLines: 1,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 40.0),
+                      Text(
+                        widget.title,
+                        maxLines: 1,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20
                         ),
                       ),
-                      Expanded(
+                      Align(
+                        alignment: Alignment.centerRight,
                         child: GestureDetector(
                           child: const Icon(
                             Icons.close,

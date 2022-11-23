@@ -57,27 +57,58 @@ class _VariantCard extends State<VariantCard> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-      child: ListView(
-        shrinkWrap: true,
-        primary: false,
-        children: [
-          FutureBuilder<Map<String, dynamic>>(
-            future: getVariants(widget.variant["accession"]),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) return Container();
-              if (snapshot.data!.containsKey("error")) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(child: Text(snapshot.data!["error"])),
-                );
-              }
-              return Column(
-                children: [
-                  for (String key in snapshot.data!.keys)
-                    Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
+      child: FutureBuilder<Map<String, dynamic>>(
+        future: getVariants(widget.variant["accession"]),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return Container();
+          if (snapshot.data!.containsKey("error")) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(child: Text(snapshot.data!["error"])),
+            );
+          }
+          
+          return ListView(
+            children: [
+              for (String key in snapshot.data!.keys)
+                Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    key + ": " + snapshot.data![key].toString(),
+                    style: const TextStyle(fontSize: 25),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: ElevatedButton(
+                  style: TextButton.styleFrom(
+                    textStyle: const TextStyle(fontSize: 20),
+                  ),
+                  onPressed: () => launchUrl(Uri.parse(
+                      'https://www.ncbi.nlm.nih.gov/nuccore/' + widget.variant["accession"])),
+                  child: const Text(
+                    "Open in NCBI",
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                  ),
+                ),
+              ),
+              const Spacer(),
+              if (FirebaseAuth.instance.currentUser == null)
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ElevatedButton(
+                    onPressed: (){
+                      Navigator.pushNamed(context, '/login')
+                          .then((value) => setState(() {}));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: Text(
                         key + ": " + snapshot.data![key].toString(),
                         style: const TextStyle(fontSize: 25),
