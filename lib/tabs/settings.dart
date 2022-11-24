@@ -149,6 +149,7 @@ class _Settings extends State<Settings> {
 
                                     FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).delete().whenComplete(() async {
                                       await FirebaseAuth.instance.currentUser!.delete().whenComplete(() {
+                                        user = null;
                                         Navigator.pop(context);
                                         showDialog<void>(
                                           context: context,
