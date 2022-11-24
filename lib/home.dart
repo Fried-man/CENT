@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:genome_2133/tabs/contact.dart';
 import 'package:genome_2133/tabs/region.dart';
+import 'package:genome_2133/tabs/settings.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'main.dart';
@@ -78,16 +79,17 @@ class _Home extends State<Home> {
                     headerButton(context, "My Saved", () {
                       Navigator.pushNamed(context, '/saved');
                     }),
-                  headerButton(context, user == null ? "Login" : "Log Out",
+                  headerButton(context, user == null ? "Login" : "Settings",
                       () async {
                     if (user == null) {
                       Navigator.pushNamed(context, '/login')
                           .then((value) => setState(() {}));
                     } else {
-                      await FirebaseAuth.instance.signOut().then((value) {
-                        user = null;
-                        setState(() {});
-                      });
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Settings())
+                      ).then((value) => setState(() {}));
                     }
                   })
                 ],
