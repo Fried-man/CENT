@@ -79,7 +79,8 @@ class _VariantCard extends State<VariantCard> {
                   child: Column(
                     children: [
                       for (String key in snapshot.data!.keys)
-                        Padding(
+                        if (key != "Accession")
+                          Padding(
                           padding: const EdgeInsets.only(top: 8),
                           child: Align(
                             alignment: Alignment.centerLeft,
