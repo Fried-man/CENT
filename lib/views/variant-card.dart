@@ -59,7 +59,7 @@ class _VariantCard extends State<VariantCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+      padding: const EdgeInsets.all(12.0),
       child: FutureBuilder<Map<String, dynamic>>(
           future: getVariants(widget.variant["accession"]),
           builder: (context, snapshot) {
@@ -80,9 +80,7 @@ class _VariantCard extends State<VariantCard> {
                     children: [
                       for (String key in snapshot.data!.keys)
                         if (key != "Accession")
-                          Padding(
-                          padding: const EdgeInsets.only(top: 8),
-                          child: Align(
+                          Align(
                             alignment: Alignment.centerLeft,
                             child: RichText(
                               text: TextSpan(
@@ -100,103 +98,98 @@ class _VariantCard extends State<VariantCard> {
                                   if (snapshot.data![key] != "GenBank")
                                     TextSpan(text:
                                     (key.contains("Date") ?
-                                      DateFormat("MMMM d, yyyy").format(DateTime.parse(snapshot.data![key].toString())) :
-                                      snapshot.data![key] != null && double.tryParse(snapshot.data![key].toString()) != null ?
-                                        snapshot.data![key].toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') :
-                                        key.contains("Completeness") ?
-                                          snapshot.data![key].toString().toUpperCase() :
-                                          snapshot.data![key].toString())),
+                                    DateFormat("MMMM d, yyyy").format(DateTime.parse(snapshot.data![key].toString())) :
+                                    snapshot.data![key] != null && double.tryParse(snapshot.data![key].toString()) != null ?
+                                    snapshot.data![key].toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') :
+                                    key.contains("Completeness") ?
+                                    snapshot.data![key].toString().toUpperCase() :
+                                    snapshot.data![key].toString())),
                                 ],
                               ),
                             ),
                           ),
-                        ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: ElevatedButton(
-                          style: TextButton.styleFrom(
-                            textStyle: const TextStyle(fontSize: 20),
-                          ),
-                          onPressed: () => launchUrl(Uri.parse(
-                              'https://www.ncbi.nlm.nih.gov/nuccore/' + widget.variant["accession"])),
-                          child: const Text(
-                            "Open in NCBI",
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          ),
-                        ),
-                      ),
                       const Spacer(),
-                      if (FirebaseAuth.instance.currentUser == null)
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: ElevatedButton(
-                            onPressed: (){
-                              Navigator.pushNamed(context, '/login')
-                                  .then((value) => setState(() {}));
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ElevatedButton(
+                            style: TextButton.styleFrom(
+                              textStyle: const TextStyle(fontSize: 20),
+                            ),
+                            onPressed: () => launchUrl(Uri.parse(
+                                'https://www.ncbi.nlm.nih.gov/nuccore/' + widget.variant["accession"])),
+                            child: const Padding(
+                              padding: EdgeInsets.all(8.0),
                               child: Text(
-                                "Login to Save",
+                                "Open in NCBI",
                                 style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.width / 100,
+                                    fontSize: 15,
                                     color: Colors.black),
                               ),
                             ),
                           ),
-                        ),
-                      if (FirebaseAuth.instance.currentUser != null)
-                        StreamBuilder<DocumentSnapshot>(
-                            stream: FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: ElevatedButton(
+                          if (FirebaseAuth.instance.currentUser == null)
+                            ElevatedButton(
+                              onPressed: (){
+                                Navigator.pushNamed(context, '/login')
+                                    .then((value) => setState(() {}));
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Login to Save",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          if (FirebaseAuth.instance.currentUser != null)
+                            StreamBuilder<DocumentSnapshot>(
+                                stream: FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData) {
+                                    return ElevatedButton(
+                                      onPressed: (){
+                                        print("loading saved...");
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          saveStatus,
+                                          style: const TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.black),
+                                        ),
+                                      ),
+                                    );
+                                  }
+
+                                  saveStatus = (snapshot.data!["saved"] as List).contains(widget.variant["accession"]) ? "Unsave" : "Add to Saved";
+                                  return ElevatedButton(
                                     onPressed: (){
-                                      print("loading saved...");
+                                      DocumentReference userDoc = FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid);
+                                      if ((snapshot.data!["saved"] as List).contains(widget.variant["accession"])) {
+                                        userDoc.update({'saved' : FieldValue.arrayRemove([widget.variant["accession"]])});
+                                      }else {
+                                        userDoc.update({'saved' : FieldValue.arrayUnion([widget.variant["accession"]])});
+                                      }
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
                                         saveStatus,
-                                        style: TextStyle(
-                                            fontSize: MediaQuery.of(context).size.width / 100,
+                                        style: const TextStyle(
+                                            fontSize: 15,
                                             color: Colors.black),
                                       ),
                                     ),
-                                  ),
-                                );
-                              }
+                                  );
+                                }
+                            ),
+                        ],
+                      ),
 
-                              saveStatus = (snapshot.data!["saved"] as List).contains(widget.variant["accession"]) ? "Remove from Saved" : "Add to Saved";
-                              return Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: ElevatedButton(
-                                  onPressed: (){
-                                    DocumentReference userDoc = FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid);
-                                    if ((snapshot.data!["saved"] as List).contains(widget.variant["accession"])) {
-                                      userDoc.update({'saved' : FieldValue.arrayRemove([widget.variant["accession"]])});
-                                    }else {
-                                      userDoc.update({'saved' : FieldValue.arrayUnion([widget.variant["accession"]])});
-                                    }
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      saveStatus,
-                                      style: TextStyle(
-                                          fontSize: MediaQuery.of(context).size.width / 100,
-                                          color: Colors.black),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }
-                        ),
                     ],
                   ),
                 )
