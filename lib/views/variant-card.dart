@@ -81,14 +81,18 @@ class _VariantCard extends State<VariantCard> {
                           padding: const EdgeInsets.only(top: 8),
                           child: Align(
                             alignment: Alignment.centerLeft,
-                            child: Text(
-                              key + ": " +
-                                (key.contains("Date") ?
+                            child: RichText(
+                              text: TextSpan(
+                                style: DefaultTextStyle.of(context).style,
+                                children: <TextSpan>[
+                                  TextSpan(text: key + ": ", style: const TextStyle(fontWeight: FontWeight.bold)),
+                                  TextSpan(text: (key.contains("Date") ?
                                   DateFormat("MMMM d, yyyy").format(DateTime.parse(snapshot.data![key].toString())) :
-                                snapshot.data![key] != null && double.tryParse(snapshot.data![key].toString()) != null ?
-                                snapshot.data![key].toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') :
-                                snapshot.data![key].toString()),
-                              style: const TextStyle(fontSize: 16),
+                                  snapshot.data![key] != null && double.tryParse(snapshot.data![key].toString()) != null ?
+                                  snapshot.data![key].toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') :
+                                  snapshot.data![key].toString())),
+                                ],
+                              ),
                             ),
                           ),
                         ),
