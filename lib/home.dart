@@ -89,7 +89,7 @@ class _Home extends State<Home> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => const Settings())
-                      ).then((value) => setState(() {}));
+                      ).whenComplete(() => setState(() {}));
                     }
                   })
                 ],
