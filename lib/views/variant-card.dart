@@ -5,9 +5,11 @@ import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -86,14 +88,23 @@ class _VariantCard extends State<VariantCard> {
                                 style: DefaultTextStyle.of(context).style,
                                 children: <TextSpan>[
                                   TextSpan(text: key + ": ", style: const TextStyle(fontWeight: FontWeight.bold)),
-                                  TextSpan(text:
-                                  (key.contains("Date") ?
-                                    DateFormat("MMMM d, yyyy").format(DateTime.parse(snapshot.data![key].toString())) :
-                                    snapshot.data![key] != null && double.tryParse(snapshot.data![key].toString()) != null ?
-                                      snapshot.data![key].toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') :
-                                      key.contains("Completeness") ?
-                                        snapshot.data![key].toString().toUpperCase() :
-                                        snapshot.data![key].toString())),
+                                  if (snapshot.data![key] == "GenBank")
+                                    TextSpan(
+                                      text: snapshot.data![key],
+                                      style: TextStyle(color: Theme.of(context).scaffoldBackgroundColor), // decoration: TextDecoration.underline
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () { launchUrl(Uri.parse("https://www.ncbi.nlm.nih.gov/genbank/"));
+                                        },
+                                    ),
+                                  if (snapshot.data![key] != "GenBank")
+                                    TextSpan(text:
+                                    (key.contains("Date") ?
+                                      DateFormat("MMMM d, yyyy").format(DateTime.parse(snapshot.data![key].toString())) :
+                                      snapshot.data![key] != null && double.tryParse(snapshot.data![key].toString()) != null ?
+                                        snapshot.data![key].toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') :
+                                        key.contains("Completeness") ?
+                                          snapshot.data![key].toString().toUpperCase() :
+                                          snapshot.data![key].toString())),
                                 ],
                               ),
                             ),
