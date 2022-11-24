@@ -87,7 +87,7 @@ class _Settings extends State<Settings> {
                       child: ElevatedButton(
                         onPressed: () async {
                           await FirebaseAuth.instance.sendPasswordResetEmail(email: FirebaseAuth.instance.currentUser!.email!)
-                              .whenComplete(() {
+                              .then((value) {
                             showDialog<void>(
                               context: context,
                               builder: (_) => AlertDialog(
@@ -148,7 +148,7 @@ class _Settings extends State<Settings> {
                                     Navigator.pop(context);
 
                                     FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).delete().whenComplete(() async {
-                                      await FirebaseAuth.instance.currentUser!.delete().whenComplete(() {
+                                      await FirebaseAuth.instance.currentUser!.delete().then((value) {
                                         user = null;
                                         Navigator.pop(context);
                                         showDialog<void>(
