@@ -110,53 +110,91 @@ class _VariantCard extends State<VariantCard> {
                           ),
                       const Spacer(),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          ElevatedButton(
-                            style: TextButton.styleFrom(
-                              textStyle: const TextStyle(fontSize: 20),
-                            ),
-                            onPressed: () => launchUrl(Uri.parse(
-                                'https://www.ncbi.nlm.nih.gov/nuccore/' + widget.variant["accession"])),
-                            child: const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(
-                                "Open in NCBI",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.black),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 3),
+                              child: ElevatedButton(
+                                style: TextButton.styleFrom(
+                                  textStyle: const TextStyle(fontSize: 20),
+                                ),
+                                onPressed: () => launchUrl(Uri.parse(
+                                    'https://www.ncbi.nlm.nih.gov/nuccore/' + widget.variant["accession"])),
+                                child: const Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Open in NCBI",
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.black),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                           if (FirebaseAuth.instance.currentUser == null)
-                            ElevatedButton(
-                              onPressed: (){
-                                Navigator.pushNamed(context, '/login')
-                                    .then((value) => setState(() {}));
-                              },
-                              child: const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Login to Save",
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      color: Colors.black),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 3),
+                                child: ElevatedButton(
+                                  onPressed: (){
+                                    Navigator.pushNamed(context, '/login')
+                                        .then((value) => setState(() {}));
+                                  },
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Login to Save",
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.black),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                           if (FirebaseAuth.instance.currentUser != null)
-                            StreamBuilder<DocumentSnapshot>(
-                                stream: FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData) {
+                            Expanded(child:
+                              Padding(
+                                padding: const EdgeInsets.only(left: 3),
+                                child: StreamBuilder<DocumentSnapshot>(
+                                  stream: FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
+                                  builder: (context, snapshot) {
+                                    if (!snapshot.hasData) {
+                                      return ElevatedButton(
+                                        onPressed: (){
+                                          print("loading saved...");
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            saveStatus,
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                      );
+                                    }
+
+                                    saveStatus = (snapshot.data!["saved"] as List).contains(widget.variant["accession"]) ? "Unsave" : "Add to Saved";
                                     return ElevatedButton(
                                       onPressed: (){
-                                        print("loading saved...");
+                                        DocumentReference userDoc = FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid);
+                                        if ((snapshot.data!["saved"] as List).contains(widget.variant["accession"])) {
+                                          userDoc.update({'saved' : FieldValue.arrayRemove([widget.variant["accession"]])});
+                                        }else {
+                                          userDoc.update({'saved' : FieldValue.arrayUnion([widget.variant["accession"]])});
+                                        }
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
                                           saveStatus,
+                                          maxLines: 1,
                                           style: const TextStyle(
                                               fontSize: 15,
                                               color: Colors.black),
@@ -164,29 +202,9 @@ class _VariantCard extends State<VariantCard> {
                                       ),
                                     );
                                   }
-
-                                  saveStatus = (snapshot.data!["saved"] as List).contains(widget.variant["accession"]) ? "Unsave" : "Add to Saved";
-                                  return ElevatedButton(
-                                    onPressed: (){
-                                      DocumentReference userDoc = FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid);
-                                      if ((snapshot.data!["saved"] as List).contains(widget.variant["accession"])) {
-                                        userDoc.update({'saved' : FieldValue.arrayRemove([widget.variant["accession"]])});
-                                      }else {
-                                        userDoc.update({'saved' : FieldValue.arrayUnion([widget.variant["accession"]])});
-                                      }
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        saveStatus,
-                                        style: const TextStyle(
-                                            fontSize: 15,
-                                            color: Colors.black),
-                                      ),
-                                    ),
-                                  );
-                                }
-                            ),
+                              ),
+                              )
+                            )
                         ],
                       ),
 
