@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../main.dart';
 
@@ -44,6 +45,21 @@ class _Settings extends State<Settings> {
                     )
                 )
               ],
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text("User Info", style: TextStyle(fontSize: 24)),
+                    Text("Email: " + FirebaseAuth.instance.currentUser!.email!, style: const TextStyle(fontSize: 16)),
+                    Text("Account Created: " + DateFormat("MMMM d, yyyy").format(FirebaseAuth.instance.currentUser!.metadata.creationTime!), style: const TextStyle(fontSize: 16)),
+                    Text("User ID: " + FirebaseAuth.instance.currentUser!.uid, style: const TextStyle(fontSize: 16)),
+                  ],
+                ),
+              ),
             ),
             const Spacer(),
             Padding(
