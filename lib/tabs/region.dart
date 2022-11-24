@@ -314,22 +314,12 @@ class _RegionCard extends State<RegionCard> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-      child: ListView(
+      child: CustomScrollView(
         shrinkWrap: true,
-        primary: false,
-        children: [
-          FutureBuilder<Map<String, dynamic>>(
-            future: getVariantsRegion(country: widget.country["country"]),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) return Container();
-              if (snapshot.data!.containsKey("error")) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(child: Text(snapshot.data!["error"])),
-                );
-              }
-
-              return Column(
+        slivers: [
+          SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
                 children: [
                   const Padding(
                     padding: EdgeInsets.only(top: 8),
@@ -341,122 +331,173 @@ class _RegionCard extends State<RegionCard> {
                       ),
                     ),
                   ),
-                  Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 16),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Wrap(
-                          children: [
-                            for (Map variant in snapshot.data!["accessions"])
+                  FutureBuilder<Map<String, dynamic>>(
+                      future: getVariantsRegion(country: widget.country["country"]),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Column(
+                            children: [
+                              SizedBox(
+                                height: 150,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    color: Theme.of(context).scaffoldBackgroundColor,
+                                  ),
+                                ),
+                              ),
                               Padding(
-                                padding: const EdgeInsets.all(1.0),
-                                child: TextButton(
-                                  style: TextButton.styleFrom(
-                                      textStyle:
-                                      const TextStyle(fontSize: 13)),
-                                  onPressed: () {
-                                    VariantCard selectedVariant = VariantCard(
-                                      variant: variant,
-                                    );
-                                    windows.add(Window(
-                                      title: selectedVariant.toString(),
-                                      body: selectedVariant,
-                                      updateParent: widget.updateParent,
-                                    ));
-                                    widget.updateParent();
-                                  },
-                                  child: Text(
-                                    variant["accession"]!,
-                                    style: TextStyle(
-                                      color: Theme.of(context).scaffoldBackgroundColor,
-                                      decoration:
-                                      TextDecoration.underline,
+                                padding: const EdgeInsets.only(right: 18),
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: ElevatedButton(
+                                    style: TextButton.styleFrom(
+                                      textStyle: const TextStyle(fontSize: 20),
+                                    ),
+                                    onPressed: () {  },
+                                    child: const Text(
+                                      "Further Info",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black),
                                     ),
                                   ),
                                 ),
                               ),
-                          ],
-                        ),
-                      )),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 18),
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: ElevatedButton(
-                        style: TextButton.styleFrom(
-                          textStyle: const TextStyle(fontSize: 20),
-                        ),
-                        onPressed: () async {
-                          List<Map<String, dynamic>> regionView = List<Map<String, dynamic>>.from((await getVariantsRegion(country: widget.country["country"], count: -1))["accessions"]);
-                          for (Map<String, dynamic> variant in regionView) {
-                            variant["selected"] = false;
-                            variant["pinned"] = false;
-                          }
+                            ],
+                          );
+                        }
+                        if (snapshot.data!.containsKey("error")) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(child: Text(snapshot.data!["error"])),
+                          );
+                        }
 
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => VariantView(
-                                    country: widget.country,
-                                    variants: regionView,
-                                    updateParent: widget.updateParent,
-                                  )));
-                        },
-                        child: const Text(
-                          "Further Info",
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),
-                        ),
+                        return Column(
+                          children: [
+                            SizedBox(
+                              height: 150,
+                              child: Padding(
+                                  padding: const EdgeInsets.only(left: 16, right: 16),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Wrap(
+                                      children: [
+                                        for (Map variant in snapshot.data!["accessions"])
+                                          Padding(
+                                            padding: const EdgeInsets.all(1.0),
+                                            child: TextButton(
+                                              style: TextButton.styleFrom(
+                                                  textStyle:
+                                                  const TextStyle(fontSize: 13)),
+                                              onPressed: () {
+                                                VariantCard selectedVariant = VariantCard(
+                                                  variant: variant,
+                                                );
+                                                windows.add(Window(
+                                                  title: selectedVariant.toString(),
+                                                  body: selectedVariant,
+                                                  updateParent: widget.updateParent,
+                                                ));
+                                                widget.updateParent();
+                                              },
+                                              child: Text(
+                                                variant["accession"]!,
+                                                style: TextStyle(
+                                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                                  decoration:
+                                                  TextDecoration.underline,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  )),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 18),
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: ElevatedButton(
+                                  style: TextButton.styleFrom(
+                                    textStyle: const TextStyle(fontSize: 20),
+                                  ),
+                                  onPressed: () async {
+                                    List<Map<String, dynamic>> regionView = List<Map<String, dynamic>>.from((await getVariantsRegion(country: widget.country["country"], count: -1))["accessions"]);
+                                    for (Map<String, dynamic> variant in regionView) {
+                                      variant["selected"] = false;
+                                      variant["pinned"] = false;
+                                    }
+
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => VariantView(
+                                              country: widget.country,
+                                              variants: regionView,
+                                              updateParent: widget.updateParent,
+                                            )));
+                                  },
+                                  child: const Text(
+                                    "Further Info",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(right: 18),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Future Variants",
+                        style: TextStyle(fontSize: 30),
                       ),
                     ),
                   ),
-                ],
-              );
-            }
-          ),
-          const Padding(
-            padding: EdgeInsets.only(right: 18),
-              child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Future Variants",
-                    style: TextStyle(fontSize: 30),
+                  Padding(
+                    padding: EdgeInsets.only(right: 18),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: ElevatedButton(
+                          onPressed: () {},
+                          child: const Text(
+                              "Predict",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black)
+                          )
+                      ),
+                    ),
                   ),
-                ),
+                  const Padding(
+                      padding: EdgeInsets.only(right: 10),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                            "     This button is \n currently disabled",
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black)
+                        ),
+                      )
+                  )
+                ],
               ),
-          Padding(
-            padding: EdgeInsets.only(right: 18),
-            child: Align(
-                alignment: Alignment.centerRight,
-                child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "Predict",
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black)
-                    )
-              ),
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(right: 10),
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                  "     This button is \n currently disabled",
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)
-              ),
-            )
           )
         ],
-      ),
+      )
     );
   }
 }
