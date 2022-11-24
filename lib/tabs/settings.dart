@@ -62,6 +62,36 @@ class _Settings extends State<Settings> {
                     Text("Account Created: " + DateFormat("MMMM d, yyyy").format(FirebaseAuth.instance.currentUser!.metadata.creationTime!), style: const TextStyle(fontSize: 16)),
                     Text("User ID: " + FirebaseAuth.instance.currentUser!.uid, style: const TextStyle(fontSize: 16)),
                     const Text("Accessibility", style: TextStyle(fontSize: 24)),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            "Adjust Color Blindness Settings",
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            "Enable Dark Mode",
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black),
+                          ),
+                        ),
+                      ),
+                    ),
                     const Text("Account Management", style: TextStyle(fontSize: 24)),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
