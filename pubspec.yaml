@@ -43,6 +43,7 @@ dependencies:
   firebase_auth: ^3.3.14
   auto_size_text: ^3.0.0
   cloud_firestore: ^3.5.1
+  package_info_plus: ^3.0.2
   
 
 dev_dependencies:

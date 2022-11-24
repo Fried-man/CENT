@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:genome_2133/tabs/login.dart';
 import 'package:intl/intl.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../main.dart';
 
@@ -223,7 +224,30 @@ class _Settings extends State<Settings> {
               ),
             ),
             const Spacer(),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FutureBuilder<String>(
+                    future: getVersion(),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      return Text(
+                        'Version: ' +
+                            (snapshot.hasData ? snapshot.data! : 'unknown'),
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16,
+                        ),
+                      );
+                    }),
+              ),
+            ),
       ])),
     );
   }
+}
+
+Future<String> getVersion() async {
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  return "v" + packageInfo.version + " (" + packageInfo.buildNumber + ")";
 }
