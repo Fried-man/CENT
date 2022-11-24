@@ -86,11 +86,14 @@ class _VariantCard extends State<VariantCard> {
                                 style: DefaultTextStyle.of(context).style,
                                 children: <TextSpan>[
                                   TextSpan(text: key + ": ", style: const TextStyle(fontWeight: FontWeight.bold)),
-                                  TextSpan(text: (key.contains("Date") ?
-                                  DateFormat("MMMM d, yyyy").format(DateTime.parse(snapshot.data![key].toString())) :
-                                  snapshot.data![key] != null && double.tryParse(snapshot.data![key].toString()) != null ?
-                                  snapshot.data![key].toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') :
-                                  snapshot.data![key].toString())),
+                                  TextSpan(text:
+                                  (key.contains("Date") ?
+                                    DateFormat("MMMM d, yyyy").format(DateTime.parse(snapshot.data![key].toString())) :
+                                    snapshot.data![key] != null && double.tryParse(snapshot.data![key].toString()) != null ?
+                                      snapshot.data![key].toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') :
+                                      key.contains("Completeness") ?
+                                        snapshot.data![key].toString().toUpperCase() :
+                                        snapshot.data![key].toString())),
                                 ],
                               ),
                             ),
