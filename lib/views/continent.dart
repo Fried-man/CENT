@@ -1,9 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+
+import '../home.dart';
+import '../tabs/region.dart';
 
 class ContinentCard extends StatefulWidget {
   final String continent;
@@ -79,7 +83,35 @@ class _ContinentCard extends State<ContinentCard> {
                                 child: Text(region, style: const TextStyle(fontSize: 18)),
                               ));
                               for (String country in ordering[region]!) {
-                                output.add(Text(country));
+                                output.add(
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: GestureDetector(
+                                          child: Text(
+                                            country,
+                                            style: TextStyle(
+                                              color: Theme.of(context).scaffoldBackgroundColor,
+                                              decoration:
+                                              TextDecoration.underline,
+                                            ),
+                                          ),
+                                        onTap: () {
+                                          windows.add(
+                                              Window(
+                                                updateParent: widget.updateParent,
+                                                title: country,
+                                                body: RegionCard(
+                                                  country: {"country" : country},
+                                                  mapController: widget.mapController,
+                                                  updateParent: widget.updateParent,
+                                                ),
+                                              )
+                                          );
+                                          widget.updateParent();
+                                        },
+                                      ),
+                                    )
+                                );
                               }
                             }
 
