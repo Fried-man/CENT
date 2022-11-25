@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:genome_2133/cards/region.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
 import '../home.dart';
-import '../tabs/region.dart';
+import "skeleton.dart";
 
 class ContinentCard extends StatefulWidget {
   final String continent;

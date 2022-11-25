@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:genome_2133/views/variant-card.dart';
+import 'package:genome_2133/cards/variant.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../home.dart';
-import '../tabs/region.dart';
+import '../cards/skeleton.dart';
 
 List selections = [];
 
