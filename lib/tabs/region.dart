@@ -336,7 +336,7 @@ class _RegionCard extends State<RegionCard> {
               child: Column(
                 children: [
                   const Padding(
-                    padding: EdgeInsets.only(top: 8),
+                    padding: EdgeInsets.only(top: 8, bottom: 8),
                     child: Text(
                       "Variants",
                       style: TextStyle(fontSize: 18),
@@ -346,17 +346,13 @@ class _RegionCard extends State<RegionCard> {
                       future: getVariantsRegion(country: widget.country["country"]),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
-                          return Column(
-                            children: [
-                              SizedBox(
-                                height: 150,
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                    color: Theme.of(context).scaffoldBackgroundColor,
-                                  ),
-                                ),
+                          return SizedBox(
+                            height: 120,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: Theme.of(context).scaffoldBackgroundColor,
                               ),
-                            ],
+                            ),
                           );
                         }
                         if (snapshot.data!.containsKey("error")) {
@@ -368,42 +364,39 @@ class _RegionCard extends State<RegionCard> {
 
                         return Column(
                           children: [
-                            SizedBox(
-                              height: 150,
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Wrap(
-                                  children: [
-                                    for (Map variant in snapshot.data!["accessions"])
-                                      Padding(
-                                        padding: const EdgeInsets.all(1.0),
-                                        child: TextButton(
-                                          style: TextButton.styleFrom(
-                                              textStyle:
-                                              const TextStyle(fontSize: 13)),
-                                          onPressed: () {
-                                            VariantCard selectedVariant = VariantCard(
-                                              variant: variant,
-                                            );
-                                            windows.add(Window(
-                                              title: selectedVariant.toString(),
-                                              body: selectedVariant,
-                                              updateParent: widget.updateParent,
-                                            ));
-                                            widget.updateParent();
-                                          },
-                                          child: Text(
-                                            variant["accession"]!,
-                                            style: TextStyle(
-                                              color: Theme.of(context).scaffoldBackgroundColor,
-                                              decoration:
-                                              TextDecoration.underline,
-                                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Wrap(
+                                children: [
+                                  for (Map variant in snapshot.data!["accessions"])
+                                    Padding(
+                                      padding: const EdgeInsets.all(1.0),
+                                      child: TextButton(
+                                        style: TextButton.styleFrom(
+                                            textStyle:
+                                            const TextStyle(fontSize: 13)),
+                                        onPressed: () {
+                                          VariantCard selectedVariant = VariantCard(
+                                            variant: variant,
+                                          );
+                                          windows.add(Window(
+                                            title: selectedVariant.toString(),
+                                            body: selectedVariant,
+                                            updateParent: widget.updateParent,
+                                          ));
+                                          widget.updateParent();
+                                        },
+                                        child: Text(
+                                          variant["accession"]!,
+                                          style: TextStyle(
+                                            color: Theme.of(context).scaffoldBackgroundColor,
+                                            decoration:
+                                            TextDecoration.underline,
                                           ),
                                         ),
                                       ),
-                                  ],
-                                ),
+                                    ),
+                                ],
                               ),
                             ),
                           ],
@@ -411,7 +404,7 @@ class _RegionCard extends State<RegionCard> {
                       }
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(right: 18),
+                    padding: const EdgeInsets.only(right: 14),
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: ElevatedButton(
@@ -454,7 +447,14 @@ class _RegionCard extends State<RegionCard> {
                       future: getCountryInfo(widget.country["country"]),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
-                          return Container();
+                          return SizedBox(
+                            height: 175,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: Theme.of(context).scaffoldBackgroundColor,
+                              ),
+                            ),
+                          );
                         }
 
                         return Column(
