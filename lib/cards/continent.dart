@@ -16,7 +16,10 @@ class ContinentCard extends StatefulWidget {
   final Function updateParent;
 
   const ContinentCard(
-      {Key? key, required this.continent, required this.mapController, required this.updateParent})
+      {Key? key,
+      required this.continent,
+      required this.mapController,
+      required this.updateParent})
       : super(key: key);
 
   @override
@@ -24,15 +27,14 @@ class ContinentCard extends StatefulWidget {
 }
 
 class _ContinentCard extends State<ContinentCard> {
-
   @override
   void initState() {
     super.initState();
   }
 
-  Future<List<Map<String, dynamic>>> getContinent () async {
-    var request = http.Request('GET', Uri.parse('https://restcountries.com/v3.1/region/' + widget.continent));
-
+  Future<List<Map<String, dynamic>>> getContinent() async {
+    var request = http.Request('GET',
+        Uri.parse('https://restcountries.com/v3.1/region/' + widget.continent));
 
     http.StreamedResponse response = await request.send();
 
@@ -40,7 +42,9 @@ class _ContinentCard extends State<ContinentCard> {
       String responseDecoded = await response.stream.bytesToString();
       return List<Map<String, dynamic>>.from(jsonDecode(responseDecoded));
     }
-    return [{"error" : response.reasonPhrase}];
+    return [
+      {"error": response.reasonPhrase}
+    ];
   }
 
   @override
@@ -55,85 +59,87 @@ class _ContinentCard extends State<ContinentCard> {
               child: Column(
                 children: [
                   FutureBuilder(
-                    future: getContinent(),
-                    builder: (context, snapshot) {
-                      return FutureBuilder(
-                          future: rootBundle.loadString("assets/data.json"),
-                          builder: (context, countrySnapshot) {
-                            if (!snapshot.hasData || !countrySnapshot.hasData) return Container();
+                      future: getContinent(),
+                      builder: (context, snapshot) {
+                        return FutureBuilder(
+                            future: rootBundle.loadString("assets/data.json"),
+                            builder: (context, countrySnapshot) {
+                              if (!snapshot.hasData || !countrySnapshot.hasData)
+                                return Container();
 
-                            List countries = json.decode(countrySnapshot.data!.toString())["Countries"];
-                            Map<String, List<String>> ordering = {};
-                            for (Map<String, dynamic> country in (snapshot.data! as List)) {
-                              for (Map<String, dynamic> storedCountry in countries) {
-                                if (country["cca3"] == storedCountry["alpha3"]) {
-                                  if (!ordering.containsKey(country["subregion"])) {
-                                    ordering[country["subregion"]] = [];
+                              List countries = json.decode(countrySnapshot.data!
+                                  .toString())["Countries"];
+                              Map<String, List<String>> ordering = {};
+                              for (Map<String, dynamic> country
+                                  in (snapshot.data! as List)) {
+                                for (Map<String, dynamic> storedCountry
+                                    in countries) {
+                                  if (country["cca3"] ==
+                                      storedCountry["alpha3"]) {
+                                    if (!ordering
+                                        .containsKey(country["subregion"])) {
+                                      ordering[country["subregion"]] = [];
+                                    }
+                                    ordering[country["subregion"]]!
+                                        .add(storedCountry["country"]);
+                                    break;
                                   }
-                                  ordering[country["subregion"]]!.add(storedCountry["country"]);
-                                  break;
                                 }
                               }
-                            }
 
-                            List<Widget> output = [];
-                            for (String region in ordering.keys) {
+                              List<Widget> output = [];
+                              for (String region in ordering.keys) {
+                                output.add(Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 8, bottom: 8),
+                                  child: Text(region,
+                                      style: const TextStyle(fontSize: 18)),
+                                ));
+
+                                ordering[region]!.sort();
+
+                                for (String country in ordering[region]!) {
+                                  output.add(Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: GestureDetector(
+                                      child: Text(
+                                        country,
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        windows.add(Window(
+                                          updateParent: widget.updateParent,
+                                          title: country,
+                                          body: RegionCard(
+                                            country: {"country": country},
+                                            mapController: widget.mapController,
+                                            updateParent: widget.updateParent,
+                                          ),
+                                        ));
+                                        widget.updateParent();
+                                      },
+                                    ),
+                                  ));
+                                }
+                              }
                               output.add(Padding(
-                                padding: const EdgeInsets.only(top: 8, bottom: 8),
-                                child: Text(region, style: const TextStyle(fontSize: 18)),
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: Container(),
                               ));
 
-                              ordering[region]!.sort();
-                              
-                              for (String country in ordering[region]!) {
-                                output.add(
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: GestureDetector(
-                                          child: Text(
-                                            country,
-                                            style: TextStyle(
-                                              color: Theme.of(context).scaffoldBackgroundColor,
-                                              decoration:
-                                              TextDecoration.underline,
-                                            ),
-                                          ),
-                                        onTap: () {
-                                          windows.add(
-                                              Window(
-                                                updateParent: widget.updateParent,
-                                                title: country,
-                                                body: RegionCard(
-                                                  country: {"country" : country},
-                                                  mapController: widget.mapController,
-                                                  updateParent: widget.updateParent,
-                                                ),
-                                              )
-                                          );
-                                          widget.updateParent();
-                                        },
-                                      ),
-                                    )
-                                );
-                              }
-                            }
-                            output.add(Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: Container(),
-                            ));
-
-                            return Column(
-                              children: output,
-                            );
-                          }
-                      );
-                    }
-                  )
+                              return Column(
+                                children: output,
+                              );
+                            });
+                      })
                 ],
               ),
             )
           ],
-        )
-    );
+        ));
   }
 }

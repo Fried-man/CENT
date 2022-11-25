@@ -1,6 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:genome_2133/cards/region.dart';
-import 'dart:ui';
 
 import '../home.dart';
 
@@ -9,7 +10,12 @@ class Window extends StatefulWidget {
   final String title;
   final Widget body;
 
-  const Window({Key? key, required this.updateParent, required this.title, required this.body}) : super(key: key);
+  const Window(
+      {Key? key,
+      required this.updateParent,
+      required this.title,
+      required this.body})
+      : super(key: key);
 
   @override
   State<Window> createState() => _Window();
@@ -27,7 +33,8 @@ class _Window extends State<Window> {
       ((window.physicalSize / window.devicePixelRatio).width -
           (window.physicalSize / window.devicePixelRatio).width / 3),
       ((window.physicalSize / window.devicePixelRatio).height -
-          (window.physicalSize / window.devicePixelRatio).height / 2 - 225));
+          (window.physicalSize / window.devicePixelRatio).height / 2 -
+          225));
 
   getPosition() => position;
 
@@ -73,10 +80,8 @@ class _Window extends State<Window> {
                         maxLines: 1,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 20
-                        ),
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 20),
                       ),
                       Align(
                           alignment: Alignment.centerRight,
@@ -95,8 +100,7 @@ class _Window extends State<Window> {
                                 isClosed = true;
                               });
                             },
-                          )
-                      )
+                          ))
                     ],
                   ),
                 ),
@@ -130,6 +134,10 @@ class _Window extends State<Window> {
 }
 
 extension StringCasingExtension on String {
-  String toCapitalized() => length > 0 ?'${this[0].toUpperCase()}${substring(1).toLowerCase()}':'';
-  String toTitleCase() => replaceAll(RegExp(' +'), ' ').split(' ').map((str) => str.toCapitalized()).join(' ');
+  String toCapitalized() =>
+      length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
+  String toTitleCase() => replaceAll(RegExp(' +'), ' ')
+      .split(' ')
+      .map((str) => str.toCapitalized())
+      .join(' ');
 }

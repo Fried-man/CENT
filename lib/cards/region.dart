@@ -1,14 +1,11 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:genome_2133/cards/variant.dart';
-import 'package:genome_2133/tabs/region.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'dart:ui';
 
 import '../home.dart';
 import '../views/variant-view.dart';
@@ -22,7 +19,10 @@ class RegionCard extends StatefulWidget {
   final Function updateParent;
 
   const RegionCard(
-      {Key? key, required this.country, required this.mapController, required this.updateParent})
+      {Key? key,
+      required this.country,
+      required this.mapController,
+      required this.updateParent})
       : super(key: key);
 
   @override
@@ -33,17 +33,19 @@ class RegionCard extends StatefulWidget {
     return country["country"];
   }
 
-  void centerMap () {
-    mapController.animateCamera(CameraUpdate.newLatLngZoom(
-        _initMapCenter, 3));
+  void centerMap() {
+    mapController.animateCamera(CameraUpdate.newLatLngZoom(_initMapCenter, 3));
   }
 }
 
 class _RegionCard extends State<RegionCard> {
   _updateMap() async {
     widget.mapController.animateCamera(CameraUpdate.newLatLngZoom(
-        LatLng(widget.country["latitude"],
-            widget.country["longitude"] + (-10.0 * widget.country["zoom"] + 60)), widget.country["zoom"]));
+        LatLng(
+            widget.country["latitude"],
+            widget.country["longitude"] +
+                (-10.0 * widget.country["zoom"] + 60)),
+        widget.country["zoom"]));
   }
 
   @override
@@ -53,39 +55,52 @@ class _RegionCard extends State<RegionCard> {
     _updateMap();
   }
 
-  Future<Map<String, dynamic>> getVariantsRegion ({String region = "", String country = "", String state = "", int count = 12}) async {
-    var headers = {
-      'Content-Type': 'text/plain'
-    };
-    var request = http.Request('POST', Uri.parse('https://genome2133functions.azurewebsites.net/api/GetAccessionsByRegion?code=e58u_e3ljQhe8gX3lElCZ79Ep3DOGcoiA54YzkamEEeDAzFuEobmzQ=='));
+  Future<Map<String, dynamic>> getVariantsRegion(
+      {String region = "",
+      String country = "",
+      String state = "",
+      int count = 12}) async {
+    var headers = {'Content-Type': 'text/plain'};
+    var request = http.Request(
+        'POST',
+        Uri.parse(
+            'https://genome2133functions.azurewebsites.net/api/GetAccessionsByRegion?code=e58u_e3ljQhe8gX3lElCZ79Ep3DOGcoiA54YzkamEEeDAzFuEobmzQ=='));
     request.body = '''{''' +
         (region.isNotEmpty ? '''\n    "region": "''' + region + '''",''' : "") +
-        (country.isNotEmpty ? '''\n    "country": "''' + country + '''",''' : "") +
-        (state.isNotEmpty ? '''\n    "state": "''' + state + '''",''' : "") + '''
-      \n    "count": ''' + (count < 0 ? '''"all"''' : count.toString()) + '''
+        (country.isNotEmpty
+            ? '''\n    "country": "''' + country + '''",'''
+            : "") +
+        (state.isNotEmpty ? '''\n    "state": "''' + state + '''",''' : "") +
+        '''
+      \n    "count": ''' +
+        (count < 0 ? '''"all"''' : count.toString()) +
+        '''
       \n}''';
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      Map<String, dynamic> map = Map<String, dynamic>.from(jsonDecode(await response.stream.bytesToString()));
+      Map<String, dynamic> map = Map<String, dynamic>.from(
+          jsonDecode(await response.stream.bytesToString()));
       return map;
     }
-    return {"error" : response.reasonPhrase};
+    return {"error": response.reasonPhrase};
   }
 
-  Future<Map<String, dynamic>> getCountryInfo (String country) async {
-    var request = http.Request('GET', Uri.parse('https://restcountries.com/v3.1/name/' + country));
+  Future<Map<String, dynamic>> getCountryInfo(String country) async {
+    var request = http.Request(
+        'GET', Uri.parse('https://restcountries.com/v3.1/name/' + country));
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
       String responseDecoded = await response.stream.bytesToString();
-      Map<String, dynamic> map = Map<String, dynamic>.from(jsonDecode(responseDecoded).first);
+      Map<String, dynamic> map =
+          Map<String, dynamic>.from(jsonDecode(responseDecoded).first);
       return map;
     }
-    return {"error" : response.reasonPhrase};
+    return {"error": response.reasonPhrase};
   }
 
   @override
@@ -107,14 +122,16 @@ class _RegionCard extends State<RegionCard> {
                     ),
                   ),
                   FutureBuilder<Map<String, dynamic>>(
-                      future: getVariantsRegion(country: widget.country["country"]),
+                      future:
+                          getVariantsRegion(country: widget.country["country"]),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
                           return SizedBox(
                             height: 120,
                             child: Center(
                               child: CircularProgressIndicator(
-                                color: Theme.of(context).scaffoldBackgroundColor,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                               ),
                             ),
                           );
@@ -132,15 +149,17 @@ class _RegionCard extends State<RegionCard> {
                               alignment: Alignment.center,
                               child: Wrap(
                                 children: [
-                                  for (Map variant in snapshot.data!["accessions"])
+                                  for (Map variant
+                                      in snapshot.data!["accessions"])
                                     Padding(
                                       padding: const EdgeInsets.all(1.0),
                                       child: TextButton(
                                         style: TextButton.styleFrom(
                                             textStyle:
-                                            const TextStyle(fontSize: 13)),
+                                                const TextStyle(fontSize: 13)),
                                         onPressed: () {
-                                          VariantCard selectedVariant = VariantCard(
+                                          VariantCard selectedVariant =
+                                              VariantCard(
                                             variant: variant,
                                           );
                                           windows.add(Window(
@@ -153,9 +172,10 @@ class _RegionCard extends State<RegionCard> {
                                         child: Text(
                                           variant["accession"]!,
                                           style: TextStyle(
-                                            color: Theme.of(context).scaffoldBackgroundColor,
+                                            color: Theme.of(context)
+                                                .scaffoldBackgroundColor,
                                             decoration:
-                                            TextDecoration.underline,
+                                                TextDecoration.underline,
                                           ),
                                         ),
                                       ),
@@ -165,8 +185,7 @@ class _RegionCard extends State<RegionCard> {
                             ),
                           ],
                         );
-                      }
-                  ),
+                      }),
                   Padding(
                     padding: const EdgeInsets.only(right: 14),
                     child: Align(
@@ -176,7 +195,11 @@ class _RegionCard extends State<RegionCard> {
                           textStyle: const TextStyle(fontSize: 20),
                         ),
                         onPressed: () async {
-                          List<Map<String, dynamic>> regionView = List<Map<String, dynamic>>.from((await getVariantsRegion(country: widget.country["country"], count: -1))["accessions"]);
+                          List<Map<String, dynamic>> regionView =
+                              List<Map<String, dynamic>>.from(
+                                  (await getVariantsRegion(
+                                      country: widget.country["country"],
+                                      count: -1))["accessions"]);
                           for (Map<String, dynamic> variant in regionView) {
                             variant["selected"] = false;
                             variant["pinned"] = false;
@@ -186,16 +209,14 @@ class _RegionCard extends State<RegionCard> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => VariantView(
-                                    country: widget.country,
-                                    variants: regionView,
-                                    updateParent: widget.updateParent,
-                                  )));
+                                        country: widget.country,
+                                        variants: regionView,
+                                        updateParent: widget.updateParent,
+                                      )));
                         },
                         child: const Text(
                           "View More",
-                          style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.black),
+                          style: TextStyle(fontSize: 15, color: Colors.black),
                         ),
                       ),
                     ),
@@ -215,47 +236,66 @@ class _RegionCard extends State<RegionCard> {
                             height: 175,
                             child: Center(
                               child: CircularProgressIndicator(
-                                color: Theme.of(context).scaffoldBackgroundColor,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                               ),
                             ),
                           );
                         }
 
-                        List<TextSpan> formatContinents () {
+                        List<TextSpan> formatContinents() {
                           List<TextSpan> output = [
-                            TextSpan(text: snapshot.data!["continents"].length == 1 ? "Continent: " : "Continents: ", style: const TextStyle(fontWeight: FontWeight.bold))
+                            TextSpan(
+                                text: snapshot.data!["continents"].length == 1
+                                    ? "Continent: "
+                                    : "Continents: ",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold))
                           ];
 
-                          for (String continent in snapshot.data!["continents"]) {
-                            output.add(TextSpan(text: continent == snapshot.data!["continents"].last && snapshot.data!["continents"].length > 1 ? "and " : ""));
+                          for (String continent
+                              in snapshot.data!["continents"]) {
+                            output.add(TextSpan(
+                                text: continent ==
+                                            snapshot.data!["continents"].last &&
+                                        snapshot.data!["continents"].length > 1
+                                    ? "and "
+                                    : ""));
                             output.add(TextSpan(
                                 text: continent,
-                                style: TextStyle(color: Theme.of(context).scaffoldBackgroundColor,
-                                  decoration:
-                                  TextDecoration.underline,),
-                                recognizer: TapGestureRecognizer()..onTap = () {
-                                  windows.add(
-                                      Window(
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                  decoration: TextDecoration.underline,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    windows.add(Window(
+                                      updateParent: widget.updateParent,
+                                      title: continent,
+                                      body: ContinentCard(
+                                        continent: continent,
+                                        mapController: widget.mapController,
                                         updateParent: widget.updateParent,
-                                        title: continent,
-                                        body: ContinentCard(
-                                          continent: continent,
-                                          mapController: widget.mapController,
-                                          updateParent: widget.updateParent,
-                                        ),
-                                      )
-                                  );
-                                  widget.updateParent();
-                                }
-                            ));
-                            output.add(TextSpan(text: continent == snapshot.data!["continents"].last ? "" : snapshot.data!["continents"].length != 2 ? ", " : " "));
+                                      ),
+                                    ));
+                                    widget.updateParent();
+                                  }));
+                            output.add(TextSpan(
+                                text: continent ==
+                                        snapshot.data!["continents"].last
+                                    ? ""
+                                    : snapshot.data!["continents"].length != 2
+                                        ? ", "
+                                        : " "));
                           }
 
                           return output;
                         }
 
                         return Column(
-                          children: [ // unMember
+                          children: [
+                            // unMember
                             Align(
                               alignment: Alignment.centerLeft,
                               child: RichText(
@@ -268,14 +308,19 @@ class _RegionCard extends State<RegionCard> {
                             Align(
                               alignment: Alignment.centerLeft,
                               child: FutureBuilder(
-                                  future: rootBundle.loadString("assets/data.json"),
-                                  builder: (BuildContext context, AsyncSnapshot<String> countriesSnapshot) {
-                                    if (!countriesSnapshot.hasData) return Container();
+                                  future:
+                                      rootBundle.loadString("assets/data.json"),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<String> countriesSnapshot) {
+                                    if (!countriesSnapshot.hasData)
+                                      return Container();
 
-                                    List jsonCountries = json.decode(countriesSnapshot.data!)["Countries"];
+                                    List jsonCountries = json.decode(
+                                        countriesSnapshot.data!)["Countries"];
 
-                                    String convertCountry (String alpha3) {
-                                      for (Map<String, dynamic> country in jsonCountries) {
+                                    String convertCountry(String alpha3) {
+                                      for (Map<String, dynamic> country
+                                          in jsonCountries) {
                                         if (alpha3 == country["alpha3"]) {
                                           return country["country"];
                                         }
@@ -285,42 +330,67 @@ class _RegionCard extends State<RegionCard> {
 
                                     List<String> countries = [];
                                     if (snapshot.data!.containsKey("borders")) {
-                                      for (String country in snapshot.data!["borders"]) {
+                                      for (String country
+                                          in snapshot.data!["borders"]) {
                                         String output = convertCountry(country);
                                         if (output.isNotEmpty) {
                                           countries.add(output);
                                         }
                                       }
                                     }
-                                    List<TextSpan> countryFormat () {
+                                    List<TextSpan> countryFormat() {
                                       List<TextSpan> output = [
-                                        TextSpan(text: snapshot.data!.containsKey("borders") && countries.length == 1 ? "Neighbor: " : "Neighbors: ", style: const TextStyle(fontWeight: FontWeight.bold)),
-                                        if (!snapshot.data!.containsKey("borders") || countries.isEmpty)
+                                        TextSpan(
+                                            text: snapshot.data!.containsKey(
+                                                        "borders") &&
+                                                    countries.length == 1
+                                                ? "Neighbor: "
+                                                : "Neighbors: ",
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                        if (!snapshot.data!
+                                                .containsKey("borders") ||
+                                            countries.isEmpty)
                                           const TextSpan(text: "None"),
                                       ];
                                       for (String country in countries) {
-                                        output.add(TextSpan(text: country == countries.last && countries.length > 1 ? "and " : ""));
+                                        output.add(TextSpan(
+                                            text: country == countries.last &&
+                                                    countries.length > 1
+                                                ? "and "
+                                                : ""));
                                         output.add(TextSpan(
                                             text: country,
-                                            style: TextStyle(color: Theme.of(context).scaffoldBackgroundColor,
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .scaffoldBackgroundColor,
                                               decoration:
-                                              TextDecoration.underline,),
-                                            recognizer: TapGestureRecognizer()..onTap = () {
-                                              windows.add(
-                                                  Window(
-                                                    updateParent: widget.updateParent,
-                                                    title: country,
-                                                    body: RegionCard(
-                                                      country: {"country" : country},
-                                                      mapController: widget.mapController,
-                                                      updateParent: widget.updateParent,
-                                                    ),
-                                                  )
-                                              );
-                                              widget.updateParent();
-                                            }
-                                        ));
-                                        output.add(TextSpan(text: country == countries.last ? "" : countries.length != 2 ? ", " : " "));
+                                                  TextDecoration.underline,
+                                            ),
+                                            recognizer: TapGestureRecognizer()
+                                              ..onTap = () {
+                                                windows.add(Window(
+                                                  updateParent:
+                                                      widget.updateParent,
+                                                  title: country,
+                                                  body: RegionCard(
+                                                    country: {
+                                                      "country": country
+                                                    },
+                                                    mapController:
+                                                        widget.mapController,
+                                                    updateParent:
+                                                        widget.updateParent,
+                                                  ),
+                                                ));
+                                                widget.updateParent();
+                                              }));
+                                        output.add(TextSpan(
+                                            text: country == countries.last
+                                                ? ""
+                                                : countries.length != 2
+                                                    ? ", "
+                                                    : " "));
                                       }
 
                                       return output;
@@ -328,12 +398,12 @@ class _RegionCard extends State<RegionCard> {
 
                                     return RichText(
                                       text: TextSpan(
-                                        style: DefaultTextStyle.of(context).style,
+                                        style:
+                                            DefaultTextStyle.of(context).style,
                                         children: countryFormat(),
                                       ),
                                     );
-                                  }
-                              ),
+                                  }),
                             ),
                             Align(
                               alignment: Alignment.centerLeft,
@@ -341,12 +411,36 @@ class _RegionCard extends State<RegionCard> {
                                 text: TextSpan(
                                   style: DefaultTextStyle.of(context).style,
                                   children: <TextSpan>[
-                                    TextSpan(text: snapshot.data!["capital"].length == 1 ? "Capital: " : "Capitals: ", style: const TextStyle(fontWeight: FontWeight.bold)),
-                                    for (String capital in snapshot.data!["capital"])
-                                      TextSpan(text:
-                                      (capital == snapshot.data!["capital"].last && snapshot.data!["capital"].length > 1 ? "and " : "") +
-                                          capital +
-                                          (capital == snapshot.data!["capital"].last ? "" : snapshot.data!["capital"].length != 2 ? ", " : " ")),
+                                    TextSpan(
+                                        text:
+                                            snapshot.data!["capital"].length ==
+                                                    1
+                                                ? "Capital: "
+                                                : "Capitals: ",
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    for (String capital
+                                        in snapshot.data!["capital"])
+                                      TextSpan(
+                                          text: (capital ==
+                                                          snapshot
+                                                              .data!["capital"]
+                                                              .last &&
+                                                      snapshot.data!["capital"]
+                                                              .length >
+                                                          1
+                                                  ? "and "
+                                                  : "") +
+                                              capital +
+                                              (capital ==
+                                                      snapshot
+                                                          .data!["capital"].last
+                                                  ? ""
+                                                  : snapshot.data!["capital"]
+                                                              .length !=
+                                                          2
+                                                      ? ", "
+                                                      : " ")),
                                   ],
                                 ),
                               ),
@@ -358,8 +452,17 @@ class _RegionCard extends State<RegionCard> {
                                   text: TextSpan(
                                     style: DefaultTextStyle.of(context).style,
                                     children: <TextSpan>[
-                                      TextSpan(text: key.toTitleCase() + ": ", style: const TextStyle(fontWeight: FontWeight.bold)),
-                                      TextSpan(text: snapshot.data![key].toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')),
+                                      TextSpan(
+                                          text: key.toTitleCase() + ": ",
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                      TextSpan(
+                                          text: snapshot.data![key]
+                                              .toString()
+                                              .replaceAllMapped(
+                                                  RegExp(
+                                                      r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                                  (Match m) => '${m[1]},')),
                                     ],
                                   ),
                                 ),
@@ -370,10 +473,18 @@ class _RegionCard extends State<RegionCard> {
                                 text: TextSpan(
                                   style: DefaultTextStyle.of(context).style,
                                   children: <TextSpan>[
-                                    const TextSpan(text: "Population Density: ", style: TextStyle(fontWeight: FontWeight.bold)),
-                                    TextSpan(text: (snapshot.data!["population"] / snapshot.data!["area"])
-                                        .toStringAsFixed(2)
-                                        .replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')),
+                                    const TextSpan(
+                                        text: "Population Density: ",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    TextSpan(
+                                        text: (snapshot.data!["population"] /
+                                                snapshot.data!["area"])
+                                            .toStringAsFixed(2)
+                                            .replaceAllMapped(
+                                                RegExp(
+                                                    r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                                (Match m) => '${m[1]},')),
                                   ],
                                 ),
                               ),
@@ -384,8 +495,14 @@ class _RegionCard extends State<RegionCard> {
                                 text: TextSpan(
                                   style: DefaultTextStyle.of(context).style,
                                   children: <TextSpan>[
-                                    const TextSpan(text: "United Nations: ", style: TextStyle(fontWeight: FontWeight.bold)),
-                                    TextSpan(text: snapshot.data!["unMember"] ? "Member" : "Non-Member"),
+                                    const TextSpan(
+                                        text: "United Nations: ",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    TextSpan(
+                                        text: snapshot.data!["unMember"]
+                                            ? "Member"
+                                            : "Non-Member"),
                                   ],
                                 ),
                               ),
@@ -396,33 +513,73 @@ class _RegionCard extends State<RegionCard> {
                                 text: TextSpan(
                                   style: DefaultTextStyle.of(context).style,
                                   children: <TextSpan>[
-                                    TextSpan(text: snapshot.data!["languages"].values.length == 1 ? "Language: " : "Languages: ", style: TextStyle(fontWeight: FontWeight.bold)),
-                                    for (String language in snapshot.data!["languages"].values)
-                                      TextSpan(text:
-                                      (language == snapshot.data!["languages"].values.last && snapshot.data!["languages"].values.length > 1 ? "and " : "") +
-                                          language +
-                                          (language == snapshot.data!["languages"].values.last ? "" : snapshot.data!["languages"].values.length != 2 ? ", " : " ")),
+                                    TextSpan(
+                                        text: snapshot.data!["languages"].values
+                                                    .length ==
+                                                1
+                                            ? "Language: "
+                                            : "Languages: ",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    for (String language
+                                        in snapshot.data!["languages"].values)
+                                      TextSpan(
+                                          text: (language ==
+                                                          snapshot
+                                                              .data![
+                                                                  "languages"]
+                                                              .values
+                                                              .last &&
+                                                      snapshot
+                                                              .data![
+                                                                  "languages"]
+                                                              .values
+                                                              .length >
+                                                          1
+                                                  ? "and "
+                                                  : "") +
+                                              language +
+                                              (language ==
+                                                      snapshot
+                                                          .data!["languages"]
+                                                          .values
+                                                          .last
+                                                  ? ""
+                                                  : snapshot.data!["languages"]
+                                                              .values.length !=
+                                                          2
+                                                      ? ", "
+                                                      : " ")),
                                   ],
                                 ),
                               ),
                             ),
-                            for (String key in {"landlocked", "independent", "flag"})
+                            for (String key in {
+                              "landlocked",
+                              "independent",
+                              "flag"
+                            })
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: RichText(
                                   text: TextSpan(
                                     style: DefaultTextStyle.of(context).style,
                                     children: <TextSpan>[
-                                      TextSpan(text: key.toTitleCase() + ": ", style: const TextStyle(fontWeight: FontWeight.bold)),
-                                      TextSpan(text: snapshot.data![key].toString().toTitleCase()),
+                                      TextSpan(
+                                          text: key.toTitleCase() + ": ",
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                      TextSpan(
+                                          text: snapshot.data![key]
+                                              .toString()
+                                              .toTitleCase()),
                                     ],
                                   ),
                                 ),
                               ),
                           ],
                         );
-                      }
-                  ),
+                      }),
                   const Padding(
                     padding: EdgeInsets.only(top: 8, bottom: 8),
                     child: Text(
@@ -436,32 +593,22 @@ class _RegionCard extends State<RegionCard> {
                       alignment: Alignment.centerRight,
                       child: ElevatedButton(
                           onPressed: () {},
-                          child: const Text(
-                              "Predict",
+                          child: const Text("Predict",
                               style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black)
-                          )
-                      ),
+                                  fontSize: 15, color: Colors.black))),
                     ),
                   ),
                   const Padding(
                       padding: EdgeInsets.only(right: 10),
                       child: Align(
                         alignment: Alignment.centerRight,
-                        child: Text(
-                            "     This button is \n currently disabled",
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey)
-                        ),
-                      )
-                  )
+                        child: Text("     This button is \n currently disabled",
+                            style: TextStyle(fontSize: 12, color: Colors.grey)),
+                      ))
                 ],
               ),
             )
           ],
-        )
-    );
+        ));
   }
 }
