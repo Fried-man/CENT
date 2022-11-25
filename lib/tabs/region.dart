@@ -310,6 +310,19 @@ class _RegionCard extends State<RegionCard> {
     return {"error" : response.reasonPhrase};
   }
 
+  Future<Map<String, dynamic>> getCountryInfo (String country) async {
+    var request = http.Request('GET', Uri.parse('https://restcountries.com/v3.1/name/' + country));
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      String responseDecoded = await response.stream.bytesToString();
+      Map<String, dynamic> map = Map<String, dynamic>.from(jsonDecode(responseDecoded).first);
+      return map;
+    }
+    return {"error" : response.reasonPhrase};
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -455,6 +468,61 @@ class _RegionCard extends State<RegionCard> {
                       }
                   ),
                   const Padding(
+                    padding: EdgeInsets.only(top: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Country Info:",
+                        style: TextStyle(fontSize: 30),
+                      ),
+                    ),
+                  ),
+                  FutureBuilder<Map<String, dynamic>>(
+                      future: getCountryInfo(widget.country["country"]),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Container();
+                        }
+
+                        return Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: RichText(
+                                text: TextSpan(
+                                  style: DefaultTextStyle.of(context).style,
+                                  children: <TextSpan>[
+                                    const TextSpan(text: "Population Density: ", style: TextStyle(fontWeight: FontWeight.bold)),
+                                    TextSpan(text: (snapshot.data!["population"] / snapshot.data!["area"])
+                                        .toStringAsFixed(2)
+                                        .replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            for (String key in {"population", "area", "continents", "borders", "landlocked", "flag", "capital"}) // population / area
+                              Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: RichText(
+                                    text: TextSpan(
+                                      style: DefaultTextStyle.of(context).style,
+                                      children: <TextSpan>[
+                                        TextSpan(text: key.toTitleCase() + ": ", style: const TextStyle(fontWeight: FontWeight.bold)),
+                                          TextSpan(text:
+                                          (snapshot.data![key] != null && double.tryParse(snapshot.data![key].toString()) != null ?
+                                          snapshot.data![key].toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') :
+                                          key.contains("Completeness") ?
+                                          snapshot.data![key].toString().toUpperCase() :
+                                          snapshot.data![key].toString())),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                          ],
+                        );
+                      }
+                  ),
+                  const Padding(
                     padding: EdgeInsets.only(right: 18),
                     child: Align(
                       alignment: Alignment.centerLeft,
@@ -500,4 +568,9 @@ class _RegionCard extends State<RegionCard> {
       )
     );
   }
+}
+
+extension StringCasingExtension on String {
+  String toCapitalized() => length > 0 ?'${this[0].toUpperCase()}${substring(1).toLowerCase()}':'';
+  String toTitleCase() => replaceAll(RegExp(' +'), ' ').split(' ').map((str) => str.toCapitalized()).join(' ');
 }
