@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../main.dart';
+import 'contact.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -242,6 +243,25 @@ class _Settings extends State<Settings> {
                           padding: EdgeInsets.all(8.0),
                           child: Text(
                             "Delete Account",
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const Text("Other", style: TextStyle(fontSize: 24)),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          showDialog(
+                              context: context, builder: (_) => contact(context));
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            "Contact Us",
                             style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.black),

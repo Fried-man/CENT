@@ -71,10 +71,11 @@ class _Home extends State<Home> {
                       }
                     });
                   }),
-                  headerButton(context, "Contact Us", () async {
-                    showDialog(
-                        context: context, builder: (_) => contact(context));
-                  }),
+                  if (user == null)
+                    headerButton(context, "Contact Us", () {
+                      showDialog(
+                          context: context, builder: (_) => contact(context));
+                    }),
                   if (user != null)
                     headerButton(context, "My Saved", () {
                       Navigator.pushNamed(context, '/saved');
