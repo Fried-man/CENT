@@ -4,6 +4,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:genome_2133/views/variant-view.dart';
@@ -529,20 +530,42 @@ class _RegionCard extends State<RegionCard> {
                                         }
                                       }
                                     }
+                                    List<TextSpan> countryFormat () {
+                                      List<TextSpan> output = [
+                                        TextSpan(text: snapshot.data!.containsKey("borders") && countries.length == 1 ? "Neighbor: " : "Neighbors: ", style: const TextStyle(fontWeight: FontWeight.bold)),
+                                        if (!snapshot.data!.containsKey("borders") || countries.isEmpty)
+                                          const TextSpan(text: "None"),
+                                      ];
+                                      for (String country in countries) {
+                                        output.add(TextSpan(text: country == countries.last && countries.length > 1 ? "and " : ""));
+                                        output.add(TextSpan(
+                                            text: country,
+                                            style: TextStyle(color: Theme.of(context).scaffoldBackgroundColor),
+                                            recognizer: TapGestureRecognizer()..onTap = () {
+                                              windows.add(
+                                                  Window(
+                                                    updateParent: widget.updateParent,
+                                                    title: country,
+                                                    body: RegionCard(
+                                                      country: {"country" : country},
+                                                      mapController: widget.mapController,
+                                                      updateParent: widget.updateParent,
+                                                    ),
+                                                  )
+                                              );
+                                              widget.updateParent();
+                                            }
+                                        ));
+                                        output.add(TextSpan(text: country == countries.last ? "" : countries.length != 2 ? ", " : " "));
+                                      }
+
+                                      return output;
+                                    }
 
                                     return RichText(
                                       text: TextSpan(
                                         style: DefaultTextStyle.of(context).style,
-                                        children: <TextSpan>[
-                                          TextSpan(text: snapshot.data!.containsKey("borders") && countries.length == 1 ? "Neighbor: " : "Neighbors: ", style: const TextStyle(fontWeight: FontWeight.bold)),
-                                          if (!snapshot.data!.containsKey("borders") || countries.isEmpty)
-                                            const TextSpan(text: "None"),
-                                          for (String country in countries)
-                                            TextSpan(text:
-                                            (country == countries.last && countries.length > 1 ? "and " : "") +
-                                                country +
-                                                (country == countries.last ? "" : countries.length != 2 ? ", " : " ")),
-                                        ],
+                                        children: countryFormat(),
                                     ),
                                   );
                                 }
