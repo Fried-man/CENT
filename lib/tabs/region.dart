@@ -289,7 +289,7 @@ class _RegionCard extends State<RegionCard> {
     _updateMap();
   }
 
-  Future<Map<String, dynamic>> getVariantsRegion ({String region = "", String country = "", String state = "", int count = 10}) async {
+  Future<Map<String, dynamic>> getVariantsRegion ({String region = "", String country = "", String state = "", int count = 12}) async {
     var headers = {
       'Content-Type': 'text/plain'
     };
@@ -337,12 +337,9 @@ class _RegionCard extends State<RegionCard> {
                 children: [
                   const Padding(
                     padding: EdgeInsets.only(top: 8),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Variants:",
-                        style: TextStyle(fontSize: 30),
-                      ),
+                    child: Text(
+                      "Variants",
+                      style: TextStyle(fontSize: 18),
                     ),
                   ),
                   FutureBuilder<Map<String, dynamic>>(
@@ -356,25 +353,6 @@ class _RegionCard extends State<RegionCard> {
                                 child: Center(
                                   child: CircularProgressIndicator(
                                     color: Theme.of(context).scaffoldBackgroundColor,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 18),
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: ElevatedButton(
-                                    style: TextButton.styleFrom(
-                                      textStyle: const TextStyle(fontSize: 20),
-                                    ),
-                                    onPressed: () {  },
-                                    child: const Text(
-                                      "Further Info",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black),
-                                    ),
                                   ),
                                 ),
                               ),
@@ -392,75 +370,39 @@ class _RegionCard extends State<RegionCard> {
                           children: [
                             SizedBox(
                               height: 150,
-                              child: Padding(
-                                  padding: const EdgeInsets.only(left: 16, right: 16),
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Wrap(
-                                      children: [
-                                        for (Map variant in snapshot.data!["accessions"])
-                                          Padding(
-                                            padding: const EdgeInsets.all(1.0),
-                                            child: TextButton(
-                                              style: TextButton.styleFrom(
-                                                  textStyle:
-                                                  const TextStyle(fontSize: 13)),
-                                              onPressed: () {
-                                                VariantCard selectedVariant = VariantCard(
-                                                  variant: variant,
-                                                );
-                                                windows.add(Window(
-                                                  title: selectedVariant.toString(),
-                                                  body: selectedVariant,
-                                                  updateParent: widget.updateParent,
-                                                ));
-                                                widget.updateParent();
-                                              },
-                                              child: Text(
-                                                variant["accession"]!,
-                                                style: TextStyle(
-                                                  color: Theme.of(context).scaffoldBackgroundColor,
-                                                  decoration:
-                                                  TextDecoration.underline,
-                                                ),
-                                              ),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Wrap(
+                                  children: [
+                                    for (Map variant in snapshot.data!["accessions"])
+                                      Padding(
+                                        padding: const EdgeInsets.all(1.0),
+                                        child: TextButton(
+                                          style: TextButton.styleFrom(
+                                              textStyle:
+                                              const TextStyle(fontSize: 13)),
+                                          onPressed: () {
+                                            VariantCard selectedVariant = VariantCard(
+                                              variant: variant,
+                                            );
+                                            windows.add(Window(
+                                              title: selectedVariant.toString(),
+                                              body: selectedVariant,
+                                              updateParent: widget.updateParent,
+                                            ));
+                                            widget.updateParent();
+                                          },
+                                          child: Text(
+                                            variant["accession"]!,
+                                            style: TextStyle(
+                                              color: Theme.of(context).scaffoldBackgroundColor,
+                                              decoration:
+                                              TextDecoration.underline,
                                             ),
                                           ),
-                                      ],
-                                    ),
-                                  )),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 18),
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: ElevatedButton(
-                                  style: TextButton.styleFrom(
-                                    textStyle: const TextStyle(fontSize: 20),
-                                  ),
-                                  onPressed: () async {
-                                    List<Map<String, dynamic>> regionView = List<Map<String, dynamic>>.from((await getVariantsRegion(country: widget.country["country"], count: -1))["accessions"]);
-                                    for (Map<String, dynamic> variant in regionView) {
-                                      variant["selected"] = false;
-                                      variant["pinned"] = false;
-                                    }
-
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => VariantView(
-                                              country: widget.country,
-                                              variants: regionView,
-                                              updateParent: widget.updateParent,
-                                            )));
-                                  },
-                                  child: const Text(
-                                    "Further Info",
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black),
-                                  ),
+                                        ),
+                                      ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -468,14 +410,44 @@ class _RegionCard extends State<RegionCard> {
                         );
                       }
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 8),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 18),
                     child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Country Info:",
-                        style: TextStyle(fontSize: 30),
+                      alignment: Alignment.centerRight,
+                      child: ElevatedButton(
+                        style: TextButton.styleFrom(
+                          textStyle: const TextStyle(fontSize: 20),
+                        ),
+                        onPressed: () async {
+                          List<Map<String, dynamic>> regionView = List<Map<String, dynamic>>.from((await getVariantsRegion(country: widget.country["country"], count: -1))["accessions"]);
+                          for (Map<String, dynamic> variant in regionView) {
+                            variant["selected"] = false;
+                            variant["pinned"] = false;
+                          }
+
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => VariantView(
+                                    country: widget.country,
+                                    variants: regionView,
+                                    updateParent: widget.updateParent,
+                                  )));
+                        },
+                        child: const Text(
+                          "View More",
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black),
+                        ),
                       ),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8, bottom: 8),
+                    child: Text(
+                      "Country Info",
+                      style: TextStyle(fontSize: 18),
                     ),
                   ),
                   FutureBuilder<Map<String, dynamic>>(
@@ -662,13 +634,10 @@ class _RegionCard extends State<RegionCard> {
                       }
                   ),
                   const Padding(
-                    padding: EdgeInsets.only(right: 18),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Future Variants",
-                        style: TextStyle(fontSize: 30),
-                      ),
+                    padding: EdgeInsets.only(top: 8, bottom: 8),
+                    child: Text(
+                      "Future Variants",
+                      style: TextStyle(fontSize: 18),
                     ),
                   ),
                   Padding(
@@ -681,7 +650,6 @@ class _RegionCard extends State<RegionCard> {
                               "Predict",
                               style: TextStyle(
                                   fontSize: 15,
-                                  fontWeight: FontWeight.bold,
                                   color: Colors.black)
                           )
                       ),
@@ -695,8 +663,7 @@ class _RegionCard extends State<RegionCard> {
                             "     This button is \n currently disabled",
                             style: TextStyle(
                                 fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black)
+                                color: Colors.grey)
                         ),
                       )
                   )
