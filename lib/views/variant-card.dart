@@ -135,7 +135,7 @@ class _VariantCard extends State<VariantCard> {
                           onPressed: () => launchUrl(Uri.parse(
                               'https://www.ncbi.nlm.nih.gov/nuccore/' + widget.variant["accession"])),
                           child: const Padding(
-                            padding: EdgeInsets.all(8.0),
+                            padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
                             child: Text(
                               "Open in NCBI",
                               maxLines: 1,
@@ -157,7 +157,7 @@ class _VariantCard extends State<VariantCard> {
                                   .then((value) => setState(() {}));
                             },
                             child: const Padding(
-                              padding: EdgeInsets.all(8.0),
+                              padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
                               child: Text(
                                 "Login to Save",
                                 maxLines: 1,
@@ -182,7 +182,7 @@ class _VariantCard extends State<VariantCard> {
                                     print("loading saved...");
                                   },
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.only(bottom: 8.0, top: 8.0),
                                     child: Text(
                                       saveStatus,
                                       maxLines: 1,
@@ -205,7 +205,7 @@ class _VariantCard extends State<VariantCard> {
                                   }
                                 },
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.only(bottom: 8.0, top: 8.0),
                                   child: Text(
                                     saveStatus,
                                     maxLines: 1,
