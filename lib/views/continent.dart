@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
 
 class ContinentCard extends StatefulWidget {
   final String continent;
@@ -22,10 +26,23 @@ class _ContinentCard extends State<ContinentCard> {
     super.initState();
   }
 
+  Future<List<Map<String, dynamic>>> getContinent () async {
+    var request = http.Request('GET', Uri.parse('https://restcountries.com/v3.1/region/' + widget.continent));
+
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      String responseDecoded = await response.stream.bytesToString();
+      return List<Map<String, dynamic>>.from(jsonDecode(responseDecoded));
+    }
+    return [{"error" : response.reasonPhrase}];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.only(right: 12, left: 12),
         child: CustomScrollView(
           shrinkWrap: true,
           slivers: [
@@ -33,7 +50,46 @@ class _ContinentCard extends State<ContinentCard> {
               hasScrollBody: false,
               child: Column(
                 children: [
-                  Container()
+                  FutureBuilder(
+                    future: getContinent(),
+                    builder: (context, snapshot) {
+                      return FutureBuilder(
+                          future: rootBundle.loadString("assets/data.json"),
+                          builder: (context, countrySnapshot) {
+                            if (!snapshot.hasData || !countrySnapshot.hasData) return Container();
+
+                            List countries = json.decode(countrySnapshot.data!.toString())["Countries"];
+                            Map<String, List<String>> ordering = {};
+                            for (Map<String, dynamic> country in (snapshot.data! as List)) {
+                              for (Map<String, dynamic> storedCountry in countries) {
+                                if (country["cca3"] == storedCountry["alpha3"]) {
+                                  if (!ordering.containsKey(country["subregion"])) {
+                                    ordering[country["subregion"]] = [];
+                                  }
+                                  ordering[country["subregion"]]!.add(storedCountry["country"]);
+                                  break;
+                                }
+                              }
+                            }
+
+                            List<Widget> output = [];
+                            for (String region in ordering.keys) {
+                              output.add(Padding(
+                                padding: const EdgeInsets.only(top: 8, bottom: 8),
+                                child: Text(region, style: const TextStyle(fontSize: 18)),
+                              ));
+                              for (String country in ordering[region]!) {
+                                output.add(Text(country));
+                              }
+                            }
+
+                            return Column(
+                              children: output,
+                            );
+                          }
+                      );
+                    }
+                  )
                 ],
               ),
             )
