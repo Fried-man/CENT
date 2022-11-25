@@ -82,6 +82,9 @@ class _ContinentCard extends State<ContinentCard> {
                                 padding: const EdgeInsets.only(top: 8, bottom: 8),
                                 child: Text(region, style: const TextStyle(fontSize: 18)),
                               ));
+
+                              ordering[region]!.sort();
+                              
                               for (String country in ordering[region]!) {
                                 output.add(
                                     Align(
@@ -114,6 +117,10 @@ class _ContinentCard extends State<ContinentCard> {
                                 );
                               }
                             }
+                            output.add(Padding(
+                              padding: const EdgeInsets.only(bottom: 8),
+                              child: Container(),
+                            ));
 
                             return Column(
                               children: output,
