@@ -8,7 +8,7 @@ import 'main.dart';
 import 'tabs/faq.dart';
 import '../cards/skeleton.dart';
 
-late List<Window> windows;
+late List<SkeletonCard> windows;
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

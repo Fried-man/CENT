@@ -173,7 +173,7 @@ class _SortablePageState extends State<SortablePage> {
               VariantCard selectedVariant = VariantCard(
                 variant: user,
               );
-              windows.add(Window(
+              windows.add(SkeletonCard(
                 title: selectedVariant.toString(),
                 body: selectedVariant,
                 updateParent: widget.updateParent,

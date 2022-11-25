@@ -96,7 +96,7 @@ class _Region extends State<Region> {
                                       updateParent: widget.updateParent,
                                     );
                                     Navigator.pop(context, [
-                                      Window(
+                                      SkeletonCard(
                                         updateParent: widget.updateParent,
                                         title: selectedCountry.toString(),
                                         body: selectedCountry,

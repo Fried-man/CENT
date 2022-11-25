@@ -5,12 +5,12 @@ import 'package:genome_2133/cards/country.dart';
 
 import '../home.dart';
 
-class Window extends StatefulWidget {
+class SkeletonCard extends StatefulWidget {
   final Function updateParent;
   final String title;
   final Widget body;
 
-  const Window(
+  const SkeletonCard(
       {Key? key,
       required this.updateParent,
       required this.title,
@@ -18,14 +18,14 @@ class Window extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<Window> createState() => _Window();
+  State<SkeletonCard> createState() => _SkeletonCard();
 
   Offset getPosition() => const Offset(0, 0);
 
   void updatePosition(Offset newPosition) {}
 }
 
-class _Window extends State<Window> {
+class _SkeletonCard extends State<SkeletonCard> {
   bool isClosed = false;
 
   // turned off random placement so that it sits to right
