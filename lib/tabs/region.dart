@@ -504,21 +504,48 @@ class _RegionCard extends State<RegionCard> {
                             ),
                             Align(
                               alignment: Alignment.centerLeft,
-                              child: RichText(
-                                text: TextSpan(
-                                  style: DefaultTextStyle.of(context).style,
-                                  children: <TextSpan>[
-                                    TextSpan(text: snapshot.data!.containsKey("borders") && snapshot.data!["borders"].length == 1 ? "Neighbor: " : "Neighbors: ", style: const TextStyle(fontWeight: FontWeight.bold)),
-                                    if (!snapshot.data!.containsKey("borders"))
-                                      const TextSpan(text: "None"),
-                                    if (snapshot.data!.containsKey("borders"))
-                                      for (String language in snapshot.data!["borders"])
-                                        TextSpan(text:
-                                        (language == snapshot.data!["borders"].last && snapshot.data!["borders"].length > 1 ? "and " : "") +
-                                            language +
-                                            (language == snapshot.data!["borders"].last ? "" : snapshot.data!["borders"].length != 2 ? ", " : " ")),
-                                  ],
-                                ),
+                              child: FutureBuilder(
+                                future: rootBundle.loadString("assets/data.json"),
+                                  builder: (BuildContext context, AsyncSnapshot<String> countriesSnapshot) {
+                                    if (!countriesSnapshot.hasData) return Container();
+
+                                    List jsonCountries = json.decode(countriesSnapshot.data!)["Countries"];
+
+                                    String convertCountry (String alpha3) {
+                                      for (Map<String, dynamic> country in jsonCountries) {
+                                        if (alpha3 == country["alpha3"]) {
+                                          return country["country"];
+                                        }
+                                      }
+                                      return "";
+                                    }
+
+                                    List<String> countries = [];
+                                    if (snapshot.data!.containsKey("borders")) {
+                                      for (String country in snapshot.data!["borders"]) {
+                                        String output = convertCountry(country);
+                                        if (output.isNotEmpty) {
+                                          countries.add(output);
+                                        }
+                                      }
+                                    }
+
+                                    return RichText(
+                                      text: TextSpan(
+                                        style: DefaultTextStyle.of(context).style,
+                                        children: <TextSpan>[
+                                          TextSpan(text: snapshot.data!.containsKey("borders") && countries.length == 1 ? "Neighbor: " : "Neighbors: ", style: const TextStyle(fontWeight: FontWeight.bold)),
+                                          if (!snapshot.data!.containsKey("borders") || countries.isEmpty)
+                                            const TextSpan(text: "None"),
+                                          for (String country in countries)
+                                            TextSpan(text:
+                                            (country == countries.last && countries.length > 1 ? "and " : "") +
+                                                country +
+                                                (country == countries.last ? "" : countries.length != 2 ? ", " : " ")),
+                                        ],
+                                    ),
+                                  );
+                                }
                               ),
                             ),
                             Align(
