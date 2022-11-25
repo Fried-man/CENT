@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -312,8 +313,9 @@ class _CountryCard extends State<CountryCard> {
                                       rootBundle.loadString("assets/data.json"),
                                   builder: (BuildContext context,
                                       AsyncSnapshot<String> countriesSnapshot) {
-                                    if (!countriesSnapshot.hasData)
+                                    if (!countriesSnapshot.hasData) {
                                       return Container();
+                                    }
 
                                     List jsonCountries = json.decode(
                                         countriesSnapshot.data!)["Countries"];
@@ -457,12 +459,17 @@ class _CountryCard extends State<CountryCard> {
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold)),
                                       TextSpan(
-                                          text: snapshot.data![key]
+                                          text: (snapshot.data![key] < pow(10, 6) ?
+                                          snapshot.data![key] : snapshot.data![key] < pow(10, 9) ?
+                                          (snapshot.data![key] / pow(10, 6)).toStringAsFixed(2) :
+                                          (snapshot.data![key] / pow(10, 9)).toStringAsFixed(2))
                                               .toString()
                                               .replaceAllMapped(
                                                   RegExp(
                                                       r'(\d{1,3})(?=(\d{3})+(?!\d))'),
                                                   (Match m) => '${m[1]},')),
+                                      if (snapshot.data![key] >= pow(10, 6))
+                                        TextSpan(text: snapshot.data![key] < pow(10, 9) ? " Million" : " Billion"),
                                     ],
                                   ),
                                 ),
