@@ -485,7 +485,71 @@ class _RegionCard extends State<RegionCard> {
                         }
 
                         return Column(
-                          children: [
+                          children: [ // unMember
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: RichText(
+                                text: TextSpan(
+                                  style: DefaultTextStyle.of(context).style,
+                                  children: <TextSpan>[
+                                    TextSpan(text: snapshot.data!["continents"].length == 1 ? "Continent: " : "Continents: ", style: const TextStyle(fontWeight: FontWeight.bold)),
+                                    for (String language in snapshot.data!["continents"])
+                                      TextSpan(text:
+                                      (language == snapshot.data!["continents"].last && snapshot.data!["continents"].length > 1 ? "and " : "") +
+                                          language +
+                                          (language == snapshot.data!["continents"].last ? "" : snapshot.data!["continents"].length != 2 ? ", " : " ")),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: RichText(
+                                text: TextSpan(
+                                  style: DefaultTextStyle.of(context).style,
+                                  children: <TextSpan>[
+                                    TextSpan(text: snapshot.data!.containsKey("borders") && snapshot.data!["borders"].length == 1 ? "Neighbor: " : "Neighbors: ", style: const TextStyle(fontWeight: FontWeight.bold)),
+                                    if (!snapshot.data!.containsKey("borders"))
+                                      const TextSpan(text: "None"),
+                                    if (snapshot.data!.containsKey("borders"))
+                                      for (String language in snapshot.data!["borders"])
+                                        TextSpan(text:
+                                        (language == snapshot.data!["borders"].last && snapshot.data!["borders"].length > 1 ? "and " : "") +
+                                            language +
+                                            (language == snapshot.data!["borders"].last ? "" : snapshot.data!["borders"].length != 2 ? ", " : " ")),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: RichText(
+                                text: TextSpan(
+                                  style: DefaultTextStyle.of(context).style,
+                                  children: <TextSpan>[
+                                    TextSpan(text: snapshot.data!["capital"].length == 1 ? "Capital: " : "Capitals: ", style: const TextStyle(fontWeight: FontWeight.bold)),
+                                    for (String capital in snapshot.data!["capital"])
+                                      TextSpan(text:
+                                      (capital == snapshot.data!["capital"].last && snapshot.data!["capital"].length > 1 ? "and " : "") +
+                                          capital +
+                                          (capital == snapshot.data!["capital"].last ? "" : snapshot.data!["capital"].length != 2 ? ", " : " ")),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            for (String key in {"area", "population"})
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: RichText(
+                                  text: TextSpan(
+                                    style: DefaultTextStyle.of(context).style,
+                                    children: <TextSpan>[
+                                      TextSpan(text: key.toTitleCase() + ": ", style: const TextStyle(fontWeight: FontWeight.bold)),
+                                      TextSpan(text: snapshot.data![key].toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             Align(
                               alignment: Alignment.centerLeft,
                               child: RichText(
@@ -500,24 +564,47 @@ class _RegionCard extends State<RegionCard> {
                                 ),
                               ),
                             ),
-                            for (String key in {"population", "area", "continents", "borders", "landlocked", "flag", "capital"}) // population / area
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: RichText(
+                                text: TextSpan(
+                                  style: DefaultTextStyle.of(context).style,
+                                  children: <TextSpan>[
+                                    const TextSpan(text: "United Nations: ", style: TextStyle(fontWeight: FontWeight.bold)),
+                                    TextSpan(text: snapshot.data!["unMember"] ? "Member" : "Non-Member"),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: RichText(
+                                text: TextSpan(
+                                  style: DefaultTextStyle.of(context).style,
+                                  children: <TextSpan>[
+                                    TextSpan(text: snapshot.data!["languages"].values.length == 1 ? "Language: " : "Languages: ", style: TextStyle(fontWeight: FontWeight.bold)),
+                                    for (String language in snapshot.data!["languages"].values)
+                                      TextSpan(text:
+                                      (language == snapshot.data!["languages"].values.last && snapshot.data!["languages"].values.length > 1 ? "and " : "") +
+                                          language +
+                                          (language == snapshot.data!["languages"].values.last ? "" : snapshot.data!["languages"].values.length != 2 ? ", " : " ")),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            for (String key in {"landlocked", "independent", "flag"})
                               Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: RichText(
-                                    text: TextSpan(
-                                      style: DefaultTextStyle.of(context).style,
-                                      children: <TextSpan>[
-                                        TextSpan(text: key.toTitleCase() + ": ", style: const TextStyle(fontWeight: FontWeight.bold)),
-                                          TextSpan(text:
-                                          (snapshot.data![key] != null && double.tryParse(snapshot.data![key].toString()) != null ?
-                                          snapshot.data![key].toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') :
-                                          key.contains("Completeness") ?
-                                          snapshot.data![key].toString().toUpperCase() :
-                                          snapshot.data![key].toString())),
-                                      ],
-                                    ),
+                                alignment: Alignment.centerLeft,
+                                child: RichText(
+                                  text: TextSpan(
+                                    style: DefaultTextStyle.of(context).style,
+                                    children: <TextSpan>[
+                                      TextSpan(text: key.toTitleCase() + ": ", style: const TextStyle(fontWeight: FontWeight.bold)),
+                                      TextSpan(text: snapshot.data![key].toString().toTitleCase()),
+                                    ],
                                   ),
                                 ),
+                              ),
                           ],
                         );
                       }
