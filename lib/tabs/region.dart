@@ -540,7 +540,9 @@ class _RegionCard extends State<RegionCard> {
                                         output.add(TextSpan(text: country == countries.last && countries.length > 1 ? "and " : ""));
                                         output.add(TextSpan(
                                             text: country,
-                                            style: TextStyle(color: Theme.of(context).scaffoldBackgroundColor),
+                                            style: TextStyle(color: Theme.of(context).scaffoldBackgroundColor,
+                                              decoration:
+                                              TextDecoration.underline,),
                                             recognizer: TapGestureRecognizer()..onTap = () {
                                               windows.add(
                                                   Window(

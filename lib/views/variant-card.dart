@@ -100,7 +100,9 @@ class _VariantCard extends State<VariantCard> {
                                       if (snapshot.data![key] == "GenBank")
                                         TextSpan(
                                           text: snapshot.data![key],
-                                          style: TextStyle(color: Theme.of(context).scaffoldBackgroundColor), // decoration: TextDecoration.underline
+                                          style: TextStyle(color: Theme.of(context).scaffoldBackgroundColor,
+                                            decoration:
+                                            TextDecoration.underline,), // decoration: TextDecoration.underline
                                           recognizer: TapGestureRecognizer()
                                             ..onTap = () { launchUrl(Uri.parse("https://www.ncbi.nlm.nih.gov/genbank/"));
                                             },
