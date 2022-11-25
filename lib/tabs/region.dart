@@ -13,7 +13,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:http/http.dart' as http;
 
-import '../cards/region.dart';
+import '../cards/country.dart';
 import '../home.dart';
 import '../cards/skeleton.dart';
 
@@ -90,7 +90,7 @@ class _Region extends State<Region> {
                                     ],
                                   ),
                                   onPressed: () {
-                                    RegionCard selectedCountry = RegionCard(
+                                    CountryCard selectedCountry = CountryCard(
                                       country: countries[index],
                                       mapController: widget.mapController,
                                       updateParent: widget.updateParent,

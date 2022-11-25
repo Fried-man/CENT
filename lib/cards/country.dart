@@ -12,13 +12,13 @@ import '../views/variant-view.dart';
 import 'continent.dart';
 import "skeleton.dart";
 
-class RegionCard extends StatefulWidget {
+class CountryCard extends StatefulWidget {
   final Map country;
   final GoogleMapController mapController;
   final LatLng _initMapCenter = const LatLng(20, 0);
   final Function updateParent;
 
-  const RegionCard(
+  const CountryCard(
       {Key? key,
       required this.country,
       required this.mapController,
@@ -26,7 +26,7 @@ class RegionCard extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<RegionCard> createState() => _RegionCard();
+  State<CountryCard> createState() => _CountryCard();
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -38,7 +38,7 @@ class RegionCard extends StatefulWidget {
   }
 }
 
-class _RegionCard extends State<RegionCard> {
+class _CountryCard extends State<CountryCard> {
   _updateMap() async {
     widget.mapController.animateCamera(CameraUpdate.newLatLngZoom(
         LatLng(
@@ -373,7 +373,7 @@ class _RegionCard extends State<RegionCard> {
                                                   updateParent:
                                                       widget.updateParent,
                                                   title: country,
-                                                  body: RegionCard(
+                                                  body: CountryCard(
                                                     country: {
                                                       "country": country
                                                     },

@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:genome_2133/cards/region.dart';
+import 'package:genome_2133/cards/country.dart';
 
 import '../home.dart';
 
@@ -94,8 +94,8 @@ class _Window extends State<Window> {
                               // TODO: add cleanup to home array
                               setState(() {
                                 // need to handle cases where multiple cards?
-                                if (widget.body is RegionCard) {
-                                  (widget.body as RegionCard).centerMap();
+                                if (widget.body is CountryCard) {
+                                  (widget.body as CountryCard).centerMap();
                                 }
                                 isClosed = true;
                               });

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:genome_2133/cards/region.dart';
+import 'package:genome_2133/cards/country.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
@@ -114,7 +114,7 @@ class _ContinentCard extends State<ContinentCard> {
                                         windows.add(Window(
                                           updateParent: widget.updateParent,
                                           title: country,
-                                          body: RegionCard(
+                                          body: CountryCard(
                                             country: {"country": country},
                                             mapController: widget.mapController,
                                             updateParent: widget.updateParent,
