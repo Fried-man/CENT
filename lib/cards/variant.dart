@@ -4,14 +4,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:genome_2133/cards/skeleton.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../home.dart';
+import 'country.dart';
+
 class VariantCard extends StatefulWidget {
   final Map variant;
+  final Map location;
+  final GoogleMapController mapController;
+  final LatLng _initMapCenter = const LatLng(20, 0);
+  final Function updateParent;
 
-  const VariantCard({Key? key, required this.variant}) : super(key: key);
+  const VariantCard({Key? key, required this.variant, this.location = const {}, required this.mapController, required this.updateParent}) : super(key: key);
 
   @override
   State<VariantCard> createState() => _VariantCard();
@@ -138,6 +147,43 @@ class _VariantCard extends State<VariantCard> {
                                     ),
                                   ),
                                 ),
+                            if (widget.location.containsKey("country"))
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: RichText(
+                                text: TextSpan(
+                                  style: DefaultTextStyle.of(context).style,
+                                  children: <TextSpan>[
+                                    const TextSpan(
+                                        text: "Country: ",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    TextSpan(
+                                        text: widget.location["country"],
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          decoration:
+                                          TextDecoration.underline,
+                                        ), // decoration: TextDecoration.underline
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            windows.add(SkeletonCard(
+                                              updateParent: widget.updateParent,
+                                              title: widget.location["country"],
+                                              body: CountryCard(
+                                                country: {"country": widget.location["country"]},
+                                                mapController: widget.mapController,
+                                                updateParent: widget.updateParent,
+                                              ),
+                                            ));
+                                            widget.updateParent();
+                                          },
+                                      ),
+                                  ],
+                                ),
+                            ),
+                              ),
                           ],
                         );
                       }),

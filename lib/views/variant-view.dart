@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:genome_2133/cards/variant.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../home.dart';
@@ -12,8 +13,9 @@ class VariantView extends StatefulWidget {
   final Map country;
   final List<Map<String, dynamic>> variants;
   final Function updateParent;
+  final GoogleMapController mapController;
 
-  const VariantView({Key? key, required this.country, required this.variants, required this.updateParent}) : super(key: key);
+  const VariantView({Key? key, required this.country, required this.variants, required this.updateParent, required this.mapController}) : super(key: key);
 
   @override
   State<VariantView> createState() => _VariantView();
@@ -73,6 +75,7 @@ class _VariantView extends State<VariantView> {
       body: SortablePage(
         items: widget.variants,
         updateParent: widget.updateParent,
+        mapController: widget.mapController
       ),
     );
   }
@@ -81,8 +84,9 @@ class _VariantView extends State<VariantView> {
 class SortablePage extends StatefulWidget {
   final List<Map<String, dynamic>> items;
   final Function updateParent;
+  final GoogleMapController mapController;
 
-  const SortablePage({Key? key, required this.items, required this.updateParent}) : super(key: key);
+  const SortablePage({Key? key, required this.items, required this.updateParent, required this.mapController}) : super(key: key);
 
   @override
   _SortablePageState createState() => _SortablePageState();
@@ -172,6 +176,8 @@ class _SortablePageState extends State<SortablePage> {
               Navigator.pop(context);
               VariantCard selectedVariant = VariantCard(
                 variant: user,
+                mapController: widget.mapController,
+                updateParent: widget.updateParent,
               );
               windows.add(SkeletonCard(
                 title: selectedVariant.toString(),

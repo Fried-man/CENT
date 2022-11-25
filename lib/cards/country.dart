@@ -161,7 +161,10 @@ class _CountryCard extends State<CountryCard> {
                                         onPressed: () {
                                           VariantCard selectedVariant =
                                               VariantCard(
-                                            variant: variant,
+                                                variant: variant,
+                                                location: {"country" : widget.country["country"]},
+                                                mapController: widget.mapController,
+                                                updateParent: widget.updateParent,
                                           );
                                           windows.add(SkeletonCard(
                                             title: selectedVariant.toString(),
@@ -213,6 +216,7 @@ class _CountryCard extends State<CountryCard> {
                                         country: widget.country,
                                         variants: regionView,
                                         updateParent: widget.updateParent,
+                                    mapController: widget.mapController,
                                       )));
                         },
                         child: const Text(
