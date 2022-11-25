@@ -12,9 +12,9 @@ import 'package:genome_2133/views/variant-card.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 
 import '../home.dart';
+import '../views/continent.dart';
 
 class Window extends StatefulWidget {
   final Function updateParent;
@@ -457,6 +457,39 @@ class _RegionCard extends State<RegionCard> {
                           );
                         }
 
+                        List<TextSpan> formatContinents () {
+                          List<TextSpan> output = [
+                            TextSpan(text: snapshot.data!["continents"].length == 1 ? "Continent: " : "Continents: ", style: const TextStyle(fontWeight: FontWeight.bold))
+                          ];
+
+                          for (String continent in snapshot.data!["continents"]) {
+                            output.add(TextSpan(text: continent == snapshot.data!["continents"].last && snapshot.data!["continents"].length > 1 ? "and " : ""));
+                            output.add(TextSpan(
+                                text: continent,
+                                style: TextStyle(color: Theme.of(context).scaffoldBackgroundColor,
+                                  decoration:
+                                  TextDecoration.underline,),
+                                recognizer: TapGestureRecognizer()..onTap = () {
+                                  windows.add(
+                                      Window(
+                                        updateParent: widget.updateParent,
+                                        title: continent,
+                                        body: ContinentCard(
+                                          continent: continent,
+                                          mapController: widget.mapController,
+                                          updateParent: widget.updateParent,
+                                        ),
+                                      )
+                                  );
+                                  widget.updateParent();
+                                }
+                            ));
+                            output.add(TextSpan(text: continent == snapshot.data!["continents"].last ? "" : snapshot.data!["continents"].length != 2 ? ", " : " "));
+                          }
+
+                          return output;
+                        }
+
                         return Column(
                           children: [ // unMember
                             Align(
@@ -464,14 +497,7 @@ class _RegionCard extends State<RegionCard> {
                               child: RichText(
                                 text: TextSpan(
                                   style: DefaultTextStyle.of(context).style,
-                                  children: <TextSpan>[
-                                    TextSpan(text: snapshot.data!["continents"].length == 1 ? "Continent: " : "Continents: ", style: const TextStyle(fontWeight: FontWeight.bold)),
-                                    for (String language in snapshot.data!["continents"])
-                                      TextSpan(text:
-                                      (language == snapshot.data!["continents"].last && snapshot.data!["continents"].length > 1 ? "and " : "") +
-                                          language +
-                                          (language == snapshot.data!["continents"].last ? "" : snapshot.data!["continents"].length != 2 ? ", " : " ")),
-                                  ],
+                                  children: formatContinents(),
                                 ),
                               ),
                             ),
