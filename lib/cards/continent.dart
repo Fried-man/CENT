@@ -9,6 +9,8 @@ import 'package:http/http.dart' as http;
 import '../home.dart';
 import "skeleton.dart";
 
+Widget? cache;
+
 class ContinentCard extends StatefulWidget {
   final String continent;
   final GoogleMapController mapController;
@@ -64,8 +66,17 @@ class _ContinentCard extends State<ContinentCard> {
                         return FutureBuilder(
                             future: rootBundle.loadString("assets/data.json"),
                             builder: (context, countrySnapshot) {
-                              if (!snapshot.hasData || !countrySnapshot.hasData)
-                                return Container();
+                              if (!snapshot.hasData || !countrySnapshot.hasData) {
+                                if (cache != null) {
+                                  return cache!;
+                                }
+                                return Expanded(child: Center(
+                                  child: CircularProgressIndicator(
+                                    color:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                                  ),
+                                ),);
+                              }
 
                               List countries = json.decode(countrySnapshot.data!
                                   .toString())["Countries"];
@@ -131,9 +142,10 @@ class _ContinentCard extends State<ContinentCard> {
                                 child: Container(),
                               ));
 
-                              return Column(
+                              cache = Column(
                                 children: output,
                               );
+                              return cache!;
                             });
                       })
                 ],
