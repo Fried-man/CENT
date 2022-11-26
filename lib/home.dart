@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:genome_2133/tabs/contact.dart';
 import 'package:genome_2133/tabs/region.dart';
@@ -49,7 +51,7 @@ class _Home extends State<Home> {
               zoomControlsEnabled: false,
               scrollGesturesEnabled: false,
               initialCameraPosition: CameraPosition(
-                  bearing: 0, target: _initMapCenter, tilt: 0, zoom: 3),
+                  bearing: 0, target: _initMapCenter, tilt: 0, zoom: 3.1),
               onMapCreated: _onMapCreated,
             ),
             Padding(
@@ -115,7 +117,7 @@ Widget headerButton(var context, String text, void Function() action) {
           child: Text(
             text,
             style: TextStyle(
-                fontSize: MediaQuery.of(context).size.width / 50,
+                fontSize: max(MediaQuery.of(context).size.width / 50, 16),
                 color: Colors.black),
           ),
         ),
