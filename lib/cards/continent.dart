@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import '../home.dart';
 import "skeleton.dart";
 
-Widget? cache;
+Map<String, Widget> cache = {};
 
 class ContinentCard extends StatefulWidget {
   final String continent;
@@ -67,8 +67,8 @@ class _ContinentCard extends State<ContinentCard> {
                             future: rootBundle.loadString("assets/data.json"),
                             builder: (context, countrySnapshot) {
                               if (!snapshot.hasData || !countrySnapshot.hasData) {
-                                if (cache != null) {
-                                  return cache!;
+                                if (cache.containsKey(widget.continent)) {
+                                  return cache[widget.continent]!;
                                 }
                                 return Expanded(child: Center(
                                   child: CircularProgressIndicator(
@@ -142,10 +142,10 @@ class _ContinentCard extends State<ContinentCard> {
                                 child: Container(),
                               ));
 
-                              cache = Column(
+                              cache[widget.continent] = Column(
                                 children: output,
                               );
-                              return cache!;
+                              return cache[widget.continent]!;
                             });
                       })
                 ],
