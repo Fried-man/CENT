@@ -169,7 +169,7 @@ class _CountryCard extends State<CountryCard> {
                                           VariantCard selectedVariant =
                                           VariantCard(
                                             variant: variant,
-                                            location: {"country" : widget.country["country"]},
+                                            location: {"country" : widget.country},
                                             mapController: widget.mapController,
                                             updateParent: widget.updateParent,
                                           );

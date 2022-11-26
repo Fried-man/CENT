@@ -164,7 +164,7 @@ class _VariantCard extends State<VariantCard> {
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold)),
                                       TextSpan(
-                                        text: widget.location["country"],
+                                        text: widget.location["country"]["country"],
                                         style: TextStyle(
                                           color: Theme.of(context)
                                               .scaffoldBackgroundColor,
@@ -175,9 +175,9 @@ class _VariantCard extends State<VariantCard> {
                                           ..onTap = () {
                                             windows.add(SkeletonCard(
                                               updateParent: widget.updateParent,
-                                              title: widget.location["country"],
+                                              title: widget.location["country"]["country"],
                                               body: CountryCard(
-                                                country: {"country": widget.location["country"]},
+                                                country: widget.location["country"],
                                                 mapController: widget.mapController,
                                                 updateParent: widget.updateParent,
                                               ),
