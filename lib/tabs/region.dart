@@ -34,7 +34,7 @@ class _Region extends State<Region> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        title: const Center(child: Text("Select Region")),
+        title: const Center(child: Text("Select Country")),
         content: SizedBox(
           height: MediaQuery.of(context).size.height / 2,
           width: MediaQuery.of(context).size.width / 4,

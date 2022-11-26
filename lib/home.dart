@@ -59,7 +59,7 @@ class _Home extends State<Home> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  headerButton(context, "Select Region", () async {
+                  headerButton(context, "Select Country", () async {
                     showDialog(
                       context: context,
                       builder: (_) => Region(mapController: _mapController, updateParent: () {
