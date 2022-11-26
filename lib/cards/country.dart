@@ -39,6 +39,10 @@ class CountryCard extends StatefulWidget {
   }
 }
 
+Map<String, Widget> variantsCache = {};
+Map<String, Widget> statsCache = {};
+List? jsonCountries;
+
 class _CountryCard extends State<CountryCard> {
   _updateMap() async {
     widget.mapController.animateCamera(CameraUpdate.newLatLngZoom(
@@ -126,6 +130,9 @@ class _CountryCard extends State<CountryCard> {
                       future:
                           getVariantsRegion(country: widget.country["country"]),
                       builder: (context, snapshot) {
+                        if (variantsCache.containsKey(widget.country["country"])) {
+                          return variantsCache[widget.country["country"]]!;
+                        }
                         if (!snapshot.hasData) {
                           return SizedBox(
                             height: 120,
@@ -144,27 +151,27 @@ class _CountryCard extends State<CountryCard> {
                           );
                         }
 
-                        return Column(
+                        variantsCache[widget.country["country"]] = Column(
                           children: [
                             Align(
                               alignment: Alignment.center,
                               child: Wrap(
                                 children: [
                                   for (Map variant
-                                      in snapshot.data!["accessions"])
+                                  in snapshot.data!["accessions"])
                                     Padding(
                                       padding: const EdgeInsets.all(1.0),
                                       child: TextButton(
                                         style: TextButton.styleFrom(
                                             textStyle:
-                                                const TextStyle(fontSize: 13)),
+                                            const TextStyle(fontSize: 13)),
                                         onPressed: () {
                                           VariantCard selectedVariant =
-                                              VariantCard(
-                                                variant: variant,
-                                                location: {"country" : widget.country["country"]},
-                                                mapController: widget.mapController,
-                                                updateParent: widget.updateParent,
+                                          VariantCard(
+                                            variant: variant,
+                                            location: {"country" : widget.country["country"]},
+                                            mapController: widget.mapController,
+                                            updateParent: widget.updateParent,
                                           );
                                           windows.add(SkeletonCard(
                                             title: selectedVariant.toString(),
@@ -179,7 +186,7 @@ class _CountryCard extends State<CountryCard> {
                                             color: Theme.of(context)
                                                 .scaffoldBackgroundColor,
                                             decoration:
-                                                TextDecoration.underline,
+                                            TextDecoration.underline,
                                           ),
                                         ),
                                       ),
@@ -189,6 +196,7 @@ class _CountryCard extends State<CountryCard> {
                             ),
                           ],
                         );
+                        return variantsCache[widget.country["country"]]!;
                       }),
                   Padding(
                     padding: const EdgeInsets.only(right: 14),
@@ -237,6 +245,9 @@ class _CountryCard extends State<CountryCard> {
                       future: getCountryInfo(widget.country["country"]),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
+                          if (statsCache.containsKey(widget.country["country"])) {
+                            return statsCache[widget.country["country"]]!;
+                          }
                           return SizedBox(
                             height: 175,
                             child: Center(
@@ -294,11 +305,10 @@ class _CountryCard extends State<CountryCard> {
                                         ? ", "
                                         : " "));
                           }
-
                           return output;
                         }
 
-                        return Column(
+                        statsCache[widget.country["country"]] = Column(
                           children: [
                             // unMember
                             Align(
@@ -314,19 +324,21 @@ class _CountryCard extends State<CountryCard> {
                               alignment: Alignment.centerLeft,
                               child: FutureBuilder(
                                   future:
-                                      rootBundle.loadString("assets/data.json"),
+                                  rootBundle.loadString("assets/data.json"),
                                   builder: (BuildContext context,
                                       AsyncSnapshot<String> countriesSnapshot) {
-                                    if (!countriesSnapshot.hasData) {
+                                    if (!countriesSnapshot.hasData && jsonCountries == null) {
                                       return Container();
                                     }
 
-                                    List jsonCountries = json.decode(
-                                        countriesSnapshot.data!)["Countries"];
+                                    if (countriesSnapshot.hasData && jsonCountries == null) {
+                                      jsonCountries = json.decode(
+                                          countriesSnapshot.data!)["Countries"];
+                                    }
 
                                     String convertCountry(String alpha3) {
                                       for (Map<String, dynamic> country
-                                          in jsonCountries) {
+                                      in jsonCountries!) {
                                         if (alpha3 == country["alpha3"]) {
                                           return country["country"];
                                         }
@@ -337,7 +349,7 @@ class _CountryCard extends State<CountryCard> {
                                     List<String> countries = [];
                                     if (snapshot.data!.containsKey("borders")) {
                                       for (String country
-                                          in snapshot.data!["borders"]) {
+                                      in snapshot.data!["borders"]) {
                                         String output = convertCountry(country);
                                         if (output.isNotEmpty) {
                                           countries.add(output);
@@ -348,21 +360,21 @@ class _CountryCard extends State<CountryCard> {
                                       List<TextSpan> output = [
                                         TextSpan(
                                             text: snapshot.data!.containsKey(
-                                                        "borders") &&
-                                                    countries.length == 1
+                                                "borders") &&
+                                                countries.length == 1
                                                 ? "Neighbor: "
                                                 : "Neighbors: ",
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold)),
                                         if (!snapshot.data!
-                                                .containsKey("borders") ||
+                                            .containsKey("borders") ||
                                             countries.isEmpty)
                                           const TextSpan(text: "None"),
                                       ];
                                       for (String country in countries) {
                                         output.add(TextSpan(
                                             text: country == countries.last &&
-                                                    countries.length > 1
+                                                countries.length > 1
                                                 ? "and "
                                                 : ""));
                                         output.add(TextSpan(
@@ -371,22 +383,22 @@ class _CountryCard extends State<CountryCard> {
                                               color: Theme.of(context)
                                                   .scaffoldBackgroundColor,
                                               decoration:
-                                                  TextDecoration.underline,
+                                              TextDecoration.underline,
                                             ),
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
                                                 windows.add(SkeletonCard(
                                                   updateParent:
-                                                      widget.updateParent,
+                                                  widget.updateParent,
                                                   title: country,
                                                   body: CountryCard(
                                                     country: {
                                                       "country": country
                                                     },
                                                     mapController:
-                                                        widget.mapController,
+                                                    widget.mapController,
                                                     updateParent:
-                                                        widget.updateParent,
+                                                    widget.updateParent,
                                                   ),
                                                 ));
                                                 widget.updateParent();
@@ -395,8 +407,8 @@ class _CountryCard extends State<CountryCard> {
                                             text: country == countries.last
                                                 ? ""
                                                 : countries.length != 2
-                                                    ? ", "
-                                                    : " "));
+                                                ? ", "
+                                                : " "));
                                       }
 
                                       return output;
@@ -405,7 +417,7 @@ class _CountryCard extends State<CountryCard> {
                                     return RichText(
                                       text: TextSpan(
                                         style:
-                                            DefaultTextStyle.of(context).style,
+                                        DefaultTextStyle.of(context).style,
                                         children: countryFormat(),
                                       ),
                                     );
@@ -419,34 +431,34 @@ class _CountryCard extends State<CountryCard> {
                                   children: <TextSpan>[
                                     TextSpan(
                                         text:
-                                            snapshot.data!["capital"].length ==
-                                                    1
-                                                ? "Capital: "
-                                                : "Capitals: ",
+                                        snapshot.data!["capital"].length ==
+                                            1
+                                            ? "Capital: "
+                                            : "Capitals: ",
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold)),
                                     for (String capital
-                                        in snapshot.data!["capital"])
+                                    in snapshot.data!["capital"])
                                       TextSpan(
                                           text: (capital ==
-                                                          snapshot
-                                                              .data!["capital"]
-                                                              .last &&
-                                                      snapshot.data!["capital"]
-                                                              .length >
-                                                          1
-                                                  ? "and "
-                                                  : "") +
+                                              snapshot
+                                                  .data!["capital"]
+                                                  .last &&
+                                              snapshot.data!["capital"]
+                                                  .length >
+                                                  1
+                                              ? "and "
+                                              : "") +
                                               capital +
                                               (capital ==
-                                                      snapshot
-                                                          .data!["capital"].last
+                                                  snapshot
+                                                      .data!["capital"].last
                                                   ? ""
                                                   : snapshot.data!["capital"]
-                                                              .length !=
-                                                          2
-                                                      ? ", "
-                                                      : " ")),
+                                                  .length !=
+                                                  2
+                                                  ? ", "
+                                                  : " ")),
                                   ],
                                 ),
                               ),
@@ -469,8 +481,8 @@ class _CountryCard extends State<CountryCard> {
                                           (snapshot.data![key] / pow(10, 9)).toStringAsFixed(2))
                                               .toString()
                                               .replaceAllMapped(
-                                                  RegExp(
-                                                      r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                              RegExp(
+                                                  r'(\d{1,3})(?=(\d{3})+(?!\d))'),
                                                   (Match m) => '${m[1]},')),
                                       if (snapshot.data![key] >= pow(10, 6))
                                         TextSpan(text: snapshot.data![key] < pow(10, 9) ? " Million" : " Billion"),
@@ -490,11 +502,11 @@ class _CountryCard extends State<CountryCard> {
                                             fontWeight: FontWeight.bold)),
                                     TextSpan(
                                         text: (snapshot.data!["population"] /
-                                                snapshot.data!["area"])
+                                            snapshot.data!["area"])
                                             .toStringAsFixed(2)
                                             .replaceAllMapped(
-                                                RegExp(
-                                                    r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                            RegExp(
+                                                r'(\d{1,3})(?=(\d{3})+(?!\d))'),
                                                 (Match m) => '${m[1]},')),
                                   ],
                                 ),
@@ -526,41 +538,41 @@ class _CountryCard extends State<CountryCard> {
                                   children: <TextSpan>[
                                     TextSpan(
                                         text: snapshot.data!["languages"].values
-                                                    .length ==
-                                                1
+                                            .length ==
+                                            1
                                             ? "Language: "
                                             : "Languages: ",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold)),
                                     for (String language
-                                        in snapshot.data!["languages"].values)
+                                    in snapshot.data!["languages"].values)
                                       TextSpan(
                                           text: (language ==
-                                                          snapshot
-                                                              .data![
-                                                                  "languages"]
-                                                              .values
-                                                              .last &&
-                                                      snapshot
-                                                              .data![
-                                                                  "languages"]
-                                                              .values
-                                                              .length >
-                                                          1
-                                                  ? "and "
-                                                  : "") +
+                                              snapshot
+                                                  .data![
+                                              "languages"]
+                                                  .values
+                                                  .last &&
+                                              snapshot
+                                                  .data![
+                                              "languages"]
+                                                  .values
+                                                  .length >
+                                                  1
+                                              ? "and "
+                                              : "") +
                                               language +
                                               (language ==
-                                                      snapshot
-                                                          .data!["languages"]
-                                                          .values
-                                                          .last
+                                                  snapshot
+                                                      .data!["languages"]
+                                                      .values
+                                                      .last
                                                   ? ""
                                                   : snapshot.data!["languages"]
-                                                              .values.length !=
-                                                          2
-                                                      ? ", "
-                                                      : " ")),
+                                                  .values.length !=
+                                                  2
+                                                  ? ", "
+                                                  : " ")),
                                   ],
                                 ),
                               ),
@@ -590,6 +602,7 @@ class _CountryCard extends State<CountryCard> {
                               ),
                           ],
                         );
+                        return statsCache[widget.country["country"]]!;
                       }),
                   const Padding(
                     padding: EdgeInsets.only(top: 8, bottom: 8),
