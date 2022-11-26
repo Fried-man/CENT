@@ -98,6 +98,16 @@ class _ContinentCard extends State<ContinentCard> {
                                 }
                               }
 
+                              Map<String, dynamic> getCountry (String name) {
+                                for (Map<String, dynamic> country
+                                in countries!) {
+                                  if (name == country["country"]) {
+                                    return country;
+                                  }
+                                }
+                                return {};
+                              }
+
                               List<Widget> output = [];
                               for (String region in ordering.keys) {
                                 output.add(Padding(
@@ -126,7 +136,7 @@ class _ContinentCard extends State<ContinentCard> {
                                           updateParent: widget.updateParent,
                                           title: country,
                                           body: CountryCard(
-                                            country: {"country": country},
+                                            country: getCountry(country),
                                             mapController: widget.mapController,
                                             updateParent: widget.updateParent,
                                           ),

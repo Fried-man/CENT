@@ -346,6 +346,16 @@ class _CountryCard extends State<CountryCard> {
                                       return "";
                                     }
 
+                                    Map<String, dynamic> getCountry (String name) {
+                                      for (Map<String, dynamic> country
+                                      in jsonCountries!) {
+                                        if (name == country["country"]) {
+                                          return country;
+                                        }
+                                      }
+                                      return {};
+                                    }
+
                                     List<String> countries = [];
                                     if (snapshot.data!.containsKey("borders")) {
                                       for (String country
@@ -392,9 +402,7 @@ class _CountryCard extends State<CountryCard> {
                                                   widget.updateParent,
                                                   title: country,
                                                   body: CountryCard(
-                                                    country: {
-                                                      "country": country
-                                                    },
+                                                    country: getCountry(country),
                                                     mapController:
                                                     widget.mapController,
                                                     updateParent:
