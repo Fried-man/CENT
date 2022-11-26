@@ -31,6 +31,9 @@ class VariantCard extends StatefulWidget {
   }
 }
 
+Map<String, Widget> cache = {};
+Widget? saveButton;
+
 class _VariantCard extends State<VariantCard> {
   late String
       saveStatus; // TODO: fix remove from saved box going to add when moving
@@ -74,6 +77,9 @@ class _VariantCard extends State<VariantCard> {
                       future: getVariants(widget.variant["accession"]),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
+                          if (cache.containsKey(widget.variant["accession"])) {
+                            return cache[widget.variant["accession"]]!;
+                          }
                           return Expanded(
                             child: Center(
                               child: CircularProgressIndicator(
@@ -89,8 +95,7 @@ class _VariantCard extends State<VariantCard> {
                             child: Center(child: Text(snapshot.data!["error"])),
                           );
                         }
-
-                        return Column(
+                        cache[widget.variant["accession"]] = Column(
                           children: [
                             for (String key in snapshot.data!.keys)
                               if (key != "Accession")
@@ -111,7 +116,7 @@ class _VariantCard extends State<VariantCard> {
                                               color: Theme.of(context)
                                                   .scaffoldBackgroundColor,
                                               decoration:
-                                                  TextDecoration.underline,
+                                              TextDecoration.underline,
                                             ), // decoration: TextDecoration.underline
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
@@ -123,26 +128,26 @@ class _VariantCard extends State<VariantCard> {
                                           TextSpan(
                                               text: (key.contains("Date")
                                                   ? DateFormat("MMMM d, yyyy")
-                                                      .format(DateTime.parse(
-                                                          snapshot.data![key]
-                                                              .toString()))
+                                                  .format(DateTime.parse(
+                                                  snapshot.data![key]
+                                                      .toString()))
                                                   : snapshot.data![key] != null &&
-                                                          double.tryParse(snapshot.data![key].toString()) !=
-                                                              null
-                                                      ? snapshot.data![key]
-                                                          .toString()
-                                                          .replaceAllMapped(
-                                                              RegExp(
-                                                                  r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-                                                              (Match m) =>
-                                                                  '${m[1]},')
-                                                      : key.contains(
-                                                              "Completeness")
-                                                          ? snapshot.data![key]
-                                                              .toString()
-                                                              .toUpperCase()
-                                                          : snapshot.data![key]
-                                                              .toString())),
+                                                  double.tryParse(snapshot.data![key].toString()) !=
+                                                      null
+                                                  ? snapshot.data![key]
+                                                  .toString()
+                                                  .replaceAllMapped(
+                                                  RegExp(
+                                                      r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                                      (Match m) =>
+                                                  '${m[1]},')
+                                                  : key.contains(
+                                                  "Completeness")
+                                                  ? snapshot.data![key]
+                                                  .toString()
+                                                  .toUpperCase()
+                                                  : snapshot.data![key]
+                                                  .toString())),
                                       ],
                                     ),
                                   ),
@@ -151,14 +156,14 @@ class _VariantCard extends State<VariantCard> {
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: RichText(
-                                text: TextSpan(
-                                  style: DefaultTextStyle.of(context).style,
-                                  children: <TextSpan>[
-                                    const TextSpan(
-                                        text: "Country: ",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                    TextSpan(
+                                  text: TextSpan(
+                                    style: DefaultTextStyle.of(context).style,
+                                    children: <TextSpan>[
+                                      const TextSpan(
+                                          text: "Country: ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                      TextSpan(
                                         text: widget.location["country"],
                                         style: TextStyle(
                                           color: Theme.of(context)
@@ -180,12 +185,13 @@ class _VariantCard extends State<VariantCard> {
                                             widget.updateParent();
                                           },
                                       ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                            ),
                               ),
                           ],
                         );
+                        return cache[widget.variant["accession"]]!;
                       }),
                   const Spacer(),
                   Row(
@@ -244,6 +250,9 @@ class _VariantCard extends State<VariantCard> {
                                   .snapshots(),
                               builder: (context, snapshot) {
                                 if (!snapshot.hasData) {
+                                  if (saveButton != null) {
+                                    return saveButton!;
+                                  }
                                   return ElevatedButton(
                                     onPressed: () {
                                       print("loading saved...");
@@ -265,16 +274,16 @@ class _VariantCard extends State<VariantCard> {
                                         .contains(widget.variant["accession"])
                                     ? "Unsave"
                                     : "Add to Saved";
-                                return ElevatedButton(
+                                saveButton = ElevatedButton(
                                   onPressed: () {
                                     DocumentReference userDoc =
-                                        FirebaseFirestore.instance
-                                            .collection("users")
-                                            .doc(FirebaseAuth
-                                                .instance.currentUser!.uid);
+                                    FirebaseFirestore.instance
+                                        .collection("users")
+                                        .doc(FirebaseAuth
+                                        .instance.currentUser!.uid);
                                     if ((snapshot.data!["saved"] as List)
                                         .contains(
-                                            widget.variant["accession"])) {
+                                        widget.variant["accession"])) {
                                       userDoc.update({
                                         'saved': FieldValue.arrayRemove(
                                             [widget.variant["accession"]])
@@ -297,6 +306,7 @@ class _VariantCard extends State<VariantCard> {
                                     ),
                                   ),
                                 );
+                                return saveButton!;
                               }),
                         ))
                     ],
