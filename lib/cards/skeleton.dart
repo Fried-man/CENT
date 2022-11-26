@@ -56,9 +56,10 @@ class _SkeletonCard extends State<SkeletonCard> {
       widget.updateParent();*/
     }
 
+    int size = 1000;
     Widget content = SizedBox(
-      height: MediaQuery.of(context).size.height / 2,
-      width: MediaQuery.of(context).size.height / 3,
+      height: size / 2,
+      width: size / 3,
       child: GestureDetector(
         onTap: () {
           riseStack();
