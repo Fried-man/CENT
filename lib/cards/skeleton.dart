@@ -65,55 +65,61 @@ class _SkeletonCard extends State<SkeletonCard> {
         onTap: () {
           riseStack();
         },
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Column(
-            children: [
-              Container(
-                height: 40,
-                color: Theme.of(context).scaffoldBackgroundColor,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        widget.title,
-                        maxLines: 1,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.ellipsis,
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                      Align(
-                          alignment: Alignment.centerRight,
-                          child: GestureDetector(
-                            child: const Icon(
-                              Icons.close,
-                              color: Colors.white,
-                            ),
-                            onTap: () {
-                              // TODO: add cleanup to home array
-                              setState(() {
-                                // need to handle cases where multiple cards?
-                                if (widget.body is CountryCard) {
-                                  (widget.body as CountryCard).centerMap();
-                                }
-                                isClosed = true;
-                              });
-                            },
-                          ))
-                    ],
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(width: 1, color: !isMoving ? Theme.of(context).scaffoldBackgroundColor : Colors.transparent),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Column(
+              children: [
+                Container(
+                  height: 40,
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          widget.title,
+                          maxLines: 1,
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          style:
+                              const TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                        Align(
+                            alignment: Alignment.centerRight,
+                            child: GestureDetector(
+                              child: const Icon(
+                                Icons.close,
+                                color: Colors.white,
+                              ),
+                              onTap: () {
+                                // TODO: add cleanup to home array
+                                setState(() {
+                                  // need to handle cases where multiple cards?
+                                  if (widget.body is CountryCard) {
+                                    (widget.body as CountryCard).centerMap();
+                                  }
+                                  isClosed = true;
+                                });
+                              },
+                            ))
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: Container(
-                  color: Colors.white,
-                  child: widget.body,
-                ),
-              )
-            ],
+                Expanded(
+                  child: Container(
+                    color: Colors.white,
+                    child: widget.body,
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -129,71 +135,77 @@ class _SkeletonCard extends State<SkeletonCard> {
           onTap: () {
             riseStack();
           },
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Column(
-              children: [
-                Draggable(
-                  maxSimultaneousDrags: 1,
-                  feedback: Material(type: MaterialType.transparency, child: content),
-                  childWhenDragging: Container(),
-                  onDragStarted: () {
-                    setState(() {
-                      isMoving = true;
-                    });
-                  },
-                  onDragEnd: (details) {
-                    isMoving = false;
-                    updatePosition(details.offset);
-                    riseStack();
-                  },
-                  child: Container(
-                    height: 40,
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            widget.title,
-                            maxLines: 1,
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.ellipsis,
-                            style:
-                            const TextStyle(color: Colors.white, fontSize: 20),
-                          ),
-                          Align(
-                              alignment: Alignment.centerRight,
-                              child: GestureDetector(
-                                child: const Icon(
-                                  Icons.close,
-                                  color: Colors.white,
-                                ),
-                                onTap: () {
-                                  // TODO: add cleanup to home array
-                                  setState(() {
-                                    // need to handle cases where multiple cards?
-                                    if (widget.body is CountryCard) {
-                                      (widget.body as CountryCard).centerMap();
-                                    }
-                                    isClosed = true;
-                                  });
-                                },
-                              ))
-                        ],
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(width: 1, color: !isMoving ? Theme.of(context).scaffoldBackgroundColor : Colors.transparent),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Column(
+                children: [
+                  Draggable(
+                    maxSimultaneousDrags: 1,
+                    feedback: Material(type: MaterialType.transparency, child: content),
+                    childWhenDragging: Container(),
+                    onDragStarted: () {
+                      setState(() {
+                        isMoving = true;
+                      });
+                    },
+                    onDragEnd: (details) {
+                      isMoving = false;
+                      updatePosition(details.offset);
+                      riseStack();
+                    },
+                    child: Container(
+                      height: 40,
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              widget.title,
+                              maxLines: 1,
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              style:
+                              const TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                            Align(
+                                alignment: Alignment.centerRight,
+                                child: GestureDetector(
+                                  child: const Icon(
+                                    Icons.close,
+                                    color: Colors.white,
+                                  ),
+                                  onTap: () {
+                                    // TODO: add cleanup to home array
+                                    setState(() {
+                                      // need to handle cases where multiple cards?
+                                      if (widget.body is CountryCard) {
+                                        (widget.body as CountryCard).centerMap();
+                                      }
+                                      isClosed = true;
+                                    });
+                                  },
+                                ))
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                if (!isMoving)
-                Expanded(
-                  child: Container(
-                    color: Colors.white,
-                    child: widget.body,
-                  ),
-                )
-              ],
+                  if (!isMoving)
+                  Expanded(
+                    child: Container(
+                      color: Colors.white,
+                      child: widget.body,
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
