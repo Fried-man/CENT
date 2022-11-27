@@ -9,12 +9,14 @@ class SkeletonCard extends StatefulWidget {
   final Function updateParent;
   final String title;
   final Widget body;
+  final Offset initPosition;
 
   const SkeletonCard(
       {Key? key,
       required this.updateParent,
       required this.title,
-      required this.body})
+      required this.body,
+      this.initPosition = const Offset(0, 0)})
       : super(key: key);
 
   @override
@@ -23,24 +25,45 @@ class SkeletonCard extends StatefulWidget {
   Offset getPosition() => const Offset(0, 0);
 
   void updatePosition(Offset newPosition) {}
+  Offset getDefaultPostion (Widget card) { return const Offset(0,0);}
 }
 
 bool isMoving = false;
 class _SkeletonCard extends State<SkeletonCard> {
   bool isClosed = false;
-
-  // turned off random placement so that it sits to right
-  Offset position = Offset(
-      ((window.physicalSize / window.devicePixelRatio).width -
-          (window.physicalSize / window.devicePixelRatio).width / 3),
-      ((window.physicalSize / window.devicePixelRatio).height -
-          (window.physicalSize / window.devicePixelRatio).height / 2 -
-          225));
+  late Offset position;
+  int size = 1000;
 
   getPosition() => position;
 
   void updatePosition(Offset newPosition) =>
       setState(() => position = newPosition);
+
+  Offset getDefaultPostion (Widget card) {
+    if (card is CountryCard) { // left
+      return Offset(
+          (window.physicalSize / window.devicePixelRatio).width / 8,
+          ((window.physicalSize / window.devicePixelRatio).height -
+              (window.physicalSize / window.devicePixelRatio).height / 2 -
+              225));
+    }
+
+    return Offset( // right
+        (window.physicalSize / window.devicePixelRatio).width  * (7/8) - size / 3,
+        ((window.physicalSize / window.devicePixelRatio).height -
+            (window.physicalSize / window.devicePixelRatio).height / 2 -
+            225));
+  }
+
+  @override
+  void initState() {
+    position = widget.initPosition;
+    if (position == const Offset(0, 0)) {
+      position = getDefaultPostion(widget.body);
+    }
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +80,6 @@ class _SkeletonCard extends State<SkeletonCard> {
       widget.updateParent();*/
     }
 
-    int size = 1000;
     Widget content = SizedBox(
       height: size / 2,
       width: size / 3,
