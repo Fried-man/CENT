@@ -35,7 +35,7 @@ class CountryCard extends StatefulWidget {
   }
 
   void centerMap() {
-    mapController.animateCamera(CameraUpdate.newLatLngZoom(_initMapCenter, 3));
+    mapController.animateCamera(CameraUpdate.newLatLngZoom(_initMapCenter, 3.2));
   }
 }
 
