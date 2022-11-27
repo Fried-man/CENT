@@ -48,7 +48,7 @@ class _CountryCard extends State<CountryCard> {
     widget.mapController.animateCamera(CameraUpdate.newLatLngZoom(
         LatLng(
             widget.country["latitude"],
-            widget.country["longitude"] +
+            widget.country["longitude"] -
                 (-10.0 * widget.country["zoom"] + 60)),
         widget.country["zoom"]));
   }
@@ -78,7 +78,7 @@ class _CountryCard extends State<CountryCard> {
         (state.isNotEmpty ? '''\n    "state": "''' + state + '''",''' : "") +
         '''
       \n    "count": ''' +
-        (count < 0 ? '''"all"''' : count.toString()) +
+        (count < 0 ? '''200''' : count.toString()) +
         '''
       \n}''';
     request.headers.addAll(headers);
