@@ -51,7 +51,7 @@ class _Home extends State<Home> {
               zoomControlsEnabled: false,
               scrollGesturesEnabled: false,
               initialCameraPosition: CameraPosition(
-                  bearing: 0, target: _initMapCenter, tilt: 0, zoom: 3.1),
+                  bearing: 0, target: _initMapCenter, tilt: 0, zoom: 3.2),
               onMapCreated: _onMapCreated,
             ),
             Padding(
