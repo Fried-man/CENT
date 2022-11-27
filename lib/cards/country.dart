@@ -93,9 +93,9 @@ class _CountryCard extends State<CountryCard> {
     return {"error": response.reasonPhrase};
   }
 
-  Future<Map<String, dynamic>> getCountryInfo(String country) async {
+  Future<Map<String, dynamic>> getCountryInfo(String cca3) async {
     var request = http.Request(
-        'GET', Uri.parse('https://restcountries.com/v3.1/name/' + country));
+        'GET', Uri.parse('https://restcountries.com/v3.1/alpha/' + cca3));
 
     http.StreamedResponse response = await request.send();
 
@@ -249,7 +249,7 @@ class _CountryCard extends State<CountryCard> {
                     ),
                   ),
                   FutureBuilder<Map<String, dynamic>>(
-                      future: getCountryInfo(widget.country["country"]),
+                      future: getCountryInfo(widget.country["cca3"]),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
                           if (statsCache.containsKey(widget.country["country"])) {
@@ -343,10 +343,10 @@ class _CountryCard extends State<CountryCard> {
                                           countriesSnapshot.data!)["Countries"];
                                     }
 
-                                    String convertCountry(String alpha3) {
+                                    String convertCountry(String cca3) {
                                       for (Map<String, dynamic> country
                                       in jsonCountries!) {
-                                        if (alpha3 == country["alpha3"]) {
+                                        if (cca3 == country["cca3"]) {
                                           return country["country"];
                                         }
                                       }

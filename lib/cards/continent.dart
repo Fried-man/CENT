@@ -36,13 +36,20 @@ class _ContinentCard extends State<ContinentCard> {
 
   Future<List<Map<String, dynamic>>> getContinent() async {
     var request = http.Request('GET',
-        Uri.parse('https://restcountries.com/v3.1/region/' + widget.continent));
+        Uri.parse('https://restcountries.com/v3.1/all'));
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
       String responseDecoded = await response.stream.bytesToString();
-      return List<Map<String, dynamic>>.from(jsonDecode(responseDecoded));
+      List<Map<String, dynamic>> decode = List<Map<String, dynamic>>.from(jsonDecode(responseDecoded));
+      List<Map<String, dynamic>> output = [];
+      for (Map<String, dynamic> country in decode) {
+        if (country["continents"].contains(widget.continent)) {
+          output.add(country);
+        }
+      }
+      return output;
     }
     return [
       {"error": response.reasonPhrase}
@@ -81,12 +88,16 @@ class _ContinentCard extends State<ContinentCard> {
                               List countries = json.decode(countrySnapshot.data!
                                   .toString())["Countries"];
                               Map<String, List<String>> ordering = {};
+
                               for (Map<String, dynamic> country
-                                  in (snapshot.data! as List)) {
+                              in List.from(snapshot.data! as List)) {
                                 for (Map<String, dynamic> storedCountry
-                                    in countries) {
-                                  if (country["cca3"] ==
-                                      storedCountry["alpha3"]) {
+                                in countries) { // belize exists in stored
+                                  if (!storedCountry.containsKey("cca3")) {
+                                    continue;
+                                  }
+
+                                  if (country["cca3"] == storedCountry["cca3"]) {
                                     if (!ordering
                                         .containsKey(country["subregion"])) {
                                       ordering[country["subregion"]] = [];
