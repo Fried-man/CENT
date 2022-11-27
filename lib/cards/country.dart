@@ -144,6 +144,13 @@ class _CountryCard extends State<CountryCard> {
                             ),
                           );
                         }
+                        if (snapshot.data!.containsKey("Something went wrong")) {
+                          variantsCache[widget.country["country"]] = const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text("No recorded variants."),
+                          );
+                          return variantsCache[widget.country["country"]]!;
+                        }
                         if (snapshot.data!.containsKey("error")) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
