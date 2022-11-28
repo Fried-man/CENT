@@ -25,6 +25,11 @@ class ContinentCard extends StatefulWidget {
       : super(key: key);
 
   @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return continent;
+  }
+
+  @override
   State<ContinentCard> createState() => _ContinentCard();
 }
 

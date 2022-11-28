@@ -24,6 +24,11 @@ class SkeletonCard extends StatefulWidget {
   @override
   State<SkeletonCard> createState() => _SkeletonCard();
 
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return body.toString();
+  }
+
   Offset getPosition() => const Offset(0, 0);
 
   void updatePosition(Offset newPosition) {}
