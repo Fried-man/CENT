@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -86,6 +87,50 @@ class _SkeletonCard extends State<SkeletonCard> {
     position = widget.initPosition;
     if (position == const Offset(0, 0)) {
       position = getDefaultPostion(widget.body);
+      late bool isLegit;
+      int passages = 0;
+
+      do {
+        isLegit = true;
+        for (SkeletonCard card in windows.reversed) {
+          if (card == widget) {
+            continue;
+          }
+
+          Offset cardPos = card.controlKey.currentState!.position;
+          if ((cardPos.dx - position.dx).abs() < 40 && (cardPos.dy - position.dy).abs() < 40) {
+            isLegit = false;
+          }
+        }
+
+        if (!isLegit) {
+          if (position.dx + 60 + size / 3 < (window.physicalSize / window.devicePixelRatio).width &&
+              position.dy + 40 + size / 2 < (window.physicalSize / window.devicePixelRatio).height) {
+            position = Offset(position.dx + 40, position.dy + 40);
+          }else if (position.dy + 40 + size / 2 < (window.physicalSize / window.devicePixelRatio).height) {
+            position = Offset(position.dx, position.dy + 40);
+          }else if (position.dx + 60 + size / 3 < (window.physicalSize / window.devicePixelRatio).width) {
+            position = Offset(position.dx + 40, position.dy);
+          }
+          else {
+            passages++;
+            position = getDefaultPostion(widget.body);
+            if (position.dx + passages * 40 + 20 + size / 3 < (window.physicalSize / window.devicePixelRatio).width &&
+                position.dy + passages * 40 + size / 2 < (window.physicalSize / window.devicePixelRatio).height) {
+              position = Offset(position.dx - passages * 40, position.dy + passages * 40);
+            }else { // give up. random placement
+              double leftBorder = (widget.body is CountryCard ? 0 : (window.physicalSize / window.devicePixelRatio).width / 2);
+              double rightBorder = (widget.body is CountryCard ? (window.physicalSize / window.devicePixelRatio).width / 2 - size / 3 : (window.physicalSize / window.devicePixelRatio).width - size / 3);
+              double topBorder = 80;
+              double bottomBorder = (window.physicalSize / window.devicePixelRatio).height - size / 2;
+              Random rnd = Random();
+              position = Offset(leftBorder + rnd.nextDouble() * (rightBorder - leftBorder), topBorder + rnd.nextDouble() * (bottomBorder - topBorder));
+              isLegit = true;
+            }
+          }
+        }
+      } while(!isLegit);
+
     }
     updateActive(isNew: true);
     super.initState();
