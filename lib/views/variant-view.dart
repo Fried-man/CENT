@@ -179,7 +179,7 @@ class _SortablePageState extends State<SortablePage> {
                 mapController: widget.mapController,
                 updateParent: widget.updateParent,
               );
-              windows.add(SkeletonCard(
+              addCard(SkeletonCard(
                 controlKey: GlobalKey(),
                 title: selectedVariant.toString(),
                 body: selectedVariant,

@@ -180,7 +180,7 @@ class _CountryCard extends State<CountryCard> {
                                             mapController: widget.mapController,
                                             updateParent: widget.updateParent,
                                           );
-                                          windows.add(SkeletonCard(
+                                          addCard(SkeletonCard(
                                             controlKey: GlobalKey(),
                                             title: selectedVariant.toString(),
                                             body: selectedVariant,
@@ -294,7 +294,7 @@ class _CountryCard extends State<CountryCard> {
                                 ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
-                                    windows.add(SkeletonCard(
+                                    addCard(SkeletonCard(
                                       controlKey: GlobalKey(),
                                       updateParent: widget.updateParent,
                                       title: continent,

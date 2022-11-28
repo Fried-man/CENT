@@ -14,6 +14,16 @@ import '../cards/skeleton.dart';
 
 late List<SkeletonCard> windows;
 
+void addCard(SkeletonCard card) {
+  for (SkeletonCard xCard in windows) {
+    if (card.toString() == xCard.toString()) {
+      xCard.controlKey.currentState!.updateActive();
+      return;
+    }
+  }
+  windows.add(card);
+}
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -70,7 +80,7 @@ class _Home extends State<Home> {
                     ).then((value) {
                       if (value != null) {
                         setState(() {
-                          windows.add(value[0]);
+                          addCard(value[0]);
                         });
                       }
                     });

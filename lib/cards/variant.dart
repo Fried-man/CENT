@@ -173,7 +173,7 @@ class _VariantCard extends State<VariantCard> {
                                         ), // decoration: TextDecoration.underline
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = () {
-                                            windows.add(SkeletonCard(
+                                            addCard(SkeletonCard(
                                               controlKey: GlobalKey(),
                                               updateParent: widget.updateParent,
                                               title: widget.location["country"]["country"],

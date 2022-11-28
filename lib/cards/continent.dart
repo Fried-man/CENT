@@ -148,7 +148,7 @@ class _ContinentCard extends State<ContinentCard> {
                                         ),
                                       ),
                                       onTap: () {
-                                        windows.add(SkeletonCard(
+                                        addCard(SkeletonCard(
                                           controlKey: GlobalKey(),
                                           updateParent: widget.updateParent,
                                           title: country,
