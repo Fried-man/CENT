@@ -271,7 +271,6 @@ class _SkeletonCard extends State<SkeletonCard> {
                                       isClosed = true;
                                     });
                                     windows.remove(widget);
-                                    print(windows.length);
                                   },
                                 ))
                           ],
