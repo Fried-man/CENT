@@ -1,36 +1,76 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:genome_2133/cards/variant.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
 
-import '../home.dart';
 import '../cards/skeleton.dart';
+import '../home.dart';
 
 List selections = [];
 
 class VariantView extends StatefulWidget {
   final Map country;
-  final List<Map<String, dynamic>> variants;
   final Function updateParent;
   final GoogleMapController mapController;
 
-  const VariantView({Key? key, required this.country, required this.variants, required this.updateParent, required this.mapController}) : super(key: key);
+  const VariantView(
+      {Key? key,
+      required this.country,
+      required this.updateParent,
+      required this.mapController})
+      : super(key: key);
 
   @override
   State<VariantView> createState() => _VariantView();
 }
 
 class _VariantView extends State<VariantView> {
+  Future<Map<String, dynamic>> getVariantsRegion(
+      {String region = "",
+        String country = "",
+        String state = "",
+        int count = 12}) async {
+    var headers = {'Content-Type': 'text/plain'};
+    var request = http.Request(
+        'POST',
+        Uri.parse(
+            'https://genome2133functions.azurewebsites.net/api/GetAccessionsByRegion?code=e58u_e3ljQhe8gX3lElCZ79Ep3DOGcoiA54YzkamEEeDAzFuEobmzQ=='));
+    request.body = '''{''' +
+        (region.isNotEmpty ? '''\n    "region": "''' + region + '''",''' : "") +
+        (country.isNotEmpty
+            ? '''\n    "country": "''' + country + '''",'''
+            : "") +
+        (state.isNotEmpty ? '''\n    "state": "''' + state + '''",''' : "") +
+        '''
+      \n    "count": ''' +
+        (count < 0 ? '''"all"''' : count.toString()) +
+        '''
+      \n}''';
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> map = Map<String, dynamic>.from(
+          jsonDecode(await response.stream.bytesToString()));
+      return map;
+    }
+    return {"error": response.reasonPhrase};
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Colors.white, //change your color here
+        iconTheme: IconThemeData(
+          color: Theme.of(context).dialogBackgroundColor, //change your color here
         ),
         title: Text(widget.country["country"] + " Variants",
-            style: const TextStyle(color: Colors.white)),
+            style: TextStyle(color: Theme.of(context).dialogBackgroundColor)),
         centerTitle: true,
         flexibleSpace: Container(
           decoration:
@@ -64,7 +104,7 @@ class _VariantView extends State<VariantView> {
                   child: ElevatedButton(
                       style: TextButton.styleFrom(
                           textStyle: const TextStyle(fontSize: 18),
-                          backgroundColor: Colors.white), //style
+                          backgroundColor: Theme.of(context).dialogBackgroundColor), //style
                       onPressed: () => launchUrl(Uri.parse(
                           'https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome')),
                       child: const Text('Compare')))
@@ -72,10 +112,33 @@ class _VariantView extends State<VariantView> {
           ),
         ],
       ),
-      body: SortablePage(
-        items: widget.variants,
-        updateParent: widget.updateParent,
-        mapController: widget.mapController
+      backgroundColor: Theme.of(context).dialogBackgroundColor,
+      body: FutureBuilder<Map<String, dynamic>>(
+        future: getVariantsRegion(
+            country: widget.country["country"],
+            count: -1),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(
+                color:
+                Theme.of(context).scaffoldBackgroundColor,
+              ),
+            );
+          }
+
+          List<Map<String, dynamic>> regionView =
+          List<Map<String, dynamic>>.from(snapshot.data!["accessions"]);
+          for (Map<String, dynamic> variant in regionView) {
+            variant["selected"] = false;
+            variant["pinned"] = false;
+          }
+
+          return SortablePage(
+              items: regionView,
+              updateParent: widget.updateParent,
+              mapController: widget.mapController);
+        }
       ),
     );
   }
@@ -86,7 +149,12 @@ class SortablePage extends StatefulWidget {
   final Function updateParent;
   final GoogleMapController mapController;
 
-  const SortablePage({Key? key, required this.items, required this.updateParent, required this.mapController}) : super(key: key);
+  const SortablePage(
+      {Key? key,
+      required this.items,
+      required this.updateParent,
+      required this.mapController})
+      : super(key: key);
 
   @override
   _SortablePageState createState() => _SortablePageState();
@@ -105,21 +173,20 @@ class _SortablePageState extends State<SortablePage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: Stack(
-          children: [
-            Container(color: Theme.of(context).backgroundColor),
-            Align(
-                alignment: Alignment.topCenter,
+        body: Container(
+          color: Theme.of(context).backgroundColor,
+          child: Align(
+              alignment: Alignment.topCenter,
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    child: buildDataTable(),
-                  ),
-                )),
-          ],
+                  scrollDirection: Axis.vertical,
+                  child: buildDataTable(),
+                ),
+              )
+          ),
         ),
       );
 
@@ -170,25 +237,22 @@ class _SortablePageState extends State<SortablePage> {
         lister.add(DataCell(
             Align(
                 alignment: Alignment.centerRight,
-                child: Text(user["accession"].toString())
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              VariantCard selectedVariant = VariantCard(
-                variant: user,
-                mapController: widget.mapController,
-                updateParent: widget.updateParent,
-                controlKey: GlobalKey(),
-              );
-              addCard(SkeletonCard(
-                controlKey: GlobalKey(),
-                title: selectedVariant.toString(),
-                body: selectedVariant,
-                updateParent: widget.updateParent,
-              ));
-              widget.updateParent();
-            }
-        ));
+                child: Text(user["accession"].toString())), onTap: () {
+          Navigator.pop(context);
+          VariantCard selectedVariant = VariantCard(
+            variant: user,
+            mapController: widget.mapController,
+            updateParent: widget.updateParent,
+            controlKey: GlobalKey(),
+          );
+          addCard(SkeletonCard(
+            controlKey: GlobalKey(),
+            title: selectedVariant.toString(),
+            body: selectedVariant,
+            updateParent: widget.updateParent,
+          ));
+          widget.updateParent();
+        }));
 
         lister.add(DataCell(Align(
           alignment: Alignment.centerRight,

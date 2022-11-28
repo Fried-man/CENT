@@ -215,23 +215,12 @@ class _CountryCard extends State<CountryCard> {
                         style: TextButton.styleFrom(
                           textStyle: const TextStyle(fontSize: 20),
                         ),
-                        onPressed: () async {
-                          List<Map<String, dynamic>> regionView =
-                              List<Map<String, dynamic>>.from(
-                                  (await getVariantsRegion(
-                                      country: widget.country["country"],
-                                      count: -1))["accessions"]);
-                          for (Map<String, dynamic> variant in regionView) {
-                            variant["selected"] = false;
-                            variant["pinned"] = false;
-                          }
-
+                        onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => VariantView(
                                         country: widget.country,
-                                        variants: regionView,
                                         updateParent: widget.updateParent,
                                     mapController: widget.mapController,
                                       )));
