@@ -180,6 +180,7 @@ class _SortablePageState extends State<SortablePage> {
                 updateParent: widget.updateParent,
               );
               windows.add(SkeletonCard(
+                controlKey: GlobalKey(),
                 title: selectedVariant.toString(),
                 body: selectedVariant,
                 updateParent: widget.updateParent,

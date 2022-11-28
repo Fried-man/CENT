@@ -174,6 +174,7 @@ class _VariantCard extends State<VariantCard> {
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = () {
                                             windows.add(SkeletonCard(
+                                              controlKey: GlobalKey(),
                                               updateParent: widget.updateParent,
                                               title: widget.location["country"]["country"],
                                               body: CountryCard(

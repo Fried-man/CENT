@@ -33,6 +33,8 @@ class _Region extends State<Region> {
 
   @override
   Widget build(BuildContext context) {
+    final key = GlobalKey();
+
     return AlertDialog(
         title: const Center(child: Text("Select Country")),
         content: SizedBox(
@@ -97,10 +99,11 @@ class _Region extends State<Region> {
                                     );
                                     Navigator.pop(context, [
                                       SkeletonCard(
+                                        controlKey: GlobalKey(),
                                         updateParent: widget.updateParent,
                                         title: selectedCountry.toString(),
                                         body: selectedCountry,
-                                      )
+                                      ),
                                     ]);
                                   },
                                 ),

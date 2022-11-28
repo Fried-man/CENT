@@ -10,14 +10,16 @@ class SkeletonCard extends StatefulWidget {
   final String title;
   final Widget body;
   final Offset initPosition;
+  final GlobalKey<_SkeletonCard> controlKey;
 
   const SkeletonCard(
-      {Key? key,
+      {
+      required this.controlKey,
       required this.updateParent,
       required this.title,
       required this.body,
-      this.initPosition = const Offset(0, 0)})
-      : super(key: key);
+      this.initPosition = const Offset(0, 0)
+      }) : super(key: controlKey);
 
   @override
   State<SkeletonCard> createState() => _SkeletonCard();
@@ -28,18 +30,22 @@ class SkeletonCard extends StatefulWidget {
   Offset getDefaultPostion (Widget card) { return const Offset(0,0);}
 }
 
-bool isMoving = false;
 class _SkeletonCard extends State<SkeletonCard> {
   bool isClosed = false;
   late Offset position;
   int size = 1000;
+  bool isMoving = false;
+
+  void updateState() {
+    setState(() {});
+  }
 
   getPosition() => position;
 
-  void updatePosition(Offset newPosition) =>
+  updatePosition(Offset newPosition) =>
       setState(() => position = newPosition);
 
-  Offset getDefaultPostion (Widget card) {
+ getDefaultPostion (Widget card) {
     if (card is CountryCard) { // left
       return Offset(
           (window.physicalSize / window.devicePixelRatio).width / 8,
@@ -55,13 +61,23 @@ class _SkeletonCard extends State<SkeletonCard> {
             225));
   }
 
+  void updateActive () {
+    if (windows.length == 1) return;
+
+    setState(() {
+      windows.remove(widget);
+      windows.add(widget);
+    });
+    windows[windows.length - 2].controlKey.currentState!.updateState();
+  }
+
   @override
   void initState() {
     position = widget.initPosition;
     if (position == const Offset(0, 0)) {
       position = getDefaultPostion(widget.body);
     }
-
+    updateActive();
     super.initState();
   }
 
@@ -80,72 +96,6 @@ class _SkeletonCard extends State<SkeletonCard> {
       widget.updateParent();*/
     }
 
-    Widget content = SizedBox(
-      height: size / 2,
-      width: size / 3,
-      child: GestureDetector(
-        onTap: () {
-          riseStack();
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(width: 1, color: !isMoving ? Theme.of(context).scaffoldBackgroundColor : Colors.transparent),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Column(
-              children: [
-                Container(
-                  height: 40,
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          widget.title,
-                          maxLines: 1,
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.ellipsis,
-                          style:
-                              const TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                        Align(
-                            alignment: Alignment.centerRight,
-                            child: GestureDetector(
-                              child: const Icon(
-                                Icons.close,
-                                color: Colors.white,
-                              ),
-                              onTap: () {
-                                // TODO: add cleanup to home array
-                                setState(() {
-                                  // need to handle cases where multiple cards?
-                                  if (widget.body is CountryCard) {
-                                    (widget.body as CountryCard).centerMap();
-                                  }
-                                  isClosed = true;
-                                });
-                              },
-                            ))
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    color: Colors.white,
-                    child: widget.body,
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
 
     return Positioned(
       left: position.dx,
@@ -155,7 +105,7 @@ class _SkeletonCard extends State<SkeletonCard> {
         width: size / 3,
         child: GestureDetector(
           onTap: () {
-            riseStack();
+            updateActive();
           },
           child: Container(
             decoration: BoxDecoration(
@@ -168,12 +118,79 @@ class _SkeletonCard extends State<SkeletonCard> {
                 children: [
                   Draggable(
                     maxSimultaneousDrags: 1,
-                    feedback: Material(type: MaterialType.transparency, child: content),
+                    feedback: Material(
+                        type: MaterialType.transparency,
+                        child: SizedBox(
+                      height: size / 2,
+                      width: size / 3,
+                      child: GestureDetector(
+                        onTap: () {
+                          riseStack();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: !isMoving ? Theme.of(context).scaffoldBackgroundColor : Colors.transparent),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 40,
+                                  color: Theme.of(context).cardColor,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          widget.title,
+                                          maxLines: 1,
+                                          textAlign: TextAlign.center,
+                                          overflow: TextOverflow.ellipsis,
+                                          style:
+                                          const TextStyle(color: Colors.white, fontSize: 20),
+                                        ),
+                                        Align(
+                                            alignment: Alignment.centerRight,
+                                            child: GestureDetector(
+                                              child: const Icon(
+                                                Icons.close,
+                                                color: Colors.white,
+                                              ),
+                                              onTap: () {
+                                                // TODO: add cleanup to home array
+                                                setState(() {
+                                                  // need to handle cases where multiple cards?
+                                                  if (widget.body is CountryCard) {
+                                                    (widget.body as CountryCard).centerMap();
+                                                  }
+                                                  isClosed = true;
+                                                });
+                                              },
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: widget.body,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                    ),
                     childWhenDragging: Container(),
                     onDragStarted: () {
-                      setState(() {
-                        isMoving = true;
-                      });
+                      isMoving = true;
+                      updateActive();
                     },
                     onDragEnd: (details) {
                       isMoving = false;
@@ -182,7 +199,7 @@ class _SkeletonCard extends State<SkeletonCard> {
                     },
                     child: Container(
                       height: 40,
-                      color: Theme.of(context).scaffoldBackgroundColor,
+                      color: windows.last == widget || isMoving ? Theme.of(context).cardColor : Theme.of(context).scaffoldBackgroundColor,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(

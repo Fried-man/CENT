@@ -6,6 +6,8 @@ import 'package:genome_2133/tabs/region.dart';
 import 'package:genome_2133/tabs/settings.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'cards/skeleton.dart';
+import 'cards/skeleton.dart';
 import 'main.dart';
 import 'tabs/faq.dart';
 import '../cards/skeleton.dart';
