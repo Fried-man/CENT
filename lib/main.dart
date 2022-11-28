@@ -27,6 +27,7 @@ Future<void> main() async {
         primarySwatch: Colors.grey,
         dialogBackgroundColor: const Color(0xffcccccc),
         scaffoldBackgroundColor: const Color(0xff445756),
+        cardColor: const Color(0xff708f8d),
       ),
       initialRoute: '/home',
       routes: {

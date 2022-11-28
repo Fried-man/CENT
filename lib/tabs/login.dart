@@ -228,7 +228,38 @@ class _Login extends State<Login> {
                 ],
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () async {
+                  await FirebaseAuth.instance.sendPasswordResetEmail(email: inputText["Email"]!.text)
+                      .then((value) {
+                    showDialog<void>(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                        title: const Text("Password Reset Email Sent"),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('OK'),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                        ],
+                      ),
+                    );
+                  })
+                      .onError((error, stackTrace) {
+                    showDialog<void>(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                        title: Text("Error: " + error.toString()),
+                        content: Text(stackTrace.toString()),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('OK'),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                        ],
+                      ),
+                    );
+                  });
+                },
                 child: const Align(
                     alignment: Alignment.centerRight,
                     child: Text("Forgot password?")),

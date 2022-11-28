@@ -1,13 +1,29 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:genome_2133/cards/variant.dart';
 import 'package:genome_2133/tabs/contact.dart';
 import 'package:genome_2133/tabs/region.dart';
+import 'package:genome_2133/tabs/settings.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'cards/skeleton.dart';
+import 'cards/skeleton.dart';
 import 'main.dart';
 import 'tabs/faq.dart';
+import '../cards/skeleton.dart';
 
-late List<Window> windows;
+late List<SkeletonCard> windows;
+
+void addCard(SkeletonCard card) {
+  for (SkeletonCard xCard in windows) {
+    if (card.toString() == xCard.toString()) {
+      xCard.controlKey.currentState!.updateActive();
+      return;
+    }
+  }
+  windows.add(card);
+}
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -48,7 +64,7 @@ class _Home extends State<Home> {
               zoomControlsEnabled: false,
               scrollGesturesEnabled: false,
               initialCameraPosition: CameraPosition(
-                  bearing: 0, target: _initMapCenter, tilt: 0, zoom: 3),
+                  bearing: 0, target: _initMapCenter, tilt: 0, zoom: 3.2),
               onMapCreated: _onMapCreated,
             ),
             Padding(
@@ -56,7 +72,7 @@ class _Home extends State<Home> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  headerButton(context, "Select Region", () async {
+                  headerButton(context, "Select Country", () async {
                     showDialog(
                       context: context,
                       builder: (_) => Region(mapController: _mapController, updateParent: () {
@@ -65,28 +81,50 @@ class _Home extends State<Home> {
                     ).then((value) {
                       if (value != null) {
                         setState(() {
-                          windows.add(value[0]);
+                          addCard(value[0]);
                         });
                       }
                     });
                   }),
-                  headerButton(context, "Contact Us", () async {
-                    showDialog(
-                        context: context, builder: (_) => contact(context));
-                  }),
+                  if (user == null)
+                    headerButton(context, "Contact Us", () {
+                      showDialog(
+                          context: context, builder: (_) => contact(context));
+                    }),
                   if (user != null)
                     headerButton(context, "My Saved", () {
                       Navigator.pushNamed(context, '/saved');
                     }),
-                  headerButton(context, user == null ? "Login" : "Log Out",
+                  headerButton(context, user == null ? "Login" : "Settings",
                       () async {
                     if (user == null) {
                       Navigator.pushNamed(context, '/login')
-                          .then((value) => setState(() {}));
+                          .whenComplete(() {
+                        if (user != null) {
+                          setState(() {
+                            for (SkeletonCard card in windows) {
+                              if (card.body is VariantCard) {
+                                (card.body as VariantCard).controlKey.currentState!.updateState();
+                              }
+                            }
+                          });
+                        }
+                      });
                     } else {
-                      await FirebaseAuth.instance.signOut().then((value) {
-                        user = null;
-                        setState(() {});
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Settings())
+                      ).whenComplete(() {
+                        if (user == null) {
+                          setState(() {
+                            for (SkeletonCard card in windows) {
+                              if (card.body is VariantCard) {
+                                (card.body as VariantCard).controlKey.currentState!.updateState();
+                              }
+                            }
+                          });
+                        }
                       });
                     }
                   })
@@ -112,7 +150,7 @@ Widget headerButton(var context, String text, void Function() action) {
           child: Text(
             text,
             style: TextStyle(
-                fontSize: MediaQuery.of(context).size.width / 50,
+                fontSize: max(MediaQuery.of(context).size.width / 50, 16),
                 color: Colors.black),
           ),
         ),
