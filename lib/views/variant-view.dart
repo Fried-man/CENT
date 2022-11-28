@@ -178,6 +178,7 @@ class _SortablePageState extends State<SortablePage> {
                 variant: user,
                 mapController: widget.mapController,
                 updateParent: widget.updateParent,
+                controlKey: GlobalKey(),
               );
               addCard(SkeletonCard(
                 controlKey: GlobalKey(),

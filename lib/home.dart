@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:genome_2133/cards/variant.dart';
 import 'package:genome_2133/tabs/contact.dart';
 import 'package:genome_2133/tabs/region.dart';
 import 'package:genome_2133/tabs/settings.dart';
@@ -98,13 +99,33 @@ class _Home extends State<Home> {
                       () async {
                     if (user == null) {
                       Navigator.pushNamed(context, '/login')
-                          .then((value) => setState(() {}));
+                          .whenComplete(() {
+                        if (user != null) {
+                          setState(() {
+                            for (SkeletonCard card in windows) {
+                              if (card.body is VariantCard) {
+                                (card.body as VariantCard).controlKey.currentState!.updateState();
+                              }
+                            }
+                          });
+                        }
+                      });
                     } else {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const Settings())
-                      ).whenComplete(() => setState(() {}));
+                      ).whenComplete(() {
+                        if (user == null) {
+                          setState(() {
+                            for (SkeletonCard card in windows) {
+                              if (card.body is VariantCard) {
+                                (card.body as VariantCard).controlKey.currentState!.updateState();
+                              }
+                            }
+                          });
+                        }
+                      });
                     }
                   })
                 ],

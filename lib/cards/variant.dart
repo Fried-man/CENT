@@ -19,8 +19,9 @@ class VariantCard extends StatefulWidget {
   final GoogleMapController mapController;
   final LatLng _initMapCenter = const LatLng(20, 0);
   final Function updateParent;
+  final GlobalKey<_VariantCard> controlKey;
 
-  const VariantCard({Key? key, required this.variant, this.location = const {}, required this.mapController, required this.updateParent}) : super(key: key);
+  const VariantCard({required this.variant, this.location = const {}, required this.mapController, required this.updateParent, required this.controlKey}) : super(key: controlKey);
 
   @override
   State<VariantCard> createState() => _VariantCard();
@@ -42,6 +43,10 @@ class _VariantCard extends State<VariantCard> {
   void initState() {
     super.initState();
     saveStatus = "Add to Saved";
+  }
+
+  void updateState() {
+    setState(() {});
   }
 
   Future<Map<String, dynamic>> getVariants(String accession) async {

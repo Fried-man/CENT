@@ -179,6 +179,7 @@ class _CountryCard extends State<CountryCard> {
                                             location: {"country" : widget.country},
                                             mapController: widget.mapController,
                                             updateParent: widget.updateParent,
+                                            controlKey: GlobalKey(),
                                           );
                                           addCard(SkeletonCard(
                                             controlKey: GlobalKey(),
