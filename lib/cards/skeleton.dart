@@ -50,7 +50,7 @@ class _SkeletonCard extends State<SkeletonCard> {
   updatePosition(Offset newPosition) =>
       setState(() => position = newPosition);
 
- getDefaultPostion (Widget card) {
+  getDefaultPostion (Widget card) {
     if (card is CountryCard) { // left
       return Offset(
           (window.physicalSize / window.devicePixelRatio).width / 8,
@@ -185,6 +185,9 @@ class _SkeletonCard extends State<SkeletonCard> {
                     onDragStarted: () {
                       isMoving = true;
                       updateActive();
+                      if (windows.length == 1) {
+                        setState(() {});
+                      }
                     },
                     onDragEnd: (details) {
                       isMoving = false;
@@ -230,12 +233,12 @@ class _SkeletonCard extends State<SkeletonCard> {
                     ),
                   ),
                   if (!isMoving)
-                  Expanded(
-                    child: Container(
-                      color: Colors.white,
-                      child: widget.body,
-                    ),
-                  )
+                    Expanded(
+                      child: Container(
+                        color: Colors.white,
+                        child: widget.body,
+                      ),
+                    )
                 ],
               ),
             ),
