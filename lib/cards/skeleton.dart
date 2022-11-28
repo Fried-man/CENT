@@ -61,14 +61,20 @@ class _SkeletonCard extends State<SkeletonCard> {
             225));
   }
 
-  void updateActive () {
+  void updateActive ({bool isNew = false}) {
     if (windows.length == 1) return;
 
     setState(() {
-      windows.remove(widget);
-      windows.add(widget);
+      List<SkeletonCard> temp = List.from(windows);
+      temp.remove(widget);
+      temp.add(widget);
+      windows = temp;
+      if (!isNew) {
+        widget.updateParent();
+      }
     });
     windows[windows.length - 2].controlKey.currentState!.updateState();
+
   }
 
   @override
@@ -77,7 +83,7 @@ class _SkeletonCard extends State<SkeletonCard> {
     if (position == const Offset(0, 0)) {
       position = getDefaultPostion(widget.body);
     }
-    updateActive();
+    updateActive(isNew: true);
     super.initState();
   }
 
