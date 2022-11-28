@@ -116,7 +116,7 @@ class _ContinentCard extends State<ContinentCard> {
 
                               Map<String, dynamic> getCountry (String name) {
                                 for (Map<String, dynamic> country
-                                in countries!) {
+                                in countries) {
                                   if (name == country["country"]) {
                                     return country;
                                   }
