@@ -619,13 +619,13 @@ class _CountryCard extends State<CountryCard> {
                       style: TextStyle(fontSize: 18),
                     ),
                   ),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.only(right: 18),
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: ElevatedButton(
-                          onPressed: () {},
-                          child: const Text("Predict",
+                          onPressed: null,
+                          child: Text("Predict",
                               style: TextStyle(
                                   fontSize: 15, color: Colors.black))),
                     ),
@@ -634,7 +634,7 @@ class _CountryCard extends State<CountryCard> {
                       padding: EdgeInsets.only(right: 10),
                       child: Align(
                         alignment: Alignment.centerRight,
-                        child: Text("     This button is \n currently disabled",
+                        child: Text("     ",
                             style: TextStyle(fontSize: 12, color: Colors.grey)),
                       ))
                 ],
