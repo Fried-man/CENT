@@ -42,17 +42,19 @@ class _Settings extends State<Settings> {
                             child: Icon(
                               Icons.chevron_left,
                               size: MediaQuery.of(context).size.width / 30,
+                              color: Theme.of(context).dialogBackgroundColor,
                             ),
                           ),
                         ),
-                        const Center(
+                        Center(
                             child: Padding(
-                              padding: EdgeInsets.all(20),
+                              padding: const EdgeInsets.all(20),
                               child: Text(
                                 "Settings",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: 30
+                                    fontSize: 30,
+                                    color: Theme.of(context).dialogBackgroundColor
                                 ),
                               ),
                             )
