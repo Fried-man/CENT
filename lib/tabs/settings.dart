@@ -289,7 +289,23 @@ class _Settings extends State<Settings> {
                                   ),
                                 ),
                               ),
-                              const Text("\n\n\n"),
+                              Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(12),
+                                    child: Text(
+                                      "Credits",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black),
+                                      ),
+                                    ),
+                                  ),
+                                )
+
+                              //const Text("\n\n\n"),
                             ]
                         )
                       ],
@@ -306,7 +322,7 @@ class _Settings extends State<Settings> {
                               }),
                         ],
 
-                      )
+                      ),
                     ],
                   )
                 )
