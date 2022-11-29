@@ -9,6 +9,7 @@ import 'package:genome_2133/tabs/faq.dart';
 import 'package:genome_2133/tabs/login.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
 import 'contact.dart';
@@ -291,7 +292,24 @@ class _Settings extends State<Settings> {
                                   ),
                                 ),
                               ),
-                              const Text("\n\n\n"),
+                              Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: ElevatedButton(
+                                  onPressed: () => launchUrl(Uri.parse(
+                                            'https://github.com/Fried-man/genome_2133#readme')),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(12),
+                                    child: Text(
+                                      "Credits",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black),
+                                      ),
+                                    ),
+                                  ),
+                                )
+
+                              //const Text("\n\n\n"),
                             ]
                         )
                       ],
@@ -308,7 +326,7 @@ class _Settings extends State<Settings> {
                               }),
                         ],
 
-                      )
+                      ),
                     ],
                   )
                 )
