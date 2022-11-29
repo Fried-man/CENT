@@ -18,7 +18,8 @@ The system being developed by Team 2133 is an application which can provide info
 - [Repository's Wikipedia](https://github.com/Fried-man/genome_2133/wiki)
 - [Useful Links](https://github.com/Fried-man/genome_2133/wiki/Resources)
 # Release Notes
-## v0.4.0
+## [v0.4.0](https://github.com/Fried-man/genome_2133/releases/tag/v0.4.0)
+[Sprint 4 Demo Video](https://youtu.be/HB5osgjjkO0)
 ### Features
 * Added new variant card - selecting a variant from a region pulls up additional info about the genome sequence, a link to the vairant on NCBI, and the ability to add the variant to a user's Saved list
 * New relational database created in Azure - will allow final connection between backend and frontend to populate website with data
@@ -31,7 +32,7 @@ The system being developed by Team 2133 is an application which can provide info
 * New variant card throws null error for non-logged in users
 * API request needs to be created for relational database
 
-## v0.3.0
+## [v0.3.0](https://github.com/Fried-man/genome_2133/releases/tag/v0.3.0)
 ### Features
 * Saved variant table added to user accounts - will allow saving of variants in future version of application
 * Added animated Google Maps functionality when selecting a region
@@ -42,7 +43,8 @@ The system being developed by Team 2133 is an application which can provide info
 * Still running data cleaning - expected to end by this week or next due to the sheer volume of data
 * Architecting the model has proven to be more difficult than initally presumed, at least to the degree of accuracy desired
 
-## v0.2.0
+## [v0.2.0](https://github.com/Fried-man/genome_2133/releases/tag/v0.2.0)
+[Sprint 2 Demo Video](https://youtu.be/VByy5UfqoAM)
 ### Features 
 * Multiselect for variants - can select group of variants to copy from a list displayed to the user 
 * New copy & compare button – copies list of selected variants and can open BLAST to compare 
@@ -56,7 +58,8 @@ The system being developed by Team 2133 is an application which can provide info
 * FASTA format is not sufficient to give us all the data we need – consider .gbff 
 * Azure is not connected as endpoint 
 
-## [v0.1.0](https://github.com/Fried-man/genome_2133/releases/tag/v1.1.0)
+## [v0.1.0](https://github.com/Fried-man/genome_2133/releases/tag/v0.1.0)
+[Sprint 1 Demo Video](https://www.youtube.com/watch?v=pdO0hcMbbtc)
 ### Features 
 * Region card view – this extends from our search functionality for regions, and where we can start to see variant views. 
 * Variant view – redirects to database link 
