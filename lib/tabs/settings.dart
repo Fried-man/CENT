@@ -76,13 +76,12 @@ class _Settings extends State<Settings> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Text("User Info", style: TextStyle(fontSize: 24)),
-                                const Text(" "),
+                                const Text("\n"),
                                 Text("Email: " + FirebaseAuth.instance.currentUser!.email!, style: const TextStyle(fontSize: 16)),
-                                const Text(" "),
+                                const Text("\n"),
                                 Text("Account Created: " + DateFormat("MMMM d, yyyy").format(FirebaseAuth.instance.currentUser!.metadata.creationTime!), style: const TextStyle(fontSize: 16)),
-                                const Text(" "),
+                                const Text("\n"),
                                 Text("User ID: " + FirebaseAuth.instance.currentUser!.uid, style: const TextStyle(fontSize: 16)),
-                                const Text(" "),
                               ],
                             )
                         ),
@@ -290,6 +289,7 @@ class _Settings extends State<Settings> {
                                   ),
                                 ),
                               ),
+                              const Text("\n\n\n"),
                             ]
                         )
                       ],
