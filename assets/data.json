@@ -1205,14 +1205,14 @@
       "latitude":-13.3,
       "longitude":-176.2,
       "cca3":"WLF",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"\u00c5land Islands",
       "latitude":60.116667,
       "longitude":19.9,
       "cca3":"ALA",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Montenegro",
@@ -1243,13 +1243,6 @@
       "zoom":5
     },
     {
-      "country":"Christmas Island",
-      "latitude":-10.5,
-      "longitude":105.66666666,
-      "cca3":"CXR",
-      "zoom":5
-    },
-    {
       "country":"Western Sahara",
       "latitude":24.5,
       "longitude":-13.0,
@@ -1268,7 +1261,7 @@
       "latitude":10.0,
       "longitude":-84.0,
       "cca3":"CRI",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Heard Island and McDonald Islands",
@@ -1278,31 +1271,17 @@
       "zoom":5
     },
     {
-      "country":"Antarctica",
-      "latitude":-90.0,
-      "longitude":0.0,
-      "cca3":"ATA",
-      "zoom":5
-    },
-    {
       "country":"Greenland",
       "latitude":72.0,
       "longitude":-40.0,
       "cca3":"GRL",
-      "zoom":5
+      "zoom":4
     },
     {
       "country":"Mauritius",
       "latitude":-20.28333333,
       "longitude":57.55,
       "cca3":"MUS",
-      "zoom":5
-    },
-    {
-      "country":"British Indian Ocean Territory",
-      "latitude":-6.0,
-      "longitude":71.5,
-      "cca3":"IOT",
       "zoom":5
     },
     {
@@ -1390,13 +1369,6 @@
       "zoom":5
     },
     {
-      "country":"Isle of Man",
-      "latitude":54.25,
-      "longitude":-4.5,
-      "cca3":"IMN",
-      "zoom":5
-    },
-    {
       "country":"Lithuania",
       "latitude":56.0,
       "longitude":24.0,
@@ -1436,7 +1408,7 @@
       "latitude":10.6918,
       "longitude":61.2225,
       "cca3":"TTO",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Madagascar",
@@ -1688,7 +1660,7 @@
       "latitude":49.75,
       "longitude":6.16666666,
       "cca3":"LUX",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Cape Verde",
@@ -1702,21 +1674,21 @@
       "latitude":25.0343,
       "longitude":77.3963,
       "cca3":"BHS",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Kiribati",
       "latitude":1.41666666,
       "longitude":173.0,
       "cca3":"KIR",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"S\u00e3o Tom\u00e9 and Pr\u00edncipe",
       "latitude":1.0,
       "longitude":7.0,
       "cca3":"STP",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Chad",
@@ -1737,21 +1709,21 @@
       "latitude":15.2,
       "longitude":145.75,
       "cca3":"MNP",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Mayotte",
       "latitude":-12.83333333,
       "longitude":45.16666666,
       "cca3":"MYT",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Gibraltar",
       "latitude":36.13333333,
       "longitude":-5.35,
       "cca3":"GIB",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Turkmenistan",
@@ -1765,7 +1737,7 @@
       "latitude":42.666667,
       "longitude":21.166667,
       "cca3":"UNK",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Ivory Coast",
@@ -1779,21 +1751,14 @@
       "latitude":41.9,
       "longitude":12.45,
       "cca3":"VAT",
-      "zoom":5
-    },
-    {
-      "country":"Jersey",
-      "latitude":49.25,
-      "longitude":-2.16666666,
-      "cca3":"JEY",
-      "zoom":5
+      "zoom":7
     },
     {
       "country":"Tuvalu",
       "latitude":-8.0,
       "longitude":178.0,
       "cca3":"TUV",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Angola",
@@ -1810,46 +1775,32 @@
       "zoom":5
     },
     {
-      "country":"Saint Helena, Ascension and Tristan da Cunha",
-      "latitude":-15.95,
-      "longitude":-5.72,
-      "cca3":"SHN",
-      "zoom":5
-    },
-    {
       "country":"Samoa",
       "latitude":-13.58333333,
       "longitude":-172.33333333,
       "cca3":"WSM",
-      "zoom":5
-    },
-    {
-      "country":"Guernsey",
-      "latitude":49.46666666,
-      "longitude":-2.58333333,
-      "cca3":"GGY",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"El Salvador",
       "latitude":13.83333333,
       "longitude":-88.91666666,
       "cca3":"SLV",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Kuwait",
       "latitude":29.5,
       "longitude":45.75,
       "cca3":"KWT",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Tonga",
       "latitude":-20.0,
       "longitude":-175.0,
       "cca3":"TON",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Oman",
@@ -1866,13 +1817,6 @@
       "zoom":5
     },
     {
-      "country":"Saint Kitts and Nevis",
-      "latitude":17.33333333,
-      "longitude":-62.75,
-      "cca3":"KNA",
-      "zoom":5
-    },
-    {
       "country":"Central African Republic",
       "latitude":7.0,
       "longitude":21.0,
@@ -1884,21 +1828,21 @@
       "latitude":17.6797,
       "longitude":149.4068,
       "cca3":"PYF",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Panama",
       "latitude":9.0,
       "longitude":-80.0,
       "cca3":"PAN",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Falkland Islands",
       "latitude":-51.75,
       "longitude":-59.0,
       "cca3":"FLK",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Equatorial Guinea",
@@ -1912,42 +1856,42 @@
       "latitude":24.0,
       "longitude":54.0,
       "cca3":"ARE",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Turks and Caicos Islands",
       "latitude":21.75,
       "longitude":-71.58333333,
       "cca3":"TCA",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"British Virgin Islands",
       "latitude":18.431383,
       "longitude":-64.62305,
       "cca3":"VGB",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Bosnia and Herzegovina",
       "latitude":44.0,
       "longitude":18.0,
       "cca3":"BIH",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Andorra",
       "latitude":42.5,
       "longitude":1.5,
       "cca3":"AND",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Guadeloupe",
       "latitude":16.25,
       "longitude":-61.583333,
       "cca3":"GLP",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Republic of the Congo",
@@ -1961,7 +1905,7 @@
       "latitude":-21.15,
       "longitude":55.5,
       "cca3":"REU",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Burkina Faso",
@@ -1982,35 +1926,28 @@
       "latitude":-9.0,
       "longitude":-172.0,
       "cca3":"TKL",
-      "zoom":5
+      "zoom":6
     },
     {
-      "country":"Sint Maarten",
-      "latitude":18.033333,
-      "longitude":-63.05,
-      "cca3":"SXM",
-      "zoom":5
-    },
-    {
-      "country":"United States Minor Outlying Islands",
+      "country":"US Minor Outlying Islands",
       "latitude":19.3,
       "longitude":166.633333,
       "cca3":"UMI",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Antigua and Barbuda",
       "latitude":17.05,
       "longitude":-61.8,
       "cca3":"ATG",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Brunei",
       "latitude":4.5,
       "longitude":114.66666666,
       "cca3":"BRN",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Bolivia",
@@ -2027,53 +1964,32 @@
       "zoom":5
     },
     {
-      "country":"Saint Pierre and Miquelon",
-      "latitude":46.83333333,
-      "longitude":-56.33333333,
-      "cca3":"SPM",
-      "zoom":5
-    },
-    {
       "country":"Rwanda",
       "latitude":-2.0,
       "longitude":30.0,
       "cca3":"RWA",
-      "zoom":5
-    },
-    {
-      "country":"Saint Vincent and the Grenadines",
-      "latitude":13.25,
-      "longitude":-61.2,
-      "cca3":"VCT",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Fiji",
       "latitude":17.7134,
       "longitude":178.065,
       "cca3":"FJI",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"South Georgia",
       "latitude":-54.5,
       "longitude":-37.0,
       "cca3":"SGS",
-      "zoom":5
-    },
-    {
-      "country":"Caribbean Netherlands",
-      "latitude":12.18,
-      "longitude":-68.25,
-      "cca3":"BES",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"Monaco",
       "latitude":43.73333333,
       "longitude":7.4,
       "cca3":"MCO",
-      "zoom":5
+      "zoom":6
     },
     {
       "country":"North Korea",
@@ -2102,15 +2018,45 @@
       "longitude":48.0,
       "cca3":"YEM",
       "zoom":5
-    },
-    {
-      "country":"Svalbard and Jan Mayen",
-      "latitude":78.0,
-      "longitude":20.0,
-      "cca3":"SJM",
-      "zoom":5
     }
   ],
+  "Continents" : {
+    "North America": {
+      "latitude":54.5260,
+      "longitude":-105.2551,
+      "zoom": 3
+    },
+    "South America": {
+      "latitude":-8.7832,
+      "longitude":-55.4915,
+      "zoom": 3
+    },
+    "Europe": {
+      "latitude":54.5260,
+      "longitude":15.2551,
+      "zoom": 4
+    },
+    "Asia": {
+      "latitude":34.0479,
+      "longitude":100.6197,
+      "zoom": 3
+    },
+    "Oceania": {
+      "latitude":-22.7359,
+      "longitude":140.0188,
+      "zoom": 3
+    },
+    "Antarctica": {
+      "latitude":-82.8628,
+      "longitude":135.0,
+      "zoom": 3
+    },
+    "Africa": {
+      "latitude":-8.7832,
+      "longitude":34.5085,
+      "zoom": 3
+    }
+  },
   "FAQ" : [
     {
       "Title" : "General Questions",

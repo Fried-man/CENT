@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:genome_2133/cards/continent.dart';
 import 'package:genome_2133/cards/country.dart';
 
 import '../home.dart';
@@ -203,8 +204,10 @@ class _SkeletonCard extends State<SkeletonCard> {
                                               // TODO: add cleanup to home array
                                               setState(() {
                                                 // need to handle cases where multiple cards?
-                                                if (widget.body is CountryCard) {
+                                                if (widget.body is CountryCard && windows.last == widget) {
                                                   (widget.body as CountryCard).centerMap();
+                                                } else if (widget.body is ContinentCard && windows.last == widget) {
+                                                  (widget.body as ContinentCard).centerMap();
                                                 }
                                                 isClosed = true;
                                               });
@@ -265,8 +268,10 @@ class _SkeletonCard extends State<SkeletonCard> {
                                     // TODO: add cleanup to home array
                                     setState(() {
                                       // need to handle cases where multiple cards?
-                                      if (widget.body is CountryCard) {
+                                      if (widget.body is CountryCard && windows.last == widget) {
                                         (widget.body as CountryCard).centerMap();
+                                      } else if (widget.body is ContinentCard && windows.last == widget) {
+                                        (widget.body as ContinentCard).centerMap();
                                       }
                                       isClosed = true;
                                     });

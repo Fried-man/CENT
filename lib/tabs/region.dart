@@ -1,20 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
-import 'dart:math';
-import 'dart:ui';
 
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:genome_2133/views/variant-view.dart';
-import 'package:genome_2133/cards/variant.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import 'package:http/http.dart' as http;
-
 import '../cards/country.dart';
-import '../home.dart';
 import '../cards/skeleton.dart';
 
 class Region extends StatefulWidget {

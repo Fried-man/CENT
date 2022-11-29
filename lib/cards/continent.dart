@@ -31,12 +31,29 @@ class ContinentCard extends StatefulWidget {
 
   @override
   State<ContinentCard> createState() => _ContinentCard();
+
+  void centerMap() {
+    mapController.animateCamera(CameraUpdate.newLatLngZoom(_initMapCenter, 3.2));
+  }
 }
 
 class _ContinentCard extends State<ContinentCard> {
+  _updateMap() async {
+    final String response = await rootBundle.loadString('assets/data.json');
+    final Map continents = await json.decode(response)["Continents"];
+    final Map continent = continents[widget.continent];
+    widget.mapController.animateCamera(CameraUpdate.newLatLngZoom(
+        LatLng(
+            continent["latitude"],
+            continent["longitude"]),
+        continent["zoom"]));
+  }
+
+
   @override
   void initState() {
     super.initState();
+    _updateMap();
   }
 
   Future<List<Map<String, dynamic>>> getContinent() async {
