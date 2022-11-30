@@ -155,10 +155,10 @@ class _SkeletonCard extends State<SkeletonCard> {
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(width: 1, color: !isMoving ? Theme.of(context).scaffoldBackgroundColor : Colors.transparent),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(18),
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(18),
               child: Column(
                 children: [
                   Draggable(
@@ -171,10 +171,10 @@ class _SkeletonCard extends State<SkeletonCard> {
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(width: 1, color: !isMoving ? Theme.of(context).scaffoldBackgroundColor : Colors.transparent),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(18),
                         ),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(18),
                           child: Column(
                             children: [
                               Container(
@@ -219,7 +219,7 @@ class _SkeletonCard extends State<SkeletonCard> {
                               ),
                               Expanded(
                                 child: Container(
-                                  color: Colors.white,
+                                  color: const Color(0x009e9e9e),
                                   child: widget.body,
                                 ),
                               )
