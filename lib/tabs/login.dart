@@ -21,7 +21,7 @@ class _Login extends State<Login> {
 
     return Scaffold(
       body: SafeArea(
-          child: Column(children: [
+          child: ListView(children: [
         Align(
           alignment: Alignment.topLeft,
           child: GestureDetector(
