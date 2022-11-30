@@ -37,6 +37,15 @@ class CountryCard extends StatefulWidget {
   void centerMap() {
     mapController.animateCamera(CameraUpdate.newLatLngZoom(_initMapCenter, 3.2));
   }
+
+  updateMap() async {
+    mapController.animateCamera(CameraUpdate.newLatLngZoom(
+        LatLng(
+            country["latitude"],
+            country["longitude"] -
+                (-10.0 * country["zoom"] + 60)),
+        country["zoom"]));
+  }
 }
 
 Map<String, Widget> variantsCache = {};

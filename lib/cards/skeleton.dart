@@ -80,6 +80,12 @@ class _SkeletonCard extends State<SkeletonCard> {
         widget.updateParent();
       }
     });
+    if (widget.body is CountryCard) {
+      (widget.body as CountryCard).updateMap();
+    }
+    if (widget.body is ContinentCard) {
+      (widget.body as ContinentCard).updateMap();
+    }
     windows[windows.length - 2].controlKey.currentState!.updateState();
   }
 
@@ -268,10 +274,31 @@ class _SkeletonCard extends State<SkeletonCard> {
                                     // TODO: add cleanup to home array
                                     setState(() {
                                       // need to handle cases where multiple cards?
-                                      if (widget.body is CountryCard && windows.last == widget) {
-                                        (widget.body as CountryCard).centerMap();
-                                      } else if (widget.body is ContinentCard && windows.last == widget) {
-                                        (widget.body as ContinentCard).centerMap();
+                                      if (windows.length == 1) {
+                                        if (widget.body is CountryCard) {
+                                          (widget.body as CountryCard)
+                                              .centerMap();
+                                        } else
+                                        if (widget.body is ContinentCard) {
+                                          (widget.body as ContinentCard)
+                                              .centerMap();
+                                        }
+                                      } else {
+                                        if (windows.last == widget) {
+                                          SkeletonCard nextCard = windows[windows.length - 2];
+                                          List<SkeletonCard> temp = List.from(windows);
+                                          temp.remove(nextCard);
+                                          temp.add(nextCard);
+                                          windows = temp;
+                                          nextCard.updateParent();
+                                          if (nextCard.body is CountryCard) {
+                                            (nextCard.body as CountryCard).updateMap();
+                                          }
+                                          if (nextCard.body is ContinentCard) {
+                                            (nextCard.body as ContinentCard).updateMap();
+                                          }
+                                          nextCard.controlKey.currentState!.updateState();
+                                        }
                                       }
                                       isClosed = true;
                                     });
