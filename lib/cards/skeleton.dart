@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:genome_2133/cards/continent.dart';
 import 'package:genome_2133/cards/country.dart';
@@ -191,14 +192,17 @@ class _SkeletonCard extends State<SkeletonCard> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
-                                        widget.title,
-                                        maxLines: 1,
-                                        textAlign: TextAlign.center,
-                                        overflow: TextOverflow.ellipsis,
-                                        style:
-                                        const TextStyle(color: Colors.white, fontSize: 20),
+                                      Flexible(
+                                        child: AutoSizeText(
+                                          widget.title,
+                                          maxLines: 1,
+                                          textAlign: TextAlign.center,
+                                          overflow: TextOverflow.ellipsis,
+                                          style:
+                                          const TextStyle(color: Colors.white, fontSize: 20),
+                                        ),
                                       ),
+
                                       Align(
                                           alignment: Alignment.centerRight,
                                           child: GestureDetector(
@@ -255,13 +259,15 @@ class _SkeletonCard extends State<SkeletonCard> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              widget.title,
-                              maxLines: 1,
-                              textAlign: TextAlign.center,
-                              overflow: TextOverflow.ellipsis,
-                              style:
-                              const TextStyle(color: Colors.white, fontSize: 20),
+                            Flexible(
+                              child: AutoSizeText(
+                                widget.title,
+                                maxLines: 1,
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.ellipsis,
+                                style:
+                                const TextStyle(color: Colors.white, fontSize: 20),
+                              ),
                             ),
                             Align(
                                 alignment: Alignment.centerRight,
