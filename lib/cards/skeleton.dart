@@ -92,7 +92,7 @@ class _SkeletonCard extends State<SkeletonCard> {
   @override
   void initState() {
     position = widget.initPosition;
-    if (position == const Offset(0, 0) && false) {
+    if (position == const Offset(0, 0)) {
       position = getDefaultPosition(widget.body);
       late bool isLegit;
       int passages = 0;
