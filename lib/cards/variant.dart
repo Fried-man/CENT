@@ -55,7 +55,7 @@ class _VariantCard extends State<VariantCard> {
         'POST',
         Uri.parse(
             'https://genome2133functions.azurewebsites.net/api/GetDataFromAccession?code=1q32fFCX4A7_IrbXC-l-q1aboyDf3Q77hgeJO2lV2L6kAzFuD_mgTg=='));
-    request.body = '''{\n    "accession": "''' + accession + '''"\n}''';
+    request.body = '''{\n    "accession": "$accession"\n}''';
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
@@ -111,7 +111,7 @@ class _VariantCard extends State<VariantCard> {
                                       style: DefaultTextStyle.of(context).style,
                                       children: <TextSpan>[
                                         TextSpan(
-                                            text: key + ": ",
+                                            text: "$key: ",
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold)),
                                         if (snapshot.data![key] == "GenBank")

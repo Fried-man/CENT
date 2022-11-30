@@ -70,17 +70,9 @@ class _CountryCard extends State<CountryCard> {
         'POST',
         Uri.parse(
             'https://genome2133functions.azurewebsites.net/api/GetAccessionsByRegion?code=e58u_e3ljQhe8gX3lElCZ79Ep3DOGcoiA54YzkamEEeDAzFuEobmzQ=='));
-    request.body = '''{''' +
-        (region.isNotEmpty ? '''\n    "region": "''' + region + '''",''' : "") +
-        (country.isNotEmpty
-            ? '''\n    "country": "''' + country + '''",'''
-            : "") +
-        (state.isNotEmpty ? '''\n    "state": "''' + state + '''",''' : "") +
-        '''
-      \n    "count": ''' +
-        (count < 0 ? '''"all"''' : count.toString()) +
-        '''
-      \n}''';
+    request.body = '''{${region.isNotEmpty ? '''\n    "region": "$region",''' : ""}${country.isNotEmpty
+            ? '''\n    "country": "$country",'''
+            : ""}${state.isNotEmpty ? '''\n    "state": "$state",''' : ""}      \n    "count": ${count < 0 ? '''"all"''' : count.toString()}      \n}''';
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
@@ -95,7 +87,7 @@ class _CountryCard extends State<CountryCard> {
 
   Future<Map<String, dynamic>> getCountryInfo(String cca3) async {
     var request = http.Request(
-        'GET', Uri.parse('https://restcountries.com/v3.1/alpha/' + cca3));
+        'GET', Uri.parse('https://restcountries.com/v3.1/alpha/$cca3'));
 
     http.StreamedResponse response = await request.send();
 
@@ -479,7 +471,7 @@ class _CountryCard extends State<CountryCard> {
                                     style: DefaultTextStyle.of(context).style,
                                     children: <TextSpan>[
                                       TextSpan(
-                                          text: key.toTitleCase() + ": ",
+                                          text: "${key.toTitleCase()}: ",
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold)),
                                       TextSpan(
@@ -550,7 +542,7 @@ class _CountryCard extends State<CountryCard> {
                                             1
                                             ? "Language: "
                                             : "Languages: ",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.bold)),
                                     for (String language
                                     in snapshot.data!["languages"].values)
@@ -597,7 +589,7 @@ class _CountryCard extends State<CountryCard> {
                                     style: DefaultTextStyle.of(context).style,
                                     children: <TextSpan>[
                                       TextSpan(
-                                          text: key.toTitleCase() + ": ",
+                                          text: "${key.toTitleCase()}: ",
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold)),
                                       TextSpan(

@@ -107,7 +107,7 @@ class _Login extends State<Login> {
                               throw CustomException("Email not verified");
                             });
                           } on FirebaseAuthException catch (e) {
-                            String error = "Server error: " + e.code;
+                            String error = "Server error: ${e.code}";
                             if (e.code == 'user-not-found') {
                               error = 'No user found for that email.';
                             } else if (e.code == 'wrong-password') {
@@ -163,15 +163,17 @@ class _Login extends State<Login> {
                           try {
                             for (String typeText in inputText.keys) {
                               // null checks
-                              if (inputText[typeText]!.text.isEmpty)
+                              if (inputText[typeText]!.text.isEmpty) {
                                 throw CustomException('Fill in all fields');
+                              }
                             }
                             // valid email check
                             String email = inputText['Email']!.text;
                             if (!email.contains('@') ||
                                 !email.contains('.') ||
-                                email.indexOf('.') == (email.length - 1))
+                                email.indexOf('.') == (email.length - 1)) {
                               throw CustomException('Fill in a valid email');
+                            }
                             // create account
                             await FirebaseAuth.instance
                                 .createUserWithEmailAndPassword(
@@ -248,7 +250,7 @@ class _Login extends State<Login> {
                     showDialog<void>(
                       context: context,
                       builder: (_) => AlertDialog(
-                        title: Text("Error: " + error.toString()),
+                        title: Text("Error: $error"),
                         content: Text(stackTrace.toString()),
                         actions: <Widget>[
                           TextButton(

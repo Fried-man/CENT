@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -77,11 +76,11 @@ class _Settings extends State<Settings> {
                               children: [
                                 const Text("User Info", style: TextStyle(fontSize: 24)),
                                 const Text("\n"),
-                                Text("Email: " + FirebaseAuth.instance.currentUser!.email!, style: const TextStyle(fontSize: 16)),
+                                Text("Email: ${FirebaseAuth.instance.currentUser!.email!}", style: const TextStyle(fontSize: 16)),
                                 const Text("\n"),
-                                Text("Account Created: " + DateFormat("MMMM d, yyyy").format(FirebaseAuth.instance.currentUser!.metadata.creationTime!), style: const TextStyle(fontSize: 16)),
+                                Text("Account Created: ${DateFormat("MMMM d, yyyy").format(FirebaseAuth.instance.currentUser!.metadata.creationTime!)}", style: const TextStyle(fontSize: 16)),
                                 const Text("\n"),
-                                Text("User ID: " + FirebaseAuth.instance.currentUser!.uid, style: const TextStyle(fontSize: 16)),
+                                Text("User ID: ${FirebaseAuth.instance.currentUser!.uid}", style: const TextStyle(fontSize: 16)),
                               ],
                             )
                         ),
@@ -89,7 +88,7 @@ class _Settings extends State<Settings> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(padding: const EdgeInsets.all(12)),
+                              const Padding(padding: EdgeInsets.all(12)),
                               const Text("Account Management", style: TextStyle(fontSize: 24)),
                               Padding(
                                 padding: const EdgeInsets.all(12),
@@ -134,7 +133,7 @@ class _Settings extends State<Settings> {
                                       showDialog<void>(
                                         context: context,
                                         builder: (_) => AlertDialog(
-                                          title: Text("Error: " + error.toString()),
+                                          title: Text("Error: $error"),
                                           content: Text(stackTrace.toString()),
                                           actions: <Widget>[
                                             TextButton(
@@ -218,7 +217,7 @@ class _Settings extends State<Settings> {
                                                   showDialog<void>(
                                                     context: context,
                                                     builder: (_) => AlertDialog(
-                                                      title: Text("Error: " + error.toString()),
+                                                      title: Text("Error: $error"),
                                                       content: Text(stackTrace.toString()),
                                                       actions: <Widget>[
                                                         TextButton(
@@ -254,7 +253,7 @@ class _Settings extends State<Settings> {
                         Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(padding: const EdgeInsets.all(12)),
+                              const Padding(padding: EdgeInsets.all(12)),
                               const Text("Other", style: TextStyle(fontSize: 24)),
                               Padding(
                                 padding: const EdgeInsets.all(12),
@@ -322,8 +321,7 @@ class _Settings extends State<Settings> {
                     builder:
                         (BuildContext context, AsyncSnapshot<String> snapshot) {
                       return Text(
-                        'Version: ' +
-                            (snapshot.hasData ? snapshot.data! : 'unknown'),
+                        'Version: ${snapshot.hasData ? snapshot.data! : 'unknown'}',
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16,
@@ -339,5 +337,5 @@ class _Settings extends State<Settings> {
 
 Future<String> getVersion() async {
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  return "v" + packageInfo.version + " (" + packageInfo.buildNumber + ")";
+  return "v${packageInfo.version} (${packageInfo.buildNumber})";
 }

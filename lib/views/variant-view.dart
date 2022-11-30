@@ -39,17 +39,9 @@ class _VariantView extends State<VariantView> {
         'POST',
         Uri.parse(
             'https://genome2133functions.azurewebsites.net/api/GetAccessionsByRegion?code=e58u_e3ljQhe8gX3lElCZ79Ep3DOGcoiA54YzkamEEeDAzFuEobmzQ=='));
-    request.body = '''{''' +
-        (region.isNotEmpty ? '''\n    "region": "''' + region + '''",''' : "") +
-        (country.isNotEmpty
-            ? '''\n    "country": "''' + country + '''",'''
-            : "") +
-        (state.isNotEmpty ? '''\n    "state": "''' + state + '''",''' : "") +
-        '''
-      \n    "count": ''' +
-        (count < 0 ? '''"all"''' : count.toString()) +
-        '''
-      \n}''';
+    request.body = '''{${region.isNotEmpty ? '''\n    "region": "$region",''' : ""}${country.isNotEmpty
+            ? '''\n    "country": "$country",'''
+            : ""}${state.isNotEmpty ? '''\n    "state": "$state",''' : ""}      \n    "count": ${count < 0 ? '''"all"''' : count.toString()}      \n}''';
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
