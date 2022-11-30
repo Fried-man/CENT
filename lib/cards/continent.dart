@@ -7,6 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
 import '../home.dart';
+import '../main.dart';
 import "skeleton.dart";
 
 Map<String, Widget> cache = {};
@@ -35,6 +36,8 @@ class ContinentCard extends StatefulWidget {
   }
 
   updateMap() async {
+    if (isDesktop) return;
+
     final String response = await rootBundle.loadString('assets/data.json');
     final Map continents = await json.decode(response)["Continents"];
     final Map continentMap = continents[continent];
@@ -48,6 +51,8 @@ class ContinentCard extends StatefulWidget {
 
 class _ContinentCard extends State<ContinentCard> {
   _updateMap() async {
+    if (isDesktop) return;
+
     final String response = await rootBundle.loadString('assets/data.json');
     final Map continents = await json.decode(response)["Continents"];
     final Map continent = continents[widget.continent];
