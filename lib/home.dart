@@ -53,21 +53,24 @@ class _Home extends State<Home> {
         },
         child: const Icon(Icons.question_mark),
       ),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            if (isDesktop)
-              Center(child: Image.asset("assets/images/banner.png")),
-            if (!isDesktop)
-              GoogleMap(
-                mapType: MapType.hybrid,
-                zoomControlsEnabled: false,
-                scrollGesturesEnabled: false,
-                initialCameraPosition: CameraPosition(
-                    bearing: 0, target: _initMapCenter, tilt: 0, zoom: 3.2),
-                onMapCreated: _onMapCreated,
-              ),
-            Padding(
+      body: Stack(
+        children: [
+          if (isDesktop)
+            Center(child: Image.asset("assets/images/banner.png")),
+          if (!isDesktop)
+            GoogleMap(
+              mapType: MapType.hybrid,
+              zoomControlsEnabled: false,
+              compassEnabled: false,
+              scrollGesturesEnabled: false,
+              mapToolbarEnabled: false,
+              myLocationButtonEnabled: false,
+              initialCameraPosition: CameraPosition(
+                  bearing: 0, target: _initMapCenter, tilt: 0, zoom: 3.2),
+              onMapCreated: _onMapCreated,
+            ),
+          SafeArea(
+            child: Padding(
               padding: const EdgeInsets.all(4.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -96,44 +99,44 @@ class _Home extends State<Home> {
                       Navigator.pushNamed(context, '/saved');
                     }),
                   headerButton(context, user == null ? "Login" : "Settings",
-                      () async {
-                    if (user == null) {
-                      Navigator.pushNamed(context, '/login')
-                          .whenComplete(() {
-                        if (user != null) {
-                          setState(() {
-                            for (SkeletonCard card in windows) {
-                              if (card.body is VariantCard) {
-                                (card.body as VariantCard).controlKey.currentState!.updateState();
-                              }
-                            }
-                          });
-                        }
-                      });
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Settings())
-                      ).whenComplete(() {
+                          () async {
                         if (user == null) {
-                          setState(() {
-                            for (SkeletonCard card in windows) {
-                              if (card.body is VariantCard) {
-                                (card.body as VariantCard).controlKey.currentState!.updateState();
-                              }
+                          Navigator.pushNamed(context, '/login')
+                              .whenComplete(() {
+                            if (user != null) {
+                              setState(() {
+                                for (SkeletonCard card in windows) {
+                                  if (card.body is VariantCard) {
+                                    (card.body as VariantCard).controlKey.currentState!.updateState();
+                                  }
+                                }
+                              });
+                            }
+                          });
+                        } else {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Settings())
+                          ).whenComplete(() {
+                            if (user == null) {
+                              setState(() {
+                                for (SkeletonCard card in windows) {
+                                  if (card.body is VariantCard) {
+                                    (card.body as VariantCard).controlKey.currentState!.updateState();
+                                  }
+                                }
+                              });
                             }
                           });
                         }
-                      });
-                    }
-                  })
+                      })
                 ],
               ),
             ),
-            for (Widget pane in windows) pane,
-          ],
-        ),
+          ),
+          for (Widget pane in windows) pane,
+        ],
       ),
     );
   }
