@@ -115,8 +115,10 @@ class _CountryCard extends State<CountryCard> {
 
   @override
   Widget build(BuildContext context) {
+
     return Padding(
-        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+        padding: const EdgeInsets.fromLTRB(20, 0, 8, 0),
+
         child: CustomScrollView(
           shrinkWrap: true,
           slivers: [
@@ -125,10 +127,10 @@ class _CountryCard extends State<CountryCard> {
               child: Column(
                 children: [
                   const Padding(
-                    padding: EdgeInsets.only(top: 8, bottom: 8),
+                    padding: EdgeInsets.only(top: 12, bottom: 12),
                     child: Text(
                       "Variants",
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
                   FutureBuilder<Map<String, dynamic>>(
@@ -236,10 +238,10 @@ class _CountryCard extends State<CountryCard> {
                     ),
                   ),
                   const Padding(
-                    padding: EdgeInsets.only(top: 8, bottom: 8),
+                    padding: EdgeInsets.only(top: 16, bottom: 12),
                     child: Text(
                       "Country Info",
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
                   FutureBuilder<Map<String, dynamic>>(
@@ -267,7 +269,8 @@ class _CountryCard extends State<CountryCard> {
                                     ? "Continent: "
                                     : "Continents: ",
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.bold))
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15))
                           ];
 
                           for (String continent
@@ -280,10 +283,11 @@ class _CountryCard extends State<CountryCard> {
                                     : ""));
                             output.add(TextSpan(
                                 text: continent,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color:
-                                      Theme.of(context).scaffoldBackgroundColor,
+                                      Colors.blue,
                                   decoration: TextDecoration.underline,
+                                  fontSize: 15
                                 ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
@@ -306,6 +310,7 @@ class _CountryCard extends State<CountryCard> {
                                         ? ", "
                                         : " "));
                           }
+
                           return output;
                         }
 
@@ -376,7 +381,8 @@ class _CountryCard extends State<CountryCard> {
                                                 ? "Neighbor: "
                                                 : "Neighbors: ",
                                             style: const TextStyle(
-                                                fontWeight: FontWeight.bold)),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15)),
                                         if (!snapshot.data!
                                             .containsKey("borders") ||
                                             countries.isEmpty)
@@ -390,11 +396,10 @@ class _CountryCard extends State<CountryCard> {
                                                 : ""));
                                         output.add(TextSpan(
                                             text: country,
-                                            style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .scaffoldBackgroundColor,
-                                              decoration:
-                                              TextDecoration.underline,
+                                            style: const TextStyle(
+                                              color: Colors.blue,
+                                              decoration: TextDecoration.underline,
+                                              fontSize: 15
                                             ),
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
@@ -444,7 +449,8 @@ class _CountryCard extends State<CountryCard> {
                                             ? "Capital: "
                                             : "Capitals: ",
                                         style: const TextStyle(
-                                            fontWeight: FontWeight.bold)),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15)),
                                     for (String capital
                                     in snapshot.data!["capital"])
                                       TextSpan(
@@ -507,7 +513,8 @@ class _CountryCard extends State<CountryCard> {
                                     const TextSpan(
                                         text: "Population Density: ",
                                         style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15)),
                                     TextSpan(
                                         text: (snapshot.data!["population"] /
                                             snapshot.data!["area"])
@@ -529,7 +536,8 @@ class _CountryCard extends State<CountryCard> {
                                     const TextSpan(
                                         text: "United Nations: ",
                                         style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15)),
                                     TextSpan(
                                         text: snapshot.data!["unMember"]
                                             ? "Member"
@@ -613,10 +621,10 @@ class _CountryCard extends State<CountryCard> {
                         return statsCache[widget.country["country"]]!;
                       }),
                   const Padding(
-                    padding: EdgeInsets.only(top: 8, bottom: 8),
+                    padding: EdgeInsets.only(top: 16, bottom: 12),
                     child: Text(
                       "Future Variants",
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const Padding(
