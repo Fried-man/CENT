@@ -20,7 +20,7 @@ Future<void> main() async {
 
   runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'COVID Genome',
+      title: 'CENT - Exploration Tool',
       theme: ThemeData(
         primarySwatch: Colors.grey,
         dialogBackgroundColor: const Color(0xffcccccc),
