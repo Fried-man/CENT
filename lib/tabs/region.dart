@@ -33,6 +33,10 @@ class _Region extends State<Region> {
               builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                 if (!snapshot.hasData) return Container();
                 List countries = json.decode(snapshot.data!)["Countries"];
+                Map temp = countries.first;
+                countries.remove(temp); // USA baby
+                countries.sort((a,b) => a["country"].compareTo(b["country"]));
+                countries.insert(0, temp);
                 return Column(
                   children: [
                     Padding(
