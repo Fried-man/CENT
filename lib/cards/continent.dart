@@ -7,20 +7,19 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
 import '../home.dart';
+import '../main.dart';
 import "skeleton.dart";
 
 Map<String, Widget> cache = {};
 
 class ContinentCard extends StatefulWidget {
   final String continent;
-  final GoogleMapController mapController;
   final LatLng _initMapCenter = const LatLng(20, 0);
   final Function updateParent;
 
   const ContinentCard(
       {Key? key,
       required this.continent,
-      required this.mapController,
       required this.updateParent})
       : super(key: key);
 
@@ -35,18 +34,33 @@ class ContinentCard extends StatefulWidget {
   void centerMap() {
     mapController.animateCamera(CameraUpdate.newLatLngZoom(_initMapCenter, 3.2));
   }
+
+  updateMap() async {
+    if (isDesktop) return;
+
+    final String response = await rootBundle.loadString('assets/data.json');
+    final Map continents = await json.decode(response)["Continents"];
+    final Map continentMap = continents[continent];
+    mapController.animateCamera(CameraUpdate.newLatLngZoom(
+        LatLng(
+            continentMap["latitude"],
+            continentMap["longitude"]),
+        continentMap["zoom"].toDouble()));
+  }
 }
 
 class _ContinentCard extends State<ContinentCard> {
   _updateMap() async {
+    if (isDesktop) return;
+
     final String response = await rootBundle.loadString('assets/data.json');
     final Map continents = await json.decode(response)["Continents"];
     final Map continent = continents[widget.continent];
-    widget.mapController.animateCamera(CameraUpdate.newLatLngZoom(
+    mapController.animateCamera(CameraUpdate.newLatLngZoom(
         LatLng(
             continent["latitude"],
             continent["longitude"]),
-        continent["zoom"]));
+        continent["zoom"].toDouble()));
   }
 
 
@@ -171,7 +185,6 @@ class _ContinentCard extends State<ContinentCard> {
                                           title: country,
                                           body: CountryCard(
                                             country: getCountry(country),
-                                            mapController: widget.mapController,
                                             updateParent: widget.updateParent,
                                           ),
                                         ));

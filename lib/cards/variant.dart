@@ -16,12 +16,11 @@ import 'country.dart';
 class VariantCard extends StatefulWidget {
   final Map variant;
   final Map location;
-  final GoogleMapController mapController;
   final LatLng _initMapCenter = const LatLng(20, 0);
   final Function updateParent;
   final GlobalKey<_VariantCard> controlKey;
 
-  const VariantCard({required this.variant, this.location = const {}, required this.mapController, required this.updateParent, required this.controlKey}) : super(key: controlKey);
+  const VariantCard({required this.variant, this.location = const {}, required this.updateParent, required this.controlKey}) : super(key: controlKey);
 
   @override
   State<VariantCard> createState() => _VariantCard();
@@ -55,7 +54,7 @@ class _VariantCard extends State<VariantCard> {
         'POST',
         Uri.parse(
             'https://genome2133functions.azurewebsites.net/api/GetDataFromAccession?code=1q32fFCX4A7_IrbXC-l-q1aboyDf3Q77hgeJO2lV2L6kAzFuD_mgTg=='));
-    request.body = '''{\n    "accession": "''' + accession + '''"\n}''';
+    request.body = '''{\n    "accession": "$accession"\n}''';
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
@@ -111,7 +110,7 @@ class _VariantCard extends State<VariantCard> {
                                       style: DefaultTextStyle.of(context).style,
                                       children: <TextSpan>[
                                         TextSpan(
-                                            text: key + ": ",
+                                            text: "$key: ",
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold)),
                                         if (snapshot.data![key] == "GenBank")
@@ -184,7 +183,6 @@ class _VariantCard extends State<VariantCard> {
                                               title: widget.location["country"]["country"],
                                               body: CountryCard(
                                                 country: widget.location["country"],
-                                                mapController: widget.mapController,
                                                 updateParent: widget.updateParent,
                                               ),
                                             ));

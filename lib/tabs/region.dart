@@ -9,10 +9,8 @@ import '../cards/skeleton.dart';
 
 class Region extends StatefulWidget {
   final Function updateParent;
-  // is this necessary?
-  final GoogleMapController mapController;
 
-  const Region({Key? key, required this.updateParent, required this.mapController}) : super(key: key);
+  const Region({Key? key, required this.updateParent}) : super(key: key);
 
   @override
   State<Region> createState() => _Region();
@@ -84,7 +82,6 @@ class _Region extends State<Region> {
                                   onPressed: () {
                                     CountryCard selectedCountry = CountryCard(
                                       country: countries[index],
-                                      mapController: widget.mapController,
                                       updateParent: widget.updateParent,
                                     );
                                     Navigator.pop(context, [

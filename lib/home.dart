@@ -8,12 +8,11 @@ import 'package:genome_2133/tabs/settings.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'cards/skeleton.dart';
-import 'cards/skeleton.dart';
 import 'main.dart';
 import 'tabs/faq.dart';
-import '../cards/skeleton.dart';
 
 late List<SkeletonCard> windows;
+late GoogleMapController mapController;
 
 void addCard(SkeletonCard card) {
   for (SkeletonCard xCard in windows) {
@@ -33,12 +32,10 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
-  late GoogleMapController _mapController;
-
   final LatLng _initMapCenter = const LatLng(20, 0);
 
   void _onMapCreated(GoogleMapController controller) {
-    _mapController = controller;
+    mapController = controller;
   }
 
   @override
@@ -56,18 +53,24 @@ class _Home extends State<Home> {
         },
         child: const Icon(Icons.question_mark),
       ),
-      body: SafeArea(
-        child: Stack(
-          children: [
+      body: Stack(
+        children: [
+          if (isDesktop)
+            Center(child: Image.asset("assets/images/banner.png")),
+          if (!isDesktop)
             GoogleMap(
               mapType: MapType.hybrid,
               zoomControlsEnabled: false,
+              compassEnabled: false,
               scrollGesturesEnabled: false,
+              mapToolbarEnabled: false,
+              myLocationButtonEnabled: false,
               initialCameraPosition: CameraPosition(
                   bearing: 0, target: _initMapCenter, tilt: 0, zoom: 3.2),
               onMapCreated: _onMapCreated,
             ),
-            Padding(
+          SafeArea(
+            child: Padding(
               padding: const EdgeInsets.all(4.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -75,7 +78,7 @@ class _Home extends State<Home> {
                   headerButton(context, "Select Country", () async {
                     showDialog(
                       context: context,
-                      builder: (_) => Region(mapController: _mapController, updateParent: () {
+                      builder: (_) => Region(updateParent: () {
                         setState(() {});
                       }),
                     ).then((value) {
@@ -96,44 +99,44 @@ class _Home extends State<Home> {
                       Navigator.pushNamed(context, '/saved');
                     }),
                   headerButton(context, user == null ? "Login" : "Settings",
-                      () async {
-                    if (user == null) {
-                      Navigator.pushNamed(context, '/login')
-                          .whenComplete(() {
-                        if (user != null) {
-                          setState(() {
-                            for (SkeletonCard card in windows) {
-                              if (card.body is VariantCard) {
-                                (card.body as VariantCard).controlKey.currentState!.updateState();
-                              }
-                            }
-                          });
-                        }
-                      });
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Settings())
-                      ).whenComplete(() {
+                          () async {
                         if (user == null) {
-                          setState(() {
-                            for (SkeletonCard card in windows) {
-                              if (card.body is VariantCard) {
-                                (card.body as VariantCard).controlKey.currentState!.updateState();
-                              }
+                          Navigator.pushNamed(context, '/login')
+                              .whenComplete(() {
+                            if (user != null) {
+                              setState(() {
+                                for (SkeletonCard card in windows) {
+                                  if (card.body is VariantCard) {
+                                    (card.body as VariantCard).controlKey.currentState!.updateState();
+                                  }
+                                }
+                              });
+                            }
+                          });
+                        } else {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Settings())
+                          ).whenComplete(() {
+                            if (user == null) {
+                              setState(() {
+                                for (SkeletonCard card in windows) {
+                                  if (card.body is VariantCard) {
+                                    (card.body as VariantCard).controlKey.currentState!.updateState();
+                                  }
+                                }
+                              });
                             }
                           });
                         }
-                      });
-                    }
-                  })
+                      })
                 ],
               ),
             ),
-            for (Widget pane in windows) pane,
-          ],
-        ),
+          ),
+          for (Widget pane in windows) pane,
+        ],
       ),
     );
   }

@@ -34,7 +34,7 @@ class SkeletonCard extends StatefulWidget {
   Offset getPosition() => const Offset(0, 0);
 
   void updatePosition(Offset newPosition) {}
-  Offset getDefaultPostion (Widget card) { return const Offset(0,0);}
+  Offset getDefaultPosition (Widget card) { return const Offset(0,0);}
 }
 
 class _SkeletonCard extends State<SkeletonCard> {
@@ -52,7 +52,7 @@ class _SkeletonCard extends State<SkeletonCard> {
   updatePosition(Offset newPosition) =>
       setState(() => position = newPosition);
 
-  getDefaultPostion (Widget card) {
+  getDefaultPosition (Widget card) {
     if (card is CountryCard) { // left
       return Offset(
           (window.physicalSize / window.devicePixelRatio).width / 8,
@@ -80,6 +80,12 @@ class _SkeletonCard extends State<SkeletonCard> {
         widget.updateParent();
       }
     });
+    if (widget.body is CountryCard) {
+      (widget.body as CountryCard).updateMap();
+    }
+    if (widget.body is ContinentCard) {
+      (widget.body as ContinentCard).updateMap();
+    }
     windows[windows.length - 2].controlKey.currentState!.updateState();
   }
 
@@ -87,7 +93,7 @@ class _SkeletonCard extends State<SkeletonCard> {
   void initState() {
     position = widget.initPosition;
     if (position == const Offset(0, 0)) {
-      position = getDefaultPostion(widget.body);
+      position = getDefaultPosition(widget.body);
       late bool isLegit;
       int passages = 0;
 
@@ -115,7 +121,7 @@ class _SkeletonCard extends State<SkeletonCard> {
           }
           else {
             passages++;
-            position = getDefaultPostion(widget.body);
+            position = getDefaultPosition(widget.body);
             if (position.dx + passages * 40 + 20 + size / 3 < (window.physicalSize / window.devicePixelRatio).width &&
                 position.dy + passages * 40 + size / 2 < (window.physicalSize / window.devicePixelRatio).height) {
               position = Offset(position.dx - passages * 40, position.dy + passages * 40);
@@ -268,10 +274,31 @@ class _SkeletonCard extends State<SkeletonCard> {
                                     // TODO: add cleanup to home array
                                     setState(() {
                                       // need to handle cases where multiple cards?
-                                      if (widget.body is CountryCard && windows.last == widget) {
-                                        (widget.body as CountryCard).centerMap();
-                                      } else if (widget.body is ContinentCard && windows.last == widget) {
-                                        (widget.body as ContinentCard).centerMap();
+                                      if (windows.length == 1) {
+                                        if (widget.body is CountryCard) {
+                                          (widget.body as CountryCard)
+                                              .centerMap();
+                                        } else
+                                        if (widget.body is ContinentCard) {
+                                          (widget.body as ContinentCard)
+                                              .centerMap();
+                                        }
+                                      } else {
+                                        if (windows.last == widget) {
+                                          SkeletonCard nextCard = windows[windows.length - 2];
+                                          List<SkeletonCard> temp = List.from(windows);
+                                          temp.remove(nextCard);
+                                          temp.add(nextCard);
+                                          windows = temp;
+                                          nextCard.updateParent();
+                                          if (nextCard.body is CountryCard) {
+                                            (nextCard.body as CountryCard).updateMap();
+                                          }
+                                          if (nextCard.body is ContinentCard) {
+                                            (nextCard.body as ContinentCard).updateMap();
+                                          }
+                                          nextCard.controlKey.currentState!.updateState();
+                                        }
                                       }
                                       isClosed = true;
                                     });

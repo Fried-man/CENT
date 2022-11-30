@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,6 +8,7 @@ import 'package:genome_2133/tabs/faq.dart';
 import 'package:genome_2133/tabs/login.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
 import 'contact.dart';
@@ -42,17 +42,19 @@ class _Settings extends State<Settings> {
                             child: Icon(
                               Icons.chevron_left,
                               size: MediaQuery.of(context).size.width / 30,
+                              color: Theme.of(context).dialogBackgroundColor,
                             ),
                           ),
                         ),
-                        const Center(
+                        Center(
                             child: Padding(
-                              padding: EdgeInsets.all(20),
+                              padding: const EdgeInsets.all(20),
                               child: Text(
                                 "Settings",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: 30
+                                    fontSize: 30,
+                                    color: Theme.of(context).dialogBackgroundColor
                                 ),
                               ),
                             )
@@ -77,11 +79,11 @@ class _Settings extends State<Settings> {
                               children: [
                                 const Text("User Info", style: TextStyle(fontSize: 24)),
                                 const Text("\n"),
-                                Text("Email: " + FirebaseAuth.instance.currentUser!.email!, style: const TextStyle(fontSize: 16)),
+                                Text("Email: ${FirebaseAuth.instance.currentUser!.email!}", style: const TextStyle(fontSize: 16)),
                                 const Text("\n"),
-                                Text("Account Created: " + DateFormat("MMMM d, yyyy").format(FirebaseAuth.instance.currentUser!.metadata.creationTime!), style: const TextStyle(fontSize: 16)),
+                                Text("Account Created: ${DateFormat("MMMM d, yyyy").format(FirebaseAuth.instance.currentUser!.metadata.creationTime!)}", style: const TextStyle(fontSize: 16)),
                                 const Text("\n"),
-                                Text("User ID: " + FirebaseAuth.instance.currentUser!.uid, style: const TextStyle(fontSize: 16)),
+                                Text("User ID: ${FirebaseAuth.instance.currentUser!.uid}", style: const TextStyle(fontSize: 16)),
                               ],
                             )
                         ),
@@ -89,7 +91,7 @@ class _Settings extends State<Settings> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(padding: const EdgeInsets.all(12)),
+                              const Padding(padding: EdgeInsets.all(12)),
                               const Text("Account Management", style: TextStyle(fontSize: 24)),
                               Padding(
                                 padding: const EdgeInsets.all(12),
@@ -134,7 +136,7 @@ class _Settings extends State<Settings> {
                                       showDialog<void>(
                                         context: context,
                                         builder: (_) => AlertDialog(
-                                          title: Text("Error: " + error.toString()),
+                                          title: Text("Error: $error"),
                                           content: Text(stackTrace.toString()),
                                           actions: <Widget>[
                                             TextButton(
@@ -218,7 +220,7 @@ class _Settings extends State<Settings> {
                                                   showDialog<void>(
                                                     context: context,
                                                     builder: (_) => AlertDialog(
-                                                      title: Text("Error: " + error.toString()),
+                                                      title: Text("Error: $error"),
                                                       content: Text(stackTrace.toString()),
                                                       actions: <Widget>[
                                                         TextButton(
@@ -254,7 +256,7 @@ class _Settings extends State<Settings> {
                         Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(padding: const EdgeInsets.all(12)),
+                              const Padding(padding: EdgeInsets.all(12)),
                               const Text("Other", style: TextStyle(fontSize: 24)),
                               Padding(
                                 padding: const EdgeInsets.all(12),
@@ -289,7 +291,24 @@ class _Settings extends State<Settings> {
                                   ),
                                 ),
                               ),
-                              const Text("\n\n\n"),
+                              Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: ElevatedButton(
+                                  onPressed: () => launchUrl(Uri.parse(
+                                            'https://github.com/Fried-man/genome_2133#readme')),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(12),
+                                    child: Text(
+                                      "Credits",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black),
+                                      ),
+                                    ),
+                                  ),
+                                )
+
+                              //const Text("\n\n\n"),
                             ]
                         )
                       ],
@@ -306,7 +325,7 @@ class _Settings extends State<Settings> {
                               }),
                         ],
 
-                      )
+                      ),
                     ],
                   )
                 )
@@ -322,8 +341,7 @@ class _Settings extends State<Settings> {
                     builder:
                         (BuildContext context, AsyncSnapshot<String> snapshot) {
                       return Text(
-                        'Version: ' +
-                            (snapshot.hasData ? snapshot.data! : 'unknown'),
+                        'Version: ${snapshot.hasData ? snapshot.data! : 'unknown'}',
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16,
@@ -339,5 +357,5 @@ class _Settings extends State<Settings> {
 
 Future<String> getVersion() async {
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  return "v" + packageInfo.version + " (" + packageInfo.buildNumber + ")";
+  return "v${packageInfo.version} (${packageInfo.buildNumber})";
 }

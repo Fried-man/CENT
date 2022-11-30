@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "29922646312",
+    "project_id": "genome-e2802",
+    "storage_bucket": "genome-e2802.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:29922646312:android:0362fad4cb9a319ef2d81d",
+        "android_client_info": {
+          "package_name": "com.Friedman.CENT"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "29922646312-d5dq9krkb9hakip70r4npk134gba6ud5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCI1VaXubssQyNm_qWZh6_shBv6eOwljD0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "29922646312-d5dq9krkb9hakip70r4npk134gba6ud5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "29922646312-f8a6kt2frb66vgmr6fgk3n8mk54ngfpk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Friedman.CENT"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
