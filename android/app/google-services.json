@@ -29,6 +29,13 @@
             {
               "client_id": "29922646312-d5dq9krkb9hakip70r4npk134gba6ud5.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "29922646312-f8a6kt2frb66vgmr6fgk3n8mk54ngfpk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Friedman.CENT"
+              }
             }
           ]
         }

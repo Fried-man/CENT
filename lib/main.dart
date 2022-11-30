@@ -7,15 +7,17 @@ import 'firebase_options.dart';
 import 'home.dart';
 import 'tabs/login.dart';
 
-User? user = FirebaseAuth.instance.currentUser;
+User? user;
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp(
-    name: "CENT",
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  user = FirebaseAuth.instance.currentUser;
+
   runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'COVID Genome',
