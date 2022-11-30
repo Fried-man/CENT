@@ -13,6 +13,7 @@ import 'main.dart';
 import 'tabs/faq.dart';
 
 late List<SkeletonCard> windows;
+late GoogleMapController mapController;
 
 void addCard(SkeletonCard card) {
   for (SkeletonCard xCard in windows) {
@@ -32,8 +33,6 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
-  late GoogleMapController _mapController;
-
   final LatLng _initMapCenter = const LatLng(20, 0);
 
   bool isDesktop = (defaultTargetPlatform == TargetPlatform.macOS ||
@@ -42,7 +41,7 @@ class _Home extends State<Home> {
       !kIsWeb;
 
   void _onMapCreated(GoogleMapController controller) {
-    _mapController = controller;
+    mapController = controller;
   }
 
   @override
@@ -80,7 +79,7 @@ class _Home extends State<Home> {
                   headerButton(context, "Select Country", () async {
                     showDialog(
                       context: context,
-                      builder: (_) => Region(mapController: _mapController, updateParent: () {
+                      builder: (_) => Region(updateParent: () {
                         setState(() {});
                       }),
                     ).then((value) {

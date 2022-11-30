@@ -16,12 +16,11 @@ import 'country.dart';
 class VariantCard extends StatefulWidget {
   final Map variant;
   final Map location;
-  final GoogleMapController mapController;
   final LatLng _initMapCenter = const LatLng(20, 0);
   final Function updateParent;
   final GlobalKey<_VariantCard> controlKey;
 
-  const VariantCard({required this.variant, this.location = const {}, required this.mapController, required this.updateParent, required this.controlKey}) : super(key: controlKey);
+  const VariantCard({required this.variant, this.location = const {}, required this.updateParent, required this.controlKey}) : super(key: controlKey);
 
   @override
   State<VariantCard> createState() => _VariantCard();
@@ -184,7 +183,6 @@ class _VariantCard extends State<VariantCard> {
                                               title: widget.location["country"]["country"],
                                               body: CountryCard(
                                                 country: widget.location["country"],
-                                                mapController: widget.mapController,
                                                 updateParent: widget.updateParent,
                                               ),
                                             ));

@@ -15,13 +15,11 @@ List selections = [];
 class VariantView extends StatefulWidget {
   final Map country;
   final Function updateParent;
-  final GoogleMapController mapController;
 
   const VariantView(
       {Key? key,
       required this.country,
-      required this.updateParent,
-      required this.mapController})
+      required this.updateParent})
       : super(key: key);
 
   @override
@@ -128,8 +126,7 @@ class _VariantView extends State<VariantView> {
 
           return SortablePage(
               items: regionView,
-              updateParent: widget.updateParent,
-              mapController: widget.mapController);
+              updateParent: widget.updateParent);
         }
       ),
     );
@@ -139,13 +136,11 @@ class _VariantView extends State<VariantView> {
 class SortablePage extends StatefulWidget {
   final List<Map<String, dynamic>> items;
   final Function updateParent;
-  final GoogleMapController mapController;
 
   const SortablePage(
       {Key? key,
       required this.items,
-      required this.updateParent,
-      required this.mapController})
+      required this.updateParent})
       : super(key: key);
 
   @override
@@ -233,7 +228,6 @@ class _SortablePageState extends State<SortablePage> {
           Navigator.pop(context);
           VariantCard selectedVariant = VariantCard(
             variant: user,
-            mapController: widget.mapController,
             updateParent: widget.updateParent,
             controlKey: GlobalKey(),
           );

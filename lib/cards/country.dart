@@ -15,14 +15,12 @@ import "skeleton.dart";
 
 class CountryCard extends StatefulWidget {
   final Map country;
-  final GoogleMapController mapController;
   final LatLng _initMapCenter = const LatLng(20, 0);
   final Function updateParent;
 
   const CountryCard(
       {Key? key,
       required this.country,
-      required this.mapController,
       required this.updateParent})
       : super(key: key);
 
@@ -54,7 +52,7 @@ List? jsonCountries;
 
 class _CountryCard extends State<CountryCard> {
   _updateMap() async {
-    widget.mapController.animateCamera(CameraUpdate.newLatLngZoom(
+    mapController.animateCamera(CameraUpdate.newLatLngZoom(
         LatLng(
             widget.country["latitude"],
             widget.country["longitude"] -
@@ -178,7 +176,6 @@ class _CountryCard extends State<CountryCard> {
                                           VariantCard(
                                             variant: variant,
                                             location: {"country" : widget.country},
-                                            mapController: widget.mapController,
                                             updateParent: widget.updateParent,
                                             controlKey: GlobalKey(),
                                           );
@@ -223,7 +220,6 @@ class _CountryCard extends State<CountryCard> {
                                   builder: (context) => VariantView(
                                         country: widget.country,
                                         updateParent: widget.updateParent,
-                                    mapController: widget.mapController,
                                       )));
                         },
                         child: const Text(
@@ -291,7 +287,6 @@ class _CountryCard extends State<CountryCard> {
                                       title: continent,
                                       body: ContinentCard(
                                         continent: continent,
-                                        mapController: widget.mapController,
                                         updateParent: widget.updateParent,
                                       ),
                                     ));
@@ -404,8 +399,6 @@ class _CountryCard extends State<CountryCard> {
                                                   title: country,
                                                   body: CountryCard(
                                                     country: getCountry(country),
-                                                    mapController:
-                                                    widget.mapController,
                                                     updateParent:
                                                     widget.updateParent,
                                                   ),
