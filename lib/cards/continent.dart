@@ -35,6 +35,17 @@ class ContinentCard extends StatefulWidget {
   void centerMap() {
     mapController.animateCamera(CameraUpdate.newLatLngZoom(_initMapCenter, 3.2));
   }
+
+  updateMap() async {
+    final String response = await rootBundle.loadString('assets/data.json');
+    final Map continents = await json.decode(response)["Continents"];
+    final Map continentMap = continents[continent];
+    mapController.animateCamera(CameraUpdate.newLatLngZoom(
+        LatLng(
+            continentMap["latitude"],
+            continentMap["longitude"]),
+        continentMap["zoom"]));
+  }
 }
 
 class _ContinentCard extends State<ContinentCard> {
