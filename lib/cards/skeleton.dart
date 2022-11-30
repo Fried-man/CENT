@@ -148,7 +148,7 @@ class _SkeletonCard extends State<SkeletonCard> {
   Widget build(BuildContext context) {
     if (isClosed) return Container();
 
-
+    Color bodyBackground = Colors.white; // @Noel
     return Positioned(
       left: position.dx,
       top: position.dy,
@@ -229,7 +229,7 @@ class _SkeletonCard extends State<SkeletonCard> {
                               ),
                               Expanded(
                                 child: Container(
-                                  color: const Color(0x009e9e9e),
+                                  color: bodyBackground,
                                   child: widget.body,
                                 ),
                               )
@@ -319,7 +319,7 @@ class _SkeletonCard extends State<SkeletonCard> {
                   if (!isMoving)
                     Expanded(
                       child: Container(
-                        color: Colors.white,
+                        color: bodyBackground,
                         child: widget.body,
                       ),
                     )
