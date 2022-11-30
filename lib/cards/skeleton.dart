@@ -34,7 +34,7 @@ class SkeletonCard extends StatefulWidget {
   Offset getPosition() => const Offset(0, 0);
 
   void updatePosition(Offset newPosition) {}
-  Offset getDefaultPostion (Widget card) { return const Offset(0,0);}
+  Offset getDefaultPosition (Widget card) { return const Offset(0,0);}
 }
 
 class _SkeletonCard extends State<SkeletonCard> {
@@ -52,7 +52,7 @@ class _SkeletonCard extends State<SkeletonCard> {
   updatePosition(Offset newPosition) =>
       setState(() => position = newPosition);
 
-  getDefaultPostion (Widget card) {
+  getDefaultPosition (Widget card) {
     if (card is CountryCard) { // left
       return Offset(
           (window.physicalSize / window.devicePixelRatio).width / 8,
@@ -92,8 +92,8 @@ class _SkeletonCard extends State<SkeletonCard> {
   @override
   void initState() {
     position = widget.initPosition;
-    if (position == const Offset(0, 0)) {
-      position = getDefaultPostion(widget.body);
+    if (position == const Offset(0, 0) && false) {
+      position = getDefaultPosition(widget.body);
       late bool isLegit;
       int passages = 0;
 
@@ -121,7 +121,7 @@ class _SkeletonCard extends State<SkeletonCard> {
           }
           else {
             passages++;
-            position = getDefaultPostion(widget.body);
+            position = getDefaultPosition(widget.body);
             if (position.dx + passages * 40 + 20 + size / 3 < (window.physicalSize / window.devicePixelRatio).width &&
                 position.dy + passages * 40 + size / 2 < (window.physicalSize / window.devicePixelRatio).height) {
               position = Offset(position.dx - passages * 40, position.dy + passages * 40);

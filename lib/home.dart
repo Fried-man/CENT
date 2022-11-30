@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:genome_2133/cards/variant.dart';
 import 'package:genome_2133/tabs/contact.dart';
@@ -35,11 +34,6 @@ class Home extends StatefulWidget {
 class _Home extends State<Home> {
   final LatLng _initMapCenter = const LatLng(20, 0);
 
-  bool isDesktop = (defaultTargetPlatform == TargetPlatform.macOS ||
-      defaultTargetPlatform == TargetPlatform.linux ||
-      defaultTargetPlatform == TargetPlatform.windows) &&
-      !kIsWeb;
-
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
@@ -62,6 +56,8 @@ class _Home extends State<Home> {
       body: SafeArea(
         child: Stack(
           children: [
+            if (isDesktop)
+              Center(child: Image.asset("assets/images/banner.png")),
             if (!isDesktop)
               GoogleMap(
                 mapType: MapType.hybrid,

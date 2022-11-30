@@ -9,6 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
 import '../home.dart';
+import '../main.dart';
 import '../views/variant-view.dart';
 import 'continent.dart';
 import "skeleton.dart";
@@ -33,10 +34,14 @@ class CountryCard extends StatefulWidget {
   }
 
   void centerMap() {
+    if (isDesktop) return;
+
     mapController.animateCamera(CameraUpdate.newLatLngZoom(_initMapCenter, 3.2));
   }
 
   updateMap() async {
+    if (isDesktop) return;
+
     mapController.animateCamera(CameraUpdate.newLatLngZoom(
         LatLng(
             country["latitude"],
@@ -52,6 +57,8 @@ List? jsonCountries;
 
 class _CountryCard extends State<CountryCard> {
   _updateMap() async {
+    if (isDesktop) return;
+
     mapController.animateCamera(CameraUpdate.newLatLngZoom(
         LatLng(
             widget.country["latitude"],
@@ -63,7 +70,6 @@ class _CountryCard extends State<CountryCard> {
   @override
   void initState() {
     super.initState();
-    // is this the safest way to call async method like this?
     _updateMap();
   }
 
