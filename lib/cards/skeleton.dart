@@ -197,7 +197,7 @@ class _SkeletonCard extends State<SkeletonCard> {
                                         textAlign: TextAlign.center,
                                         overflow: TextOverflow.ellipsis,
                                         style:
-                                        const TextStyle(color: Colors.white, fontSize: 20),
+                                        const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
                                       ),
                                       Align(
                                           alignment: Alignment.centerRight,
@@ -261,7 +261,7 @@ class _SkeletonCard extends State<SkeletonCard> {
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,
                               style:
-                              const TextStyle(color: Colors.white, fontSize: 20),
+                              const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                             Align(
                                 alignment: Alignment.centerRight,
