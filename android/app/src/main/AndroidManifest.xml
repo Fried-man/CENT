@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.genome_2133">
    <application
-        android:label="genome_2133"
+        android:label="CENT"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
