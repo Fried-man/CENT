@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:genome_2133/cards/variant.dart';
 import 'package:genome_2133/tabs/contact.dart';
@@ -35,6 +36,11 @@ class _Home extends State<Home> {
 
   final LatLng _initMapCenter = const LatLng(20, 0);
 
+  bool isDesktop = (defaultTargetPlatform == TargetPlatform.macOS ||
+      defaultTargetPlatform == TargetPlatform.linux ||
+      defaultTargetPlatform == TargetPlatform.windows) &&
+      !kIsWeb;
+
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
   }
@@ -57,14 +63,15 @@ class _Home extends State<Home> {
       body: SafeArea(
         child: Stack(
           children: [
-            GoogleMap(
-              mapType: MapType.hybrid,
-              zoomControlsEnabled: false,
-              scrollGesturesEnabled: false,
-              initialCameraPosition: CameraPosition(
-                  bearing: 0, target: _initMapCenter, tilt: 0, zoom: 3.2),
-              onMapCreated: _onMapCreated,
-            ),
+            if (!isDesktop)
+              GoogleMap(
+                mapType: MapType.hybrid,
+                zoomControlsEnabled: false,
+                scrollGesturesEnabled: false,
+                initialCameraPosition: CameraPosition(
+                    bearing: 0, target: _initMapCenter, tilt: 0, zoom: 3.2),
+                onMapCreated: _onMapCreated,
+              ),
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: Row(
