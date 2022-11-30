@@ -117,7 +117,7 @@ class _CountryCard extends State<CountryCard> {
   Widget build(BuildContext context) {
 
     return Padding(
-        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+        padding: const EdgeInsets.fromLTRB(20, 0, 8, 0),
 
         child: CustomScrollView(
           shrinkWrap: true,
@@ -127,7 +127,7 @@ class _CountryCard extends State<CountryCard> {
               child: Column(
                 children: [
                   const Padding(
-                    padding: EdgeInsets.only(top: 8, bottom: 8),
+                    padding: EdgeInsets.only(top: 12, bottom: 12),
                     child: Text(
                       "Variants",
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -238,7 +238,7 @@ class _CountryCard extends State<CountryCard> {
                     ),
                   ),
                   const Padding(
-                    padding: EdgeInsets.only(top: 8, bottom: 8),
+                    padding: EdgeInsets.only(top: 16, bottom: 12),
                     child: Text(
                       "Country Info",
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -621,7 +621,7 @@ class _CountryCard extends State<CountryCard> {
                         return statsCache[widget.country["country"]]!;
                       }),
                   const Padding(
-                    padding: EdgeInsets.only(top: 8, bottom: 8),
+                    padding: EdgeInsets.only(top: 16, bottom: 12),
                     child: Text(
                       "Future Variants",
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
