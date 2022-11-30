@@ -47,7 +47,7 @@ class CountryCard extends StatefulWidget {
             country["latitude"],
             country["longitude"] -
                 (-10.0 * country["zoom"] + 60)),
-        country["zoom"]));
+        country["zoom"].toDouble()));
   }
 }
 
@@ -64,7 +64,7 @@ class _CountryCard extends State<CountryCard> {
             widget.country["latitude"],
             widget.country["longitude"] -
                 (-10.0 * widget.country["zoom"] + 60)),
-        widget.country["zoom"]));
+        widget.country["zoom"].toDouble()));
   }
 
   @override

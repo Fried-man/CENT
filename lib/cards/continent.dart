@@ -45,7 +45,7 @@ class ContinentCard extends StatefulWidget {
         LatLng(
             continentMap["latitude"],
             continentMap["longitude"]),
-        continentMap["zoom"]));
+        continentMap["zoom"].toDouble()));
   }
 }
 
@@ -60,7 +60,7 @@ class _ContinentCard extends State<ContinentCard> {
         LatLng(
             continent["latitude"],
             continent["longitude"]),
-        continent["zoom"]));
+        continent["zoom"].toDouble()));
   }
 
 
