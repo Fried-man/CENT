@@ -628,6 +628,15 @@ class _CountryCard extends State<CountryCard> {
                     ),
                   ),
                   const Padding(
+                    padding: EdgeInsets.only(top: 12, bottom: 12, right: 3),
+                    child: Text(
+                      "This section is meant to display the result of our "
+                          "prediction algorithms' efforts to anticipate future "
+                          "COVID-19 strains from the selected nation",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ),
+                  const Padding(
                     padding: EdgeInsets.only(right: 18),
                     child: Align(
                       alignment: Alignment.centerRight,
