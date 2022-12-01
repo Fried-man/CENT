@@ -85,7 +85,7 @@ class _Login extends State<Login> {
                                   style: TextStyle(
                                       fontSize:
                                       MediaQuery.of(context).size.width / 61,
-                                      color: Colors.black54),
+                                      color: Colors.black),
                                 ),
                               ),
                               onPressed: () async {
