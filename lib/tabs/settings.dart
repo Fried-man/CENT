@@ -258,7 +258,7 @@ class _Settings extends State<Settings> {
                         Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text("Other", style: TextStyle(fontSize: 24)),
+                              const Text("Accessibility", style: TextStyle(fontSize: 24)),
                               Padding(
                                 padding: const EdgeInsets.all(12),
                                 child: ElevatedButton(
@@ -294,6 +294,7 @@ class _Settings extends State<Settings> {
                                   ),
                                 ),
                               ),
+                              const Text("Other", style: TextStyle(fontSize: 24)),
                               Padding(
                                 padding: const EdgeInsets.all(12),
                                 child: ElevatedButton(
