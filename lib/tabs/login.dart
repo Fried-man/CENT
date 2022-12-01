@@ -183,9 +183,7 @@ class _Login extends State<Login> {
                                       .then((value) async {
                                     user = FirebaseAuth.instance.currentUser;
                                     if (user != null) {
-                                      await user!
-                                          .sendEmailVerification()
-                                          .then((value) => showDialog<void>(
+                                      showDialog<void>(
                                         context: context,
                                         builder: (_) => AlertDialog(
                                           title:
@@ -200,10 +198,12 @@ class _Login extends State<Login> {
                                             ),
                                           ],
                                         ),
-                                      ));
+                                      );
                                       await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).set({"saved" : []});
+                                      await user!
+                                          .sendEmailVerification();
                                       await FirebaseAuth.instance
-                                          .signOut(); // .then((value) => user = null);
+                                          .signOut();
                                     }
                                   });
                                 } on FirebaseAuthException catch (e) {

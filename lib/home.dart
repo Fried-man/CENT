@@ -6,6 +6,7 @@ import 'package:genome_2133/tabs/contact.dart';
 import 'package:genome_2133/tabs/region.dart';
 import 'package:genome_2133/tabs/settings.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'cards/skeleton.dart';
 import 'main.dart';
@@ -89,18 +90,18 @@ class _Home extends State<Home> {
                       }
                     });
                   }),
-                  if (user == null)
+                  if (FirebaseAuth.instance.currentUser == null)
                     headerButton(context, "Contact Us", () {
                       showDialog(
                           context: context, builder: (_) => contact(context));
                     }),
-                  if (user != null)
+                  if (FirebaseAuth.instance.currentUser != null)
                     headerButton(context, "My Saved", () {
                       Navigator.pushNamed(context, '/saved');
                     }),
-                  headerButton(context, user == null ? "Login" : "Settings",
+                  headerButton(context, FirebaseAuth.instance.currentUser == null ? "Login" : "Settings",
                           () async {
-                        if (user == null) {
+                        if (FirebaseAuth.instance.currentUser == null) {
                           Navigator.pushNamed(context, '/login')
                               .whenComplete(() {
                             if (user != null) {
