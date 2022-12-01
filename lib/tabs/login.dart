@@ -31,6 +31,7 @@ class _Login extends State<Login> {
                   },
                   child: Icon(
                     Icons.chevron_left,
+                    color: Colors.grey,
                     size: MediaQuery.of(context).size.width / 20,
                   ),
                 ),
@@ -84,7 +85,7 @@ class _Login extends State<Login> {
                                   style: TextStyle(
                                       fontSize:
                                       MediaQuery.of(context).size.width / 61,
-                                      color: Colors.black),
+                                      color: Colors.black54),
                                 ),
                               ),
                               onPressed: () async {
@@ -157,7 +158,7 @@ class _Login extends State<Login> {
                                   style: TextStyle(
                                       fontSize:
                                       MediaQuery.of(context).size.width / 61,
-                                      color: Colors.black),
+                                      color: Colors.black54),
                                 ),
                               ),
                               onPressed: () async {
