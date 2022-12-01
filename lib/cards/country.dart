@@ -522,7 +522,7 @@ class _CountryCard extends State<CountryCard> {
                                             .replaceAllMapped(
                                             RegExp(
                                                 r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-                                                (Match m) => '${m[1]},')),
+                                                (Match m) => '${m[1]},') + " per square km"),
                                   ],
                                 ),
                               ),
