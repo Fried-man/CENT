@@ -43,6 +43,8 @@ class _SkeletonCard extends State<SkeletonCard> {
   late Offset position;
   int size = 1000;
   bool isMoving = false;
+  late double cardHeight;
+  late double cardWidth;
 
   void updateState() {
     setState(() {});
@@ -139,6 +141,9 @@ class _SkeletonCard extends State<SkeletonCard> {
 
   @override
   void initState() {
+    cardHeight = size / 2;
+    cardWidth = size / 3;
+
     position = widget.initPosition;
     if (position == const Offset(0, 0)) {
       findCardSpawn();
@@ -223,8 +228,8 @@ class _SkeletonCard extends State<SkeletonCard> {
     Widget cardEntireMoving = Material(
         type: MaterialType.transparency,
         child: SizedBox(
-          height: size / 2,
-          width: size / 3,
+          height: cardHeight,
+          width: cardWidth,
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(width: 1, color: !isMoving ? Theme.of(context).scaffoldBackgroundColor : Colors.transparent),
@@ -294,8 +299,8 @@ class _SkeletonCard extends State<SkeletonCard> {
       left: position.dx,
       top: position.dy,
       child: SizedBox(
-        height: size / 2,
-        width: size / 3,
+        height: cardHeight,
+        width: cardWidth,
         child: GestureDetector(
           onTap: () {
             updateActive();
@@ -321,9 +326,21 @@ class _SkeletonCard extends State<SkeletonCard> {
                         setState(() {});
                       }
                     },
-                    onDragEnd: (details) {
+                    onDragEnd: (DraggableDetails details) {
                       isMoving = false;
-                      updatePosition(details.offset);
+
+                      Offset newPosition = details.offset;
+                      if (newPosition.dy < 0) {
+                        newPosition = Offset(newPosition.dx, 0);
+                      }else if (newPosition.dy > MediaQuery.of(context).size.height - cardHeight) {
+                        newPosition = Offset(newPosition.dx, MediaQuery.of(context).size.height - cardHeight);
+                      }
+                      if (newPosition.dx < 0) {
+                        newPosition = Offset(0, newPosition.dy);
+                      }else if (newPosition.dx > MediaQuery.of(context).size.width - cardWidth) {
+                        newPosition = Offset(MediaQuery.of(context).size.width - cardWidth, newPosition.dy);
+                      }
+                      updatePosition(newPosition);
                     },
                   ),
                   if (!isMoving) // Body of skeleton when not moving
