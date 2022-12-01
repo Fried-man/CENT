@@ -69,6 +69,7 @@ class _Region extends State<Region> {
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
                                               countries[index]["country"],
+                                              textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize:
                                                       MediaQuery.of(context)
