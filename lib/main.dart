@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:genome_2133/tabs/saved.dart';
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
+import 'package:google_fonts/google_fonts.dart';
 
 import 'firebase_options.dart';
 import 'home.dart';
@@ -31,6 +32,7 @@ Future<void> main() async {
         dialogBackgroundColor: const Color(0xffcccccc),
         scaffoldBackgroundColor: const Color(0xff445756),
         cardColor: const Color(0xff708f8d),
+        textTheme: GoogleFonts.nunitoSansTextTheme(),
       ),
       initialRoute: '/home',
       routes: {

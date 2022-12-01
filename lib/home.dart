@@ -154,7 +154,7 @@ Widget headerButton(var context, String text, void Function() action) {
             text,
             style: TextStyle(
                 fontSize: max(MediaQuery.of(context).size.width / 50, 16),
-                color: Colors.black),
+                color: Colors.black54),//
           ),
         ),
       ),
