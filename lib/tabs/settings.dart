@@ -73,6 +73,8 @@ class _Settings extends State<Settings> {
                   child: Column(
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
                             child: Column(
@@ -92,7 +94,6 @@ class _Settings extends State<Settings> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Padding(padding: EdgeInsets.all(12)),
                               const Text("Account Management", style: TextStyle(fontSize: 24)),
                               Padding(
                                 padding: const EdgeInsets.all(12),
@@ -257,7 +258,6 @@ class _Settings extends State<Settings> {
                         Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Padding(padding: EdgeInsets.all(12)),
                               const Text("Other", style: TextStyle(fontSize: 24)),
                               Padding(
                                 padding: const EdgeInsets.all(12),
