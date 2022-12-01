@@ -148,12 +148,15 @@ Widget headerButton(var context, String text, void Function() action) {
       padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
         onPressed: action,
-        child: Text(
-          text,
-          maxLines: 1,
-          style: TextStyle(
-              fontSize: max(MediaQuery.of(context).size.width / 50, 18),
-              color: Colors.black),//
+        child: Padding(
+          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+          child: Text(
+            text,
+            maxLines: 1,
+            style: TextStyle(
+                fontSize: max(MediaQuery.of(context).size.width / 50, 18),
+                color: Colors.black),//
+          ),
         ),
       ),
     ),
