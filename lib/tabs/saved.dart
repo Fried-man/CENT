@@ -23,17 +23,6 @@ class _Saved extends State<Saved> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Colors.white, //change your color here
-        ),
-        title: const Text("My Saved", style: TextStyle(color: Colors.white)),
-        centerTitle: true,
-        flexibleSpace: Container(
-          decoration:
-              BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor),
-        ),
-      ),
       body: const SortablePage(),
     );
   }
@@ -55,39 +44,77 @@ class _SortablePageState extends State<SortablePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+      backgroundColor: Theme.of(context).dialogBackgroundColor,
+      body: Column(
         children: [
-          Container(color: Theme.of(context).backgroundColor),
-          StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-            stream: FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
-            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              if (!snapshot.hasData) return Container();
+          Container(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              child: Row(
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          Icons.chevron_left,
+                          size: MediaQuery.of(context).size.width / 30,
+                          color: Theme.of(context).dialogBackgroundColor,
+                        ),
+                      ),
+                    ),
+                    Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Text(
+                            "My Saved",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 30,
+                                color: Theme.of(context).dialogBackgroundColor
+                            ),
+                          ),
+                        )
+                    )
+                  ]
+              )
+          ),
+          Stack(
+            children: [
+              Container(color: Theme.of(context).backgroundColor),
+              StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                stream: FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
+                builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  if (!snapshot.hasData) return Container();
 
-              List<Map> users = [];
+                  List<Map> users = [];
 
 
 
-              for (String id in snapshot.data["saved"]) {
-                int currLength = users.length;
+                  for (String id in snapshot.data["saved"]) {
+                    int currLength = users.length;
 
-                if (currLength == users.length) {
-                  Map curr = {"accession" : id};
-                  for (String attribute in headerLabel) {
-                    if (attribute != "accession") {
-                      curr[attribute] = attribute != "generated" && attribute != "pinned" ? "no data" : false;
+                    if (currLength == users.length) {
+                      Map curr = {"accession" : id};
+                      for (String attribute in headerLabel) {
+                        if (attribute != "accession") {
+                          curr[attribute] = attribute != "generated" && attribute != "pinned" ? "no data" : false;
+                        }
+                      }
+                      users.add(curr);
                     }
                   }
-                  users.add(curr);
-                }
-              }
 
 
-              if (snapshot.data["saved"].isEmpty) {
-                return const Center(child: Text("No saved variants"));
-              }
+                  if (snapshot.data["saved"].isEmpty) {
+                    return const Center(child: Text("No saved variants"));
+                  }
 
-              return VariantTable(users: users);
-            },
+                  return VariantTable(users: users);
+                },
+              )
+            ],
           )
         ],
       ),
