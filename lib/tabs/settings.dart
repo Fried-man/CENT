@@ -91,6 +91,68 @@ class _Settings extends State<Settings> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            const Text("Accessibility", style: TextStyle(fontSize: 24)),
+                            Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                child: const Padding(
+                                  padding: EdgeInsets.all(12),
+                                  child: Text(
+                                    "Enable Dark Mode",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            if (!isDesktop)
+                              Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    setState((){
+                                      isMapDisabled = !isMapDisabled;
+                                    });
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.all(12),
+                                    child: Text(
+                                      isMapDisabled ? "Enable Map" : "Disable Map",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  setState((){
+                                    context.findAncestorStateOfType<State<MyApp>>()!.setState(() {
+                                      isDyslexic = !isDyslexic;
+                                    });
+                                  });
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.all(12),
+                                  child: Text(
+                                    isDyslexic ? "Disable Dyslexic Font" : "Enable Dyslexic Font",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
                             const Text("Account Management", style: TextStyle(fontSize: 24)),
                             Padding(
                               padding: const EdgeInsets.all(12),
@@ -254,42 +316,6 @@ class _Settings extends State<Settings> {
                         Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text("Accessibility", style: TextStyle(fontSize: 24)),
-                              Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: ElevatedButton(
-                                  onPressed: () {},
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(12),
-                                    child: Text(
-                                      "Enable Dark Mode",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.black),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              if (!isDesktop)
-                                Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    setState((){
-                                      isMapDisabled = !isMapDisabled;
-                                    });
-                                  },
-                                  child: Padding(
-                                    padding: EdgeInsets.all(12),
-                                    child: Text(
-                                      isMapDisabled ? "Enable Map" : "Disable Map",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.black),
-                                    ),
-                                  ),
-                                ),
-                              ),
                               const Text("Other", style: TextStyle(fontSize: 24)),
                               Padding(
                                 padding: const EdgeInsets.all(12),
@@ -337,7 +363,6 @@ class _Settings extends State<Settings> {
                           const Text("FAQ", style: TextStyle(fontSize: 24)),
                           FAQ(),
                         ],
-
                       ),
                     ],
                   )

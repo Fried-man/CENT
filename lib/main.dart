@@ -14,6 +14,7 @@ bool isDesktop = (defaultTargetPlatform == TargetPlatform.macOS ||
     defaultTargetPlatform == TargetPlatform.linux ||
     defaultTargetPlatform == TargetPlatform.windows) &&
     !kIsWeb;
+bool isDyslexic = false;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,20 +25,35 @@ Future<void> main() async {
 
   user = FirebaseAuth.instance.currentUser;
 
-  runApp(MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'CENT - Exploration Tool',
-      theme: ThemeData(
-        primarySwatch: Colors.grey,
-        dialogBackgroundColor: const Color(0xffcccccc),
-        scaffoldBackgroundColor: const Color(0xff445756),
-        cardColor: const Color(0xff708f8d),
-        textTheme: GoogleFonts.nunitoSansTextTheme(),
-      ),
-      initialRoute: '/home',
-      routes: {
-        '/home': (context) => const Home(),
-        '/login': (context) => const Login(),
-        '/saved': (context) => const Saved(),
-      }));
+  runApp(MyApp());
+}
+
+class MyApp<T> extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState<T> extends State<MyApp> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'CENT - Exploration Tool',
+        theme: ThemeData(
+          primarySwatch: Colors.grey,
+          dialogBackgroundColor: const Color(0xffcccccc),
+          scaffoldBackgroundColor: const Color(0xff445756),
+          cardColor: const Color(0xff708f8d),
+          textTheme: isDyslexic ? GoogleFonts.lexendDecaTextTheme() : GoogleFonts.nunitoSansTextTheme(),
+        ),
+        initialRoute: '/home',
+        routes: {
+          '/home': (context) => const Home(),
+          '/login': (context) => const Login(),
+          '/saved': (context) => const Saved(),
+        }
+    );
+  }
 }
