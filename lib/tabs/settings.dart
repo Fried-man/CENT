@@ -335,12 +335,7 @@ class _Settings extends State<Settings> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text("FAQ", style: TextStyle(fontSize: 24)),
-                          FutureBuilder(
-                              future: rootBundle.loadString("assets/data.json"),
-                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                                if (!snapshot.hasData) return Container();
-                                return recursiveList(json.decode(snapshot.data!)["FAQ"]);
-                              }),
+                          FAQ(),
                         ],
 
                       ),

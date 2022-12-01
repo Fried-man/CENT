@@ -3,18 +3,25 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+class FAQ extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: rootBundle.loadString("assets/data.json"),
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          if (!snapshot.hasData) return Container();
+          return recursiveList(json.decode(snapshot.data!)["FAQ"]);
+        });
+  }
+}
+
 AlertDialog faq(context) {
   return AlertDialog(
     title: const Center(child: Text("Frequently Asked Questions")),
     content: SizedBox(
         width: MediaQuery.of(context).size.width / 4,
         height: MediaQuery.of(context).size.height / 2,
-        child: FutureBuilder(
-            future: rootBundle.loadString("assets/data.json"),
-            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-              if (!snapshot.hasData) return Container();
-              return recursiveList(json.decode(snapshot.data!)["FAQ"]);
-            })),
+        child: FAQ()),
   );
 }
 
