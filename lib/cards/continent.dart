@@ -36,7 +36,7 @@ class ContinentCard extends StatefulWidget {
   }
 
   updateMap() async {
-    if (isDesktop) return;
+    if (isDesktop || isMapDisabled) return;
 
     final String response = await rootBundle.loadString('assets/data.json');
     final Map continents = await json.decode(response)["Continents"];
@@ -51,7 +51,7 @@ class ContinentCard extends StatefulWidget {
 
 class _ContinentCard extends State<ContinentCard> {
   _updateMap() async {
-    if (isDesktop) return;
+    if (isDesktop || isMapDisabled) return;
 
     final String response = await rootBundle.loadString('assets/data.json');
     final Map continents = await json.decode(response)["Continents"];

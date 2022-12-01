@@ -34,13 +34,13 @@ class CountryCard extends StatefulWidget {
   }
 
   void centerMap() {
-    if (isDesktop) return;
+    if (isDesktop || isMapDisabled) return;
 
     mapController.animateCamera(CameraUpdate.newLatLngZoom(_initMapCenter, 3.2));
   }
 
   updateMap() async {
-    if (isDesktop) return;
+    if (isDesktop || isMapDisabled) return;
 
     mapController.animateCamera(CameraUpdate.newLatLngZoom(
         LatLng(
@@ -57,7 +57,7 @@ List? jsonCountries;
 
 class _CountryCard extends State<CountryCard> {
   _updateMap() async {
-    if (isDesktop) return;
+    if (isDesktop || isMapDisabled) return;
 
     mapController.animateCamera(CameraUpdate.newLatLngZoom(
         LatLng(

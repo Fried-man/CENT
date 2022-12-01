@@ -11,6 +11,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
+import '../home.dart';
 import 'contact.dart';
 
 class Settings extends StatefulWidget {
@@ -248,11 +249,11 @@ class _Settings extends State<Settings> {
                                     ),
                                   ),
                                 ),
-                              )],
+                              ),
+                            ],
 
                           )
-                        )
-                        ,
+                        ),
                         Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -266,6 +267,26 @@ class _Settings extends State<Settings> {
                                     padding: EdgeInsets.all(12),
                                     child: Text(
                                       "Enable Dark Mode",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              if (!isDesktop)
+                                Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    setState((){
+                                      isMapDisabled = !isMapDisabled;
+                                    });
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.all(12),
+                                    child: Text(
+                                      isMapDisabled ? "Enable Map" : "Disable Map",
                                       style: TextStyle(
                                           fontSize: 16,
                                           color: Colors.black),

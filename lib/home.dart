@@ -13,6 +13,7 @@ import 'tabs/faq.dart';
 
 late List<SkeletonCard> windows;
 late GoogleMapController mapController;
+bool isMapDisabled = false;
 
 void addCard(SkeletonCard card) {
   for (SkeletonCard xCard in windows) {
@@ -55,9 +56,8 @@ class _Home extends State<Home> {
       ),
       body: Stack(
         children: [
-          if (isDesktop)
-            Center(child: Image.asset("assets/images/banner.png")),
-          if (!isDesktop)
+          Center(child: Image.asset("assets/images/banner.png")),
+          if (!isDesktop && !isMapDisabled)
             GoogleMap(
               mapType: MapType.hybrid,
               zoomControlsEnabled: false,
@@ -120,14 +120,13 @@ class _Home extends State<Home> {
                                   builder: (context) => const Settings())
                           ).whenComplete(() {
                             if (user == null) {
-                              setState(() {
-                                for (SkeletonCard card in windows) {
-                                  if (card.body is VariantCard) {
-                                    (card.body as VariantCard).controlKey.currentState!.updateState();
-                                  }
+                              for (SkeletonCard card in windows) {
+                                if (card.body is VariantCard) {
+                                  (card.body as VariantCard).controlKey.currentState!.updateState();
                                 }
-                              });
+                              }
                             }
+                            setState(() {});
                           });
                         }
                       })
