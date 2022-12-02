@@ -46,7 +46,7 @@ class CountryCard extends StatefulWidget {
         LatLng(
             country["latitude"],
             country["longitude"] -
-                (-10.0 * country["zoom"] + 60)),
+                (-6.0 * country["zoom"] + 45.0)),
         country["zoom"].toDouble()));
   }
 }
@@ -59,11 +59,12 @@ class _CountryCard extends State<CountryCard> {
   _updateMap() async {
     if (isDesktop || isMapDisabled) return;
 
+    // zoom offset is based on ex. "zoom 7 -> shift 3 over" & "zoom 3 -> shift 27 over"
     mapController.animateCamera(CameraUpdate.newLatLngZoom(
         LatLng(
             widget.country["latitude"],
             widget.country["longitude"] -
-                (-10.0 * widget.country["zoom"] + 60)),
+                (-6.0 * widget.country["zoom"] + 45.0)),
         widget.country["zoom"].toDouble()));
   }
 
