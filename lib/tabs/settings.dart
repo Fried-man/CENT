@@ -94,11 +94,41 @@ class _Settings extends State<Settings> {
                                       Padding(
                                         padding: const EdgeInsets.all(12),
                                         child: ElevatedButton(
-                                          onPressed: () {},
+                                          onPressed: () => showDialog<String>(
+                                            context: context,
+                                            builder: (BuildContext context) => AlertDialog(
+                                              title: const Text('Color Options'),
+                                              actions: <Widget>[
+                                                ElevatedButton(
+                                                  onPressed: () => Navigator.pop(context, theme = "Normal"),
+                                                  child: const Text('Normal',
+                                                      style: TextStyle(
+                                                          fontSize: 16,
+                                                          color: Colors.black
+                                                      )),
+                                                ),
+                                                ElevatedButton(
+                                                  onPressed: () => Navigator.pop(context, theme = "Dark Mode"),
+                                                  child: const Text('Dark Mode',
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      color: Colors.black
+                                                  )),
+                                                ),
+                                                ElevatedButton(
+                                                  onPressed: () => Navigator.pop(context, theme = "Colorblind Friendly"),
+                                                  child: const Text('Colorblind Friendly',
+                                                      style: TextStyle(
+                                                          fontSize: 16,
+                                                          color: Colors.black
+                                                      )),
+                                                ),
+                                              ],
+                                            )),
                                           child: const Padding(
                                             padding: EdgeInsets.all(12),
                                             child: Text(
-                                              "Enable Dark Mode",
+                                              "Change Color Scheme",
                                               style: TextStyle(
                                                   fontSize: 16,
                                                   color: Colors.black),
@@ -392,6 +422,19 @@ class _Settings extends State<Settings> {
           )
       ),
     );
+  }
+}
+
+class ThemeNotifier with ChangeNotifier {
+  ThemeData _themeData;
+
+  ThemeNotifier(this._themeData);
+
+  getTheme() => _themeData; // to get current theme of the app
+
+  setTheme(ThemeData themeData) async {
+    _themeData = themeData;
+    notifyListeners(); // to update the theme of the app
   }
 }
 

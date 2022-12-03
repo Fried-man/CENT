@@ -126,11 +126,11 @@ class _CountryCard extends State<CountryCard> {
               hasScrollBody: false,
               child: Column(
                 children: [
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(top: 12, bottom: 12),
                     child: Text(
                       "Variants",
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor),
                     ),
                   ),
                   FutureBuilder<Map<String, dynamic>>(
@@ -178,7 +178,7 @@ class _CountryCard extends State<CountryCard> {
                                       child: TextButton(
                                         style: TextButton.styleFrom(
                                             textStyle:
-                                            const TextStyle(fontSize: 13)),
+                                              TextStyle(fontSize: 13, color: Theme.of(context).primaryColor)),
                                         onPressed: () {
                                           VariantCard selectedVariant =
                                           VariantCard(
@@ -219,7 +219,7 @@ class _CountryCard extends State<CountryCard> {
                       alignment: Alignment.centerRight,
                       child: ElevatedButton(
                         style: TextButton.styleFrom(
-                          textStyle: const TextStyle(fontSize: 20),
+                          textStyle: TextStyle(fontSize: 20, color: Theme.of(context).primaryColor),
                         ),
                         onPressed: () {
                           Navigator.push(
@@ -230,18 +230,18 @@ class _CountryCard extends State<CountryCard> {
                                         updateParent: widget.updateParent,
                                       )));
                         },
-                        child: const Text(
+                        child: Text(
                           "View More",
-                          style: TextStyle(fontSize: 15, color: Colors.black),
+                          style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor),
                         ),
                       ),
                     ),
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(top: 16, bottom: 12),
                     child: Text(
                       "Country Info",
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor),
                     ),
                   ),
                   FutureBuilder<Map<String, dynamic>>(
@@ -268,9 +268,10 @@ class _CountryCard extends State<CountryCard> {
                                 text: snapshot.data!["continents"].length == 1
                                     ? "Continent: "
                                     : "Continents: ",
-                                style: const TextStyle(
+                                style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 15))
+                                    fontSize: 15,
+                                    color: Theme.of(context).primaryColor))
                           ];
 
                           for (String continent
@@ -283,9 +284,8 @@ class _CountryCard extends State<CountryCard> {
                                     : ""));
                             output.add(TextSpan(
                                 text: continent,
-                                style: const TextStyle(
-                                  color:
-                                      Colors.blue,
+                                style: TextStyle(
+                                  color: Theme.of(context).highlightColor,
                                   decoration: TextDecoration.underline,
                                   fontSize: 15
                                 ),
@@ -380,9 +380,10 @@ class _CountryCard extends State<CountryCard> {
                                                 countries.length == 1
                                                 ? "Neighbor: "
                                                 : "Neighbors: ",
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 15)),
+                                                fontSize: 15,
+                                                color: Theme.of(context).primaryColor)),
                                         if (!snapshot.data!
                                             .containsKey("borders") ||
                                             countries.isEmpty)
@@ -396,8 +397,8 @@ class _CountryCard extends State<CountryCard> {
                                                 : ""));
                                         output.add(TextSpan(
                                             text: country,
-                                            style: const TextStyle(
-                                              color: Colors.blue,
+                                            style: TextStyle(
+                                              color: Theme.of(context).highlightColor,
                                               decoration: TextDecoration.underline,
                                               fontSize: 15
                                             ),
@@ -448,9 +449,10 @@ class _CountryCard extends State<CountryCard> {
                                             1
                                             ? "Capital: "
                                             : "Capitals: ",
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 15)),
+                                            fontSize: 15,
+                                            color: Theme.of(context).primaryColor)),
                                     for (String capital
                                     in snapshot.data!["capital"])
                                       TextSpan(
@@ -486,8 +488,10 @@ class _CountryCard extends State<CountryCard> {
                                     children: <TextSpan>[
                                       TextSpan(
                                           text: "${key.toTitleCase()}: ",
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold)),
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: Theme.of(context).primaryColor)),
                                       TextSpan(
                                           text: (snapshot.data![key] < pow(10, 6) ?
                                           snapshot.data![key] : snapshot.data![key] < pow(10, 9) ?
@@ -510,11 +514,12 @@ class _CountryCard extends State<CountryCard> {
                                 text: TextSpan(
                                   style: DefaultTextStyle.of(context).style,
                                   children: <TextSpan>[
-                                    const TextSpan(
+                                    TextSpan(
                                         text: "Population Density: ",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 15)),
+                                            fontSize: 15,
+                                            color: Theme.of(context).primaryColor)),
                                     TextSpan(
                                         text: (snapshot.data!["population"] /
                                             snapshot.data!["area"])
@@ -533,11 +538,12 @@ class _CountryCard extends State<CountryCard> {
                                 text: TextSpan(
                                   style: DefaultTextStyle.of(context).style,
                                   children: <TextSpan>[
-                                    const TextSpan(
+                                    TextSpan(
                                         text: "United Nations: ",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 15)),
+                                            fontSize: 15,
+                                            color: Theme.of(context).primaryColor)),
                                     TextSpan(
                                         text: snapshot.data!["unMember"]
                                             ? "Member"
@@ -620,11 +626,11 @@ class _CountryCard extends State<CountryCard> {
                         );
                         return statsCache[widget.country["country"]]!;
                       }),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(top: 16, bottom: 12),
                     child: Text(
                       "Future Variants",
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor),
                     ),
                   ),
                   const Padding(
@@ -636,7 +642,7 @@ class _CountryCard extends State<CountryCard> {
                       style: TextStyle(fontSize: 15),
                     ),
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(right: 18),
                     child: Align(
                       alignment: Alignment.centerRight,
@@ -644,15 +650,17 @@ class _CountryCard extends State<CountryCard> {
                           onPressed: null,
                           child: Text("Predict",
                               style: TextStyle(
-                                  fontSize: 15, color: Colors.black))),
+                                  fontSize: 15, color: Theme.of(context).primaryColor)
+                          )
+                      ),
                     ),
                   ),
-                  const Padding(
+                  Padding(
                       padding: EdgeInsets.only(right: 10),
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: Text("     ",
-                            style: TextStyle(fontSize: 12, color: Colors.grey)),
+                            style: TextStyle(fontSize: 12, color: Theme.of(context).primaryColor)),
                       ))
                 ],
               ),
