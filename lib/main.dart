@@ -1,11 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:genome_2133/tabs/saved.dart';
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 
 import 'firebase_options.dart';
@@ -34,7 +31,7 @@ Future<void> main() async {
 
   user = FirebaseAuth.instance.currentUser;
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp<T> extends StatefulWidget {
@@ -59,13 +56,21 @@ class _MyAppState<T> extends State<MyApp> {
           textTheme: isDyslexic ? GoogleFonts.lexendDecaTextTheme() : GoogleFonts.nunitoSansTextTheme(),
           primaryColor: Colors.black,
           highlightColor: Colors.blue,
-          primaryColorLight: Colors.white
+          primaryColorLight: Colors.grey
       ),
       "Dark Mode" :
-      ThemeData.dark().copyWith(
-        textTheme: isDyslexic ? GoogleFonts.lexendDecaTextTheme(ThemeData.dark().textTheme) : GoogleFonts.nunitoSansTextTheme(ThemeData.dark().textTheme)
+      ThemeData(
+          primarySwatch: Colors.grey,
+          dialogBackgroundColor: const Color(0xff3d3d3d),
+          scaffoldBackgroundColor: const Color(0xff445756),
+          cardColor: Colors.blueGrey.shade800,
+          textTheme: isDyslexic ? GoogleFonts.lexendDecaTextTheme() : GoogleFonts.nunitoSansTextTheme(),
+          primaryColor: Colors.white,
+          highlightColor: Colors.blue,
+          primaryColorLight: Colors.white
       ),
     };
+
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'CENT - Exploration Tool',

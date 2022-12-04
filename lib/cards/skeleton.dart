@@ -7,6 +7,7 @@ import 'package:genome_2133/cards/continent.dart';
 import 'package:genome_2133/cards/country.dart';
 
 import '../home.dart';
+import '../main.dart';
 
 class SkeletonCard extends StatefulWidget {
   final Function updateParent;
@@ -159,10 +160,10 @@ class _SkeletonCard extends State<SkeletonCard> {
     double width_ = MediaQuery.of(context).size.width;
     double height_ = MediaQuery.of(context).size.height;
 
-    Color bodyBackground = Theme.of(context).dialogBackgroundColor; // @Noel
+    Color bodyBackground = dict[theme].dialogBackgroundColor; // @Noel
     Widget cardHeaderNonMoving = Container(
       height: 40,
-      color: windows.last == widget || isMoving ? Theme.of(context).cardColor : Theme.of(context).scaffoldBackgroundColor,
+      color: windows.last == widget || isMoving ? dict[theme].cardColor : dict[theme].scaffoldBackgroundColor,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
@@ -175,7 +176,7 @@ class _SkeletonCard extends State<SkeletonCard> {
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
                 style:
-                TextStyle(color: Theme.of(context).primaryColorLight, fontSize: 20),
+                TextStyle(color: dict[theme].primaryColorLight, fontSize: 20),
               ),
             ),
             Align(
@@ -183,7 +184,7 @@ class _SkeletonCard extends State<SkeletonCard> {
                 child: GestureDetector(
                   child: Icon(
                     Icons.close,
-                    color: Theme.of(context).primaryColorLight,
+                    color: dict[theme].primaryColorLight,
                   ),
                   onTap: () {
                     // TODO: add cleanup to home array
@@ -235,7 +236,7 @@ class _SkeletonCard extends State<SkeletonCard> {
           width: cardWidth,
           child: Container(
             decoration: BoxDecoration(
-              border: Border.all(width: 1, color: !isMoving ? Theme.of(context).scaffoldBackgroundColor : Colors.transparent),
+              border: Border.all(width: 1, color: !isMoving ? dict[theme].scaffoldBackgroundColor : Colors.transparent),
               borderRadius: BorderRadius.circular(18),
             ),
             child: ClipRRect(
@@ -257,7 +258,7 @@ class _SkeletonCard extends State<SkeletonCard> {
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,
                               style:
-                              TextStyle(color: Theme.of(context).primaryColorLight, fontSize: 20),
+                              TextStyle(color: dict[theme].primaryColorLight, fontSize: 20),
                             ),
                           ),
 
@@ -266,7 +267,7 @@ class _SkeletonCard extends State<SkeletonCard> {
                               child: GestureDetector(
                                 child: Icon(
                                   Icons.close,
-                                  color: Theme.of(context).primaryColorLight,
+                                  color: dict[theme].primaryColorLight,
                                 ),
                                 onTap: () {
                                   // TODO: add cleanup to home array
@@ -310,7 +311,7 @@ class _SkeletonCard extends State<SkeletonCard> {
           },
           child: Container(
             decoration: BoxDecoration(
-              border: Border.all(width: 1, color: !isMoving ? Theme.of(context).scaffoldBackgroundColor : Colors.transparent),
+              border: Border.all(width: 1, color: !isMoving ? dict[theme].scaffoldBackgroundColor : Colors.transparent),
               borderRadius: BorderRadius.circular(18),
             ),
             child: ClipRRect(

@@ -126,12 +126,12 @@ class _CountryCard extends State<CountryCard> {
               hasScrollBody: false,
               child: Column(
                 children: [
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(top: 12, bottom: 12),
                     child: Text(
                       "Variants",
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,
-                          //color: Theme.of(context).primaryColor
+                          color: dict[theme].primaryColor
                       ),
                     ),
                   ),
@@ -143,20 +143,19 @@ class _CountryCard extends State<CountryCard> {
                           return variantsCache[widget.country["country"]]!;
                         }
                         if (!snapshot.hasData) {
-                          return const SizedBox(
+                          return SizedBox(
                             height: 120,
                             child: Center(
                               child: CircularProgressIndicator(
-                               // color:
-                               //     Theme.of(context).scaffoldBackgroundColor,
+                                color: dict[theme].highlightColor,
                               ),
                             ),
                           );
                         }
                         if (snapshot.data!.containsKey("Something went wrong")) {
-                          variantsCache[widget.country["country"]] = const Padding(
+                          variantsCache[widget.country["country"]] = Padding(
                             padding: EdgeInsets.all(8.0),
-                            child: Text("No recorded variants."),
+                            child: Text("No recorded variants.", style: TextStyle(color: dict[theme].primaryColor)),
                           );
                           return variantsCache[widget.country["country"]]!;
                         }
@@ -181,7 +180,7 @@ class _CountryCard extends State<CountryCard> {
                                         style: TextButton.styleFrom(
                                             textStyle:
                                               TextStyle(fontSize: 13,
-                                                  color: Theme.of(context).primaryColor
+                                                  color: dict[theme].primaryColor
                                               )
                                         ),
                                         onPressed: () {
@@ -202,9 +201,8 @@ class _CountryCard extends State<CountryCard> {
                                         },
                                         child: Text(
                                           variant["accession"]!,
-                                          style: const TextStyle(
-                                            //color: Theme.of(context)
-                                            //    .primaryColor,
+                                          style: TextStyle(
+                                            color: dict[theme].highlightColor,
                                             decoration:
                                             TextDecoration.underline,
                                           ),
@@ -220,7 +218,7 @@ class _CountryCard extends State<CountryCard> {
                                 alignment: Alignment.centerRight,
                                 child: ElevatedButton(
                                   style: TextButton.styleFrom(
-                                    textStyle: TextStyle(fontSize: 20, color: Theme.of(context).primaryColor),
+                                    textStyle: TextStyle(fontSize: 20, color: dict[theme].primaryColor),
                                   ),
                                   onPressed: () {
                                     Navigator.push(
@@ -236,7 +234,7 @@ class _CountryCard extends State<CountryCard> {
                                   },
                                   child: Text(
                                     "View More",
-                                    style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor),
+                                    style: TextStyle(fontSize: 15, color: dict[theme].primaryColor),
                                   ),
                                 ),
                               ),
@@ -245,12 +243,12 @@ class _CountryCard extends State<CountryCard> {
                         );
                         return variantsCache[widget.country["country"]]!;
                       }),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(top: 16, bottom: 12),
                     child: Text(
                       "Country Info",
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,
-                          //color: Theme.of(context).primaryColor
+                          color: dict[theme].primaryColor
                       ),
                     ),
                   ),
@@ -266,7 +264,7 @@ class _CountryCard extends State<CountryCard> {
                             child: Center(
                               child: CircularProgressIndicator(
                                 color:
-                                    Theme.of(context).scaffoldBackgroundColor,
+                                dict[theme].scaffoldBackgroundColor,
                               ),
                             ),
                           );
@@ -278,10 +276,10 @@ class _CountryCard extends State<CountryCard> {
                                 text: snapshot.data!["continents"].length == 1
                                     ? "Continent: "
                                     : "Continents: ",
-                                style: const TextStyle(
+                                style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15,
-                                    //color: Theme.of(context).primaryColor
+                                    color: dict[theme].primaryColor
                                 ))
                           ];
 
@@ -292,11 +290,14 @@ class _CountryCard extends State<CountryCard> {
                                             snapshot.data!["continents"].last &&
                                         snapshot.data!["continents"].length > 1
                                     ? "and "
-                                    : ""));
+                                    : "", style:TextStyle(
+                                        color: dict[theme].primaryColor
+                                        )
+                            ));
                             output.add(TextSpan(
                                 text: continent,
-                                style: const TextStyle(
-                                  //color: Theme.of(context).highlightColor,
+                                style: TextStyle(
+                                  color: dict[theme].highlightColor,
                                   decoration: TextDecoration.underline,
                                   fontSize: 15
                                 ),
@@ -391,26 +392,30 @@ class _CountryCard extends State<CountryCard> {
                                                 countries.length == 1
                                                 ? "Neighbor: "
                                                 : "Neighbors: ",
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 15,
-                                                //color: Theme.of(context).primaryColor
+                                                color: dict[theme].primaryColor
                                             )),
                                         if (!snapshot.data!
                                             .containsKey("borders") ||
                                             countries.isEmpty)
-                                          const TextSpan(text: "None"),
+                                          TextSpan(text: "None", style: TextStyle(
+                                            color: dict[theme].primaryColor
+                                            )),
                                       ];
                                       for (String country in countries) {
                                         output.add(TextSpan(
                                             text: country == countries.last &&
                                                 countries.length > 1
                                                 ? "and "
-                                                : ""));
+                                                : "", style:TextStyle(
+                                            color: dict[theme].primaryColor
+                                        )));
                                         output.add(TextSpan(
                                             text: country,
-                                            style: const TextStyle(
-                                              //color: Theme.of(context).highlightColor,
+                                            style: TextStyle(
+                                              color: dict[theme].highlightColor,
                                               decoration: TextDecoration.underline,
                                               fontSize: 15
                                             ),
@@ -434,7 +439,9 @@ class _CountryCard extends State<CountryCard> {
                                                 ? ""
                                                 : countries.length != 2
                                                 ? ", "
-                                                : " "));
+                                                : " ", style:TextStyle(
+                                            color: dict[theme].primaryColor
+                                        )));
                                       }
 
                                       return output;
@@ -461,14 +468,17 @@ class _CountryCard extends State<CountryCard> {
                                             1
                                             ? "Capital: "
                                             : "Capitals: ",
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15,
-                                            //color: Theme.of(context).primaryColor
+                                            color: dict[theme].primaryColor
                                         )),
                                     for (String capital
                                     in snapshot.data!["capital"])
                                       TextSpan(
+                                        style:TextStyle(
+                                          color: dict[theme].primaryColor
+                                        ),
                                           text: (capital ==
                                               snapshot
                                                   .data!["capital"]
@@ -487,7 +497,8 @@ class _CountryCard extends State<CountryCard> {
                                                   .length !=
                                                   2
                                                   ? ", "
-                                                  : " ")),
+                                                  : " "),
+                                      ),
                                   ],
                                 ),
                               ),
@@ -501,10 +512,10 @@ class _CountryCard extends State<CountryCard> {
                                     children: <TextSpan>[
                                       TextSpan(
                                           text: "${key.toTitleCase()}: ",
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold,
-                                              //color: Theme.of(context).primaryColor
+                                              color: dict[theme].primaryColor
                                           )),
                                       TextSpan(
                                           text: (snapshot.data![key] < pow(10, 6) ?
@@ -515,9 +526,13 @@ class _CountryCard extends State<CountryCard> {
                                               .replaceAllMapped(
                                               RegExp(
                                                   r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-                                                  (Match m) => '${m[1]},')),
+                                                  (Match m) => '${m[1]},'), style:TextStyle(
+                                          color: dict[theme].primaryColor
+                                      )),
                                       if (snapshot.data![key] >= pow(10, 6))
-                                        TextSpan(text: snapshot.data![key] < pow(10, 9) ? " Million" : " Billion"),
+                                        TextSpan(text: snapshot.data![key] < pow(10, 9) ? " Million" : " Billion", style:TextStyle(
+                                            color: dict[theme].primaryColor
+                                        )),
                                     ],
                                   ),
                                 ),
@@ -528,12 +543,12 @@ class _CountryCard extends State<CountryCard> {
                                 text: TextSpan(
                                   style: DefaultTextStyle.of(context).style,
                                   children: <TextSpan>[
-                                    const TextSpan(
+                                    TextSpan(
                                         text: "Population Density: ",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15,
-                                            //color: Theme.of(context).primaryColor
+                                            color: dict[theme].primaryColor
                                         )),
                                     TextSpan(
                                         text: (snapshot.data!["population"] /
@@ -542,7 +557,9 @@ class _CountryCard extends State<CountryCard> {
                                             .replaceAllMapped(
                                             RegExp(
                                                 r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-                                                (Match m) => '${m[1]},') + " per square km"),
+                                                (Match m) => '${m[1]},') + " per square km", style:TextStyle(
+                                        color: dict[theme].primaryColor
+                                    )),
                                   ],
                                 ),
                               ),
@@ -553,17 +570,19 @@ class _CountryCard extends State<CountryCard> {
                                 text: TextSpan(
                                   style: DefaultTextStyle.of(context).style,
                                   children: <TextSpan>[
-                                    const TextSpan(
+                                    TextSpan(
                                         text: "United Nations: ",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15,
-                                            //color: Theme.of(context).primaryColor
+                                            color: dict[theme].primaryColor
                                         )),
                                     TextSpan(
                                         text: snapshot.data!["unMember"]
                                             ? "Member"
-                                            : "Non-Member"),
+                                            : "Non-Member", style:TextStyle(
+                                        color: dict[theme].primaryColor
+                                    )),
                                   ],
                                 ),
                               ),
@@ -580,8 +599,10 @@ class _CountryCard extends State<CountryCard> {
                                             1
                                             ? "Language: "
                                             : "Languages: ",
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold)),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: dict[theme].primaryColor)
+                                    ),
                                     for (String language
                                     in snapshot.data!["languages"].values)
                                       TextSpan(
@@ -610,7 +631,9 @@ class _CountryCard extends State<CountryCard> {
                                                   .values.length !=
                                                   2
                                                   ? ", "
-                                                  : " ")),
+                                                  : " "), style:TextStyle(
+                                          color: dict[theme].primaryColor
+                                      )),
                                   ],
                                 ),
                               ),
@@ -628,9 +651,14 @@ class _CountryCard extends State<CountryCard> {
                                     children: <TextSpan>[
                                       TextSpan(
                                           text: "${key.toTitleCase()}: ",
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold)),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: dict[theme].primaryColor
+                                          )),
                                       TextSpan(
+                                      style:TextStyle(
+                                      color: dict[theme].primaryColor,
+                                      ),
                                           text: snapshot.data![key]
                                               .toString()
                                               .toTitleCase()),
@@ -642,22 +670,24 @@ class _CountryCard extends State<CountryCard> {
                         );
                         return statsCache[widget.country["country"]]!;
                       }),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(top: 16, bottom: 12),
                     child: Text(
                       "Future Variants",
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,
-                          //color: Theme.of(context).primaryColor
+                          color: dict[theme].primaryColor
                       ),
                     ),
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(top: 12, bottom: 12, right: 3),
                     child: Text(
                       "This section is meant to display the result of our "
                           "prediction algorithms' efforts to anticipate future "
                           "COVID-19 strains from the selected nation",
-                      style: TextStyle(fontSize: 15),
+                      style: TextStyle(fontSize: 15,
+                          color: dict[theme].primaryColor
+                      ),
                     ),
                   ),
                   Padding(
@@ -669,7 +699,7 @@ class _CountryCard extends State<CountryCard> {
                           child: Text("Predict",
                               style: TextStyle(
                                   fontSize: 15,
-                                  color: Theme.of(context).primaryColor
+                                  color: dict[theme].primaryColor
                               )
                           )
                       ),
@@ -680,7 +710,7 @@ class _CountryCard extends State<CountryCard> {
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: Text("     ",
-                            style: TextStyle(fontSize: 12, color: Theme.of(context).primaryColor)),
+                            style: TextStyle(fontSize: 12, color: dict[theme].primaryColor)),
                       ))
                 ],
               ),

@@ -6,6 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../cards/country.dart';
 import '../cards/skeleton.dart';
+import '../main.dart';
 
 class Region extends StatefulWidget {
   final Function updateParent;
@@ -24,7 +25,7 @@ class _Region extends State<Region> {
     final key = GlobalKey();
 
     return AlertDialog(
-        title: const Center(child: Text("Select Country")),
+        title: Center(child: Text("Select Country", style:TextStyle(color: dict[theme].primaryColor))),
         content: SizedBox(
           height: MediaQuery.of(context).size.height / 2,
           width: MediaQuery.of(context).size.width / 4,
@@ -42,11 +43,17 @@ class _Region extends State<Region> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
                       child: TextField(
+                          style: TextStyle(color: dict[theme].primaryColor),
                           controller: search,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              // width: 0.0 produces a thin "hairline" border
+                              borderSide: BorderSide(color: dict[theme].primaryColor, width: 0.0),
+                            ),
                             border: OutlineInputBorder(),
-                            suffixIcon: Icon(Icons.search),
+                            suffixIcon: Icon(Icons.search, color: dict[theme].primaryColor),
                             labelText: 'Search',
+                            labelStyle: TextStyle(color: dict[theme].primaryColor),
                           ),
                           onChanged: (text) {
                             setState(() {});
@@ -76,12 +83,13 @@ class _Region extends State<Region> {
                                                               .size
                                                               .width /
                                                           80,
-                                                  color: Colors.black),
+                                                  color: dict[theme].primaryColor),
                                             ),
                                           ),
                                         ),
                                       ),
-                                      const Icon(Icons.chevron_right)
+                                      Icon(Icons.chevron_right,
+                                      color: dict[theme].primaryColor,)
                                     ],
                                   ),
                                   onPressed: () {

@@ -116,7 +116,7 @@ class _ContinentCard extends State<ContinentCard> {
                                 return Expanded(child: Center(
                                   child: CircularProgressIndicator(
                                     color:
-                                    Theme.of(context).scaffoldBackgroundColor,
+                                    dict[theme].scaffoldBackgroundColor,
                                   ),
                                 ),);
                               }
@@ -159,9 +159,9 @@ class _ContinentCard extends State<ContinentCard> {
                               for (String region in ordering.keys) {
                                 output.add(Padding(
                                   padding:
-                                      const EdgeInsets.only(top: 8, bottom: 8),
+                                      EdgeInsets.only(top: 8, bottom: 8),
                                   child: Text(region,
-                                      style: const TextStyle(fontSize: 18)),
+                                      style: TextStyle(fontSize: 18, color: dict[theme].primaryColor)),
                                 ));
 
                                 ordering[region]!.sort();
@@ -173,8 +173,8 @@ class _ContinentCard extends State<ContinentCard> {
                                       child: Text(
                                         country,
                                         style: TextStyle(
-                                          color: Theme.of(context)
-                                              .scaffoldBackgroundColor,
+                                          color: dict[theme]
+                                              .highlightColor,
                                           decoration: TextDecoration.underline,
                                         ),
                                       ),

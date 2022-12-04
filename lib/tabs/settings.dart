@@ -25,12 +25,12 @@ class _Settings extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).dialogBackgroundColor,
+      backgroundColor: dict[theme].dialogBackgroundColor,
       body: SafeArea(
           child: Column(
             children: [
               Container(
-                  color: Theme.of(context).scaffoldBackgroundColor,
+                  color: dict[theme].scaffoldBackgroundColor,
                   child: Row(
                       children: [
                         Align(
@@ -42,7 +42,7 @@ class _Settings extends State<Settings> {
                             child: Icon(
                               Icons.chevron_left,
                               size: MediaQuery.of(context).size.width / 30,
-                              //color: Theme.of(context).dialogBackgroundColor,
+                              color: dict[theme].primaryColorLight,
                             ),
                           ),
                         ),
@@ -54,7 +54,7 @@ class _Settings extends State<Settings> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 30,
-                                    //color: Theme.of(context).dialogBackgroundColor
+                                    color: dict[theme].primaryColorLight
                                 ),
                               ),
                             )
@@ -78,27 +78,27 @@ class _Settings extends State<Settings> {
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const Text("User Info", style: TextStyle(fontSize: 24)),
+                                      Text("User Info", style: TextStyle(fontSize: 24, color: dict[theme].primaryColor)),
                                       const Text("\n"),
-                                      Text("Email: ${FirebaseAuth.instance.currentUser!.email!}", style: const TextStyle(fontSize: 16)),
+                                      Text("Email: ${FirebaseAuth.instance.currentUser!.email!}", style: TextStyle(fontSize: 16, color: dict[theme].primaryColor)),
                                       const Text("\n"),
-                                      Text("Account Created: ${DateFormat("MMMM d, yyyy").format(FirebaseAuth.instance.currentUser!.metadata.creationTime!)}", style: const TextStyle(fontSize: 16)),
+                                      Text("Account Created: ${DateFormat("MMMM d, yyyy").format(FirebaseAuth.instance.currentUser!.metadata.creationTime!)}", style: TextStyle(fontSize: 16, color: dict[theme].primaryColor)),
                                       const Text("\n"),
-                                      Text("User ID: ${FirebaseAuth.instance.currentUser!.uid}", style: const TextStyle(fontSize: 16)),
+                                      Text("User ID: ${FirebaseAuth.instance.currentUser!.uid}", style: TextStyle(fontSize: 16, color: dict[theme].primaryColor)),
                                     ],
                                   ),
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const Text("Accessibility", style: TextStyle(fontSize: 24)),
+                                      Text("Accessibility", style: TextStyle(fontSize: 24, color: dict[theme].primaryColor)),
                                       Padding(
                                         padding: const EdgeInsets.all(12),
                                         child: ElevatedButton(
                                           onPressed: () => showDialog<String>(
                                             context: context,
                                             builder: (BuildContext context) => AlertDialog(
-                                              title: const Text('Color Options'),
-                                              content: Text('Current theme: ' + theme),
+                                              title: Text('Color Options', style: TextStyle(color: dict[theme].primaryColor)),
+                                              content: Text('Current theme: ' + theme, style: TextStyle(color: dict[theme].primaryColor)),
                                               actions: <Widget>[
                                                 for (String caption in dict.keys)
                                                   ElevatedButton(
@@ -106,23 +106,24 @@ class _Settings extends State<Settings> {
                                                       context.findAncestorStateOfType<State<MyApp>>()!.setState(() {
                                                         theme = caption;
                                                       });
+                                                      setState(() {});
                                                       Navigator.pop(context);
                                                     },
                                                     child: Text(caption,
-                                                        style: const TextStyle(
+                                                        style: TextStyle(
                                                             fontSize: 16,
-                                                            color: Colors.black
+                                                            color: dict[theme].primaryColor
                                                         )),
                                                   ),
                                               ],
                                             )),
-                                          child: const Padding(
+                                          child: Padding(
                                             padding: EdgeInsets.all(12),
                                             child: Text(
                                               "Change Color Scheme",
                                               style: TextStyle(
                                                   fontSize: 16,
-                                                  color: Colors.black),
+                                                  color: dict[theme].primaryColor),
                                             ),
                                           ),
                                         ),
@@ -142,7 +143,7 @@ class _Settings extends State<Settings> {
                                                 isMapDisabled ? "Enable Map" : "Disable Map",
                                                 style: TextStyle(
                                                     fontSize: 16,
-                                                    color: Colors.black),
+                                                    color: dict[theme].primaryColor),
                                               ),
                                             ),
                                           ),
@@ -163,7 +164,7 @@ class _Settings extends State<Settings> {
                                               isDyslexic ? "Disable Dyslexic Font" : "Enable Dyslexic Font",
                                               style: TextStyle(
                                                   fontSize: 16,
-                                                  color: Colors.black),
+                                                  color: dict[theme].primaryColor),
                                             ),
                                           ),
                                         ),
@@ -173,7 +174,7 @@ class _Settings extends State<Settings> {
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const Text("Account Management", style: TextStyle(fontSize: 24)),
+                                      Text("Account Management", style: TextStyle(fontSize: 24, color: dict[theme].primaryColor)),
                                       Padding(
                                         padding: const EdgeInsets.all(12),
                                         child: ElevatedButton(
@@ -183,13 +184,13 @@ class _Settings extends State<Settings> {
                                               Navigator.pop(context);
                                             });
                                           },
-                                          child: const Padding(
+                                          child: Padding(
                                             padding: EdgeInsets.all(12),
                                             child: Text(
                                               "Log Out",
                                               style: TextStyle(
                                                   fontSize: 16,
-                                                  color: Colors.black),
+                                                  color: dict[theme].primaryColor),
                                             ),
                                           ),
                                         ),
@@ -229,13 +230,13 @@ class _Settings extends State<Settings> {
                                               );
                                             });
                                           },
-                                          child: const Padding(
+                                          child: Padding(
                                             padding: EdgeInsets.all(12),
                                             child: Text(
                                               "Reset Password",
                                               style: TextStyle(
                                                   fontSize: 16,
-                                                  color: Colors.black),
+                                                  color: dict[theme].primaryColor),
                                             ),
                                           ),
                                         ),
@@ -319,13 +320,13 @@ class _Settings extends State<Settings> {
                                               ),
                                             );
                                           },
-                                          child: const Padding(
+                                          child: Padding(
                                             padding: EdgeInsets.all(12),
                                             child: Text(
                                               "Delete Account",
                                               style: TextStyle(
                                                   fontSize: 16,
-                                                  color: Colors.black),
+                                                  color: dict[theme].primaryColor),
                                             ),
                                           ),
                                         ),
@@ -336,7 +337,7 @@ class _Settings extends State<Settings> {
                                   Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        const Text("Other", style: TextStyle(fontSize: 24)),
+                                        Text("Other", style: TextStyle(fontSize: 24, color: dict[theme].primaryColor)),
                                         Padding(
                                           padding: const EdgeInsets.all(12),
                                           child: ElevatedButton(
@@ -344,13 +345,13 @@ class _Settings extends State<Settings> {
                                               showDialog(
                                                   context: context, builder: (_) => contact(context));
                                             },
-                                            child: const Padding(
+                                            child: Padding(
                                               padding: EdgeInsets.all(12),
                                               child: Text(
                                                 "Contact Us",
                                                 style: TextStyle(
                                                     fontSize: 16,
-                                                    color: Colors.black),
+                                                    color: dict[theme].primaryColor),
                                               ),
                                             ),
                                           ),
@@ -360,13 +361,13 @@ class _Settings extends State<Settings> {
                                           child: ElevatedButton(
                                             onPressed: () => launchUrl(Uri.parse(
                                                 'https://github.com/Fried-man/genome_2133#readme')),
-                                            child: const Padding(
+                                            child: Padding(
                                               padding: EdgeInsets.all(12),
                                               child: Text(
                                                 "Credits",
                                                 style: TextStyle(
                                                     fontSize: 16,
-                                                    color: Colors.black),
+                                                    color: dict[theme].primaryColor),
                                               ),
                                             ),
                                           ),
@@ -380,7 +381,7 @@ class _Settings extends State<Settings> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text("FAQ", style: TextStyle(fontSize: 24)),
+                                  Text("FAQ", style: TextStyle(fontSize: 24, color: dict[theme].primaryColor)),
                                   FAQ(),
                                 ],
                               ),

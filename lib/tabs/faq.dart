@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../main.dart';
+
 class FAQ extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -33,19 +35,19 @@ Widget recursiveList(content) {
       itemBuilder: (context, index) {
         if (content[index].containsKey("Question")) {
           return ExpansionTile(
-            textColor: Colors.black,
-            title: Text(content[index]["Question"]),
+            textColor: dict[theme].primaryColor,
+            title: Text(content[index]["Question"], style: TextStyle(color: dict[theme].primaryColor)),
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(content[index]["Answer"]),
+                child: Text(content[index]["Answer"], style: TextStyle(color: dict[theme].primaryColor)) ,
               )
             ],
           );
         }
         return ExpansionTile(
-          textColor: Colors.black,
-          title: Text(content[index]["Title"]),
+          textColor: dict[theme].primaryColor,
+          title: Text(content[index]["Title"], style: TextStyle(color: dict[theme].primaryColor)),
           children: [
             ListTile(subtitle: recursiveList(content[index]["Content"]))
           ],
@@ -54,12 +56,12 @@ Widget recursiveList(content) {
     );
   }
   return ExpansionTile(
-      textColor: Colors.black,
-      title: Text(content["Question"]),
+      textColor: dict[theme].primaryColor,
+      title: Text(content["Question"], style: TextStyle(color: dict[theme].primaryColor)),
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(content["Answer"]),
+          child: Text(content["Answer"], style: TextStyle(color: dict[theme].highlightColor)),
         )
       ]);
 }
