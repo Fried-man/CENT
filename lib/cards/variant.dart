@@ -11,6 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../home.dart';
+import '../main.dart';
 import 'country.dart';
 
 class VariantCard extends StatefulWidget {
@@ -87,8 +88,8 @@ class _VariantCard extends State<VariantCard> {
                           return Expanded(
                             child: Center(
                               child: CircularProgressIndicator(
-                                //color:
-                                //    Theme.of(context).scaffoldBackgroundColor,
+                                color:
+                                    dict[theme].scaffoldBackgroundColor,
                               ),
                             ),
                           );
@@ -96,7 +97,7 @@ class _VariantCard extends State<VariantCard> {
                         if (snapshot.data!.containsKey("error")) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Center(child: Text(snapshot.data!["error"])),
+                            child: Center(child: Text(snapshot.data!["error"], style: TextStyle(color: dict[theme].primaryColor))),
                           );
                         }
                         cache[widget.variant["accession"]] = Column(
@@ -111,14 +112,14 @@ class _VariantCard extends State<VariantCard> {
                                       children: <TextSpan>[
                                         TextSpan(
                                             text: "$key: ",
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold)),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold, color: dict[theme].primaryColor)),
                                         if (snapshot.data![key] == "GenBank")
                                           TextSpan(
                                             text: snapshot.data![key],
                                             style: TextStyle(
-                                              //color: Theme.of(context)
-                                              //    .scaffoldBackgroundColor,
+                                              color: dict[theme]
+                                                  .highlightColor,
                                               decoration:
                                               TextDecoration.underline,
                                             ), // decoration: TextDecoration.underline
@@ -151,7 +152,8 @@ class _VariantCard extends State<VariantCard> {
                                                   .toString()
                                                   .toUpperCase()
                                                   : snapshot.data![key]
-                                                  .toString())),
+                                                  .toString()),
+                                          style: TextStyle(color: dict[theme].primaryColor)),
                                       ],
                                     ),
                                   ),
@@ -163,15 +165,16 @@ class _VariantCard extends State<VariantCard> {
                                   text: TextSpan(
                                     style: DefaultTextStyle.of(context).style,
                                     children: <TextSpan>[
-                                      const TextSpan(
+                                      TextSpan(
                                           text: "Country: ",
                                           style: TextStyle(
-                                              fontWeight: FontWeight.bold)),
+                                              fontWeight: FontWeight.bold,
+                                              color: dict[theme].primaryColor)),
                                       TextSpan(
                                         text: widget.location["country"]["country"],
                                         style: TextStyle(
-                                          //color: Theme.of(context)
-                                          //    .scaffoldBackgroundColor,
+                                          color: dict[theme]
+                                              .highlightColor,
                                           decoration:
                                           TextDecoration.underline,
                                         ), // decoration: TextDecoration.underline
@@ -210,13 +213,13 @@ class _VariantCard extends State<VariantCard> {
                             onPressed: () => launchUrl(Uri.parse(
                                 'https://www.ncbi.nlm.nih.gov/nuccore/' +
                                     widget.variant["accession"])),
-                            child: const Padding(
+                            child: Padding(
                               padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
                               child: Text(
                                 "Open in NCBI",
                                 maxLines: 1,
                                 style: TextStyle(
-                                    fontSize: 15, color: Colors.black),
+                                    fontSize: 15, color: dict[theme].primaryColor),
                               ),
                             ),
                           ),
@@ -231,13 +234,13 @@ class _VariantCard extends State<VariantCard> {
                                 Navigator.pushNamed(context, '/login')
                                     .then((value) => setState(() {}));
                               },
-                              child: const Padding(
+                              child: Padding(
                                 padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
                                 child: Text(
                                   "Login to Save",
                                   maxLines: 1,
                                   style: TextStyle(
-                                      fontSize: 15, color: Colors.black),
+                                      fontSize: 15, color: dict[theme].primaryColor),
                                 ),
                               ),
                             ),
@@ -267,8 +270,8 @@ class _VariantCard extends State<VariantCard> {
                                       child: Text(
                                         saveStatus,
                                         maxLines: 1,
-                                        style: const TextStyle(
-                                            fontSize: 15, color: Colors.black),
+                                        style: TextStyle(
+                                            fontSize: 15, color: dict[theme].primaryColor),
                                       ),
                                     ),
                                   );
@@ -305,8 +308,8 @@ class _VariantCard extends State<VariantCard> {
                                     child: Text(
                                       saveStatus,
                                       maxLines: 1,
-                                      style: const TextStyle(
-                                          fontSize: 15, color: Colors.black),
+                                      style: TextStyle(
+                                          fontSize: 15, color: dict[theme].primaryColor),
                                     ),
                                   ),
                                 );
