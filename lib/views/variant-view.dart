@@ -72,9 +72,8 @@ class _VariantView extends State<VariantView> {
                       Padding(
                           padding: const EdgeInsets.only(right: 20),
                           child: IconButton(
-                            icon: Icon(Icons.content_copy, color: dict[theme].primaryColor),
+                            icon: Icon(Icons.content_copy, color: dict[theme].primaryColorLight),
                             tooltip: "Copy selected variants to clipboard",
-                            color: dict[theme].primaryColor,
                             onPressed: () async {
                               await Clipboard.setData(ClipboardData(
                                   text: selections
@@ -94,7 +93,7 @@ class _VariantView extends State<VariantView> {
                           child: ElevatedButton(
                               style: TextButton.styleFrom(
                                   textStyle: const TextStyle(fontSize: 18),
-                                  backgroundColor: dict[theme].dialogBackgroundColor), //style
+                                  foregroundColor: dict[theme].primaryColorLight,), //style
                               onPressed: () => launchUrl(Uri.parse(
                                   'https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome')),
                               child: Text('Compare', style: TextStyle(color: dict[theme].primaryColor))))
