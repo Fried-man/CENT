@@ -209,34 +209,34 @@ class _CountryCard extends State<CountryCard> {
                                 ],
                               ),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 14),
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: ElevatedButton(
+                                  style: TextButton.styleFrom(
+                                    textStyle: TextStyle(fontSize: 20, color: Theme.of(context).primaryColor),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => VariantView(
+                                              country: widget.country,
+                                              updateParent: widget.updateParent,
+                                            )));
+                                  },
+                                  child: Text(
+                                    "View More",
+                                    style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         );
                         return variantsCache[widget.country["country"]]!;
                       }),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 14),
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: ElevatedButton(
-                        style: TextButton.styleFrom(
-                          textStyle: TextStyle(fontSize: 20, color: Theme.of(context).primaryColor),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => VariantView(
-                                        country: widget.country,
-                                        updateParent: widget.updateParent,
-                                      )));
-                        },
-                        child: Text(
-                          "View More",
-                          style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor),
-                        ),
-                      ),
-                    ),
-                  ),
                   Padding(
                     padding: EdgeInsets.only(top: 16, bottom: 12),
                     child: Text(
