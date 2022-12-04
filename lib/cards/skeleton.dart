@@ -231,8 +231,8 @@ class _SkeletonCard extends State<SkeletonCard> {
     Widget cardEntireMoving = Material(
         type: MaterialType.transparency,
         child: SizedBox(
-          height: cardHeight >= height_ / 2 ? height_ / 3 : cardHeight,
-          width: cardWidth >= width_ / 2 ? width_ / 3 : cardWidth,
+          height: cardHeight,
+          width: cardWidth,
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(width: 1, color: !isMoving ? Theme.of(context).scaffoldBackgroundColor : Colors.transparent),
@@ -318,7 +318,6 @@ class _SkeletonCard extends State<SkeletonCard> {
               child: Column(
                 children: [
                   Draggable(
-                    child: cardHeaderNonMoving,
                     maxSimultaneousDrags: 1,
                     childWhenDragging: Container(),
                     feedback: cardEntireMoving,
@@ -345,6 +344,7 @@ class _SkeletonCard extends State<SkeletonCard> {
                       }
                       updatePosition(newPosition);
                     },
+                    child: cardHeaderNonMoving,
                   ),
                   if (!isMoving) // Body of skeleton when not moving
                     Expanded(
