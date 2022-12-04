@@ -60,9 +60,9 @@ class _MyAppState<T> extends State<MyApp> {
       ),
       "Dark Mode" :
       ThemeData(
-          primarySwatch: Colors.blueGrey,
+          primarySwatch: Colors.grey,
           dialogBackgroundColor: const Color(0xff3d3d3d),
-          scaffoldBackgroundColor: Colors.blueGrey,
+          scaffoldBackgroundColor: const Color(0xff445756),
           cardColor: Colors.blueGrey.shade800,
           textTheme: isDyslexic ? GoogleFonts.lexendDecaTextTheme() : GoogleFonts.nunitoSansTextTheme(),
           primaryColor: Colors.white,
