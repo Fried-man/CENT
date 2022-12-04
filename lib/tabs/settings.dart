@@ -98,31 +98,22 @@ class _Settings extends State<Settings> {
                                             context: context,
                                             builder: (BuildContext context) => AlertDialog(
                                               title: const Text('Color Options'),
+                                              content: Text('Current theme: ' + theme),
                                               actions: <Widget>[
-                                                ElevatedButton(
-                                                  onPressed: () => Navigator.pop(context, theme = "Normal"),
-                                                  child: const Text('Normal',
-                                                      style: TextStyle(
-                                                          fontSize: 16,
-                                                          color: Colors.black
-                                                      )),
-                                                ),
-                                                ElevatedButton(
-                                                  onPressed: () => Navigator.pop(context, theme = "Dark Mode"),
-                                                  child: const Text('Dark Mode',
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      color: Colors.black
-                                                  )),
-                                                ),
-                                                ElevatedButton(
-                                                  onPressed: () => Navigator.pop(context, theme = "Colorblind Friendly"),
-                                                  child: const Text('Colorblind Friendly',
-                                                      style: TextStyle(
-                                                          fontSize: 16,
-                                                          color: Colors.black
-                                                      )),
-                                                ),
+                                                for (String caption in dict.keys)
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      context.findAncestorStateOfType<State<MyApp>>()!.setState(() {
+                                                        theme = caption;
+                                                      });
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text(caption,
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            color: Colors.black
+                                                        )),
+                                                  ),
                                               ],
                                             )),
                                           child: const Padding(
