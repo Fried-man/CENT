@@ -35,7 +35,7 @@ var dict = {
     ),
   "Dark Mode" :
     ThemeData.dark(),
-  "High Contrast" :
+  /*"High Contrast" :
     ThemeData(
         primarySwatch: Colors.grey,
         dialogBackgroundColor: const Color(0xffcccccc),
@@ -45,7 +45,7 @@ var dict = {
         primaryColor: Colors.black,
         highlightColor: Colors.blue,
         primaryColorLight: Colors.white
-    )
+    */
 };
 
 

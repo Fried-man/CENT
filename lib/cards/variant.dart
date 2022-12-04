@@ -87,8 +87,8 @@ class _VariantCard extends State<VariantCard> {
                           return Expanded(
                             child: Center(
                               child: CircularProgressIndicator(
-                                color:
-                                    Theme.of(context).scaffoldBackgroundColor,
+                                //color:
+                                //    Theme.of(context).scaffoldBackgroundColor,
                               ),
                             ),
                           );
@@ -117,8 +117,8 @@ class _VariantCard extends State<VariantCard> {
                                           TextSpan(
                                             text: snapshot.data![key],
                                             style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .scaffoldBackgroundColor,
+                                              //color: Theme.of(context)
+                                              //    .scaffoldBackgroundColor,
                                               decoration:
                                               TextDecoration.underline,
                                             ), // decoration: TextDecoration.underline
@@ -170,8 +170,8 @@ class _VariantCard extends State<VariantCard> {
                                       TextSpan(
                                         text: widget.location["country"]["country"],
                                         style: TextStyle(
-                                          color: Theme.of(context)
-                                              .scaffoldBackgroundColor,
+                                          //color: Theme.of(context)
+                                          //    .scaffoldBackgroundColor,
                                           decoration:
                                           TextDecoration.underline,
                                         ), // decoration: TextDecoration.underline
