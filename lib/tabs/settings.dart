@@ -106,6 +106,7 @@ class _Settings extends State<Settings> {
                                                       context.findAncestorStateOfType<State<MyApp>>()!.setState(() {
                                                         theme = caption;
                                                       });
+                                                      setState(() {});
                                                       Navigator.pop(context);
                                                     },
                                                     child: Text(caption,
