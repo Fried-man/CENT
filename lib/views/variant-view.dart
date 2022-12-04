@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:genome_2133/cards/variant.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 
@@ -159,6 +156,10 @@ class _SortablePageState extends State<SortablePage> {
   @override
   void initState() {
     headerLabel = List<String>.from(widget.items.first.keys);
+    headerLabel.sort();
+    headerLabel.remove("pinned");
+    headerLabel.add("pinned");
+    print(headerLabel);
     super.initState();
   }
 
@@ -191,19 +192,6 @@ class _SortablePageState extends State<SortablePage> {
         rows: getRows(widget.items),
       ),
     );
-    /*return FutureBuilder(
-      future: rootBundle.loadString("assets/data.json"),
-      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-        if (!snapshot.hasData) return Container();
-        users = json.decode(snapshot.data!)["Fake Data"];
-        return DataTable(
-          sortAscending: isAscending,
-          sortColumnIndex: sortColumnIndex,
-          columns: getColumns(['Accession', 'Geographical Location', 'Date Collected', 'Generated', 'Pinned']),
-          rows: getRows(users),
-        );
-      }
-    );*/
   }
 
   List<DataColumn> getColumns(List<String> columns) => columns
@@ -223,9 +211,9 @@ class _SortablePageState extends State<SortablePage> {
             data.add(user[key]);
           }
         }
-        lister = getCells(data.reversed.toList());
+        lister = getCells(data.toList());
 
-        lister.add(DataCell(
+        lister.insert(0, DataCell(
             Align(
                 alignment: Alignment.centerRight,
                 child: Text(user["accession"].toString())), onTap: () {
@@ -263,7 +251,6 @@ class _SortablePageState extends State<SortablePage> {
             },
           ),
         )));
-
         lister.add(DataCell(Align(
           alignment: Alignment.centerRight,
           child: IconButton(
