@@ -20,9 +20,9 @@ bool isDesktop = (defaultTargetPlatform == TargetPlatform.macOS ||
 bool isDyslexic = false;
 
 
-String theme = "Normal";
+String theme = "Default";
 var dict = {
-  "Normal" :
+  "Default" :
     ThemeData(
         primarySwatch: Colors.grey,
         dialogBackgroundColor: const Color(0xffcccccc),
@@ -34,15 +34,7 @@ var dict = {
         primaryColorLight: Colors.white
     ),
   "Dark Mode" :
-    ThemeData(
-        primarySwatch: Colors.grey,
-        dialogBackgroundColor: Colors.white10,
-        scaffoldBackgroundColor: const Color(0xff445756),
-        cardColor: const Color(0xff708f8d),
-        textTheme: isDyslexic ? GoogleFonts.lexendDecaTextTheme() : GoogleFonts.nunitoSansTextTheme(),
-        primaryColor: Colors.black,
-        highlightColor: Colors.blue
-    ),
+    ThemeData.dark(),
   "High Contrast" :
     ThemeData(
         primarySwatch: Colors.grey,

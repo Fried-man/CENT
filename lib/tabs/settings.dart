@@ -42,7 +42,7 @@ class _Settings extends State<Settings> {
                             child: Icon(
                               Icons.chevron_left,
                               size: MediaQuery.of(context).size.width / 30,
-                              color: Theme.of(context).dialogBackgroundColor,
+                              //color: Theme.of(context).dialogBackgroundColor,
                             ),
                           ),
                         ),
@@ -54,7 +54,7 @@ class _Settings extends State<Settings> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 30,
-                                    color: Theme.of(context).dialogBackgroundColor
+                                    //color: Theme.of(context).dialogBackgroundColor
                                 ),
                               ),
                             )
@@ -109,7 +109,7 @@ class _Settings extends State<Settings> {
                                                       Navigator.pop(context);
                                                     },
                                                     child: Text(caption,
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                             fontSize: 16,
                                                             color: Colors.black
                                                         )),

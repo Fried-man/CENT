@@ -60,7 +60,7 @@ class _SortablePageState extends State<SortablePage> {
                         child: Icon(
                           Icons.chevron_left,
                           size: MediaQuery.of(context).size.width / 30,
-                          color: Theme.of(context).dialogBackgroundColor,
+                          //color: Theme.of(context).dialogBackgroundColor,
                         ),
                       ),
                     ),
@@ -72,7 +72,7 @@ class _SortablePageState extends State<SortablePage> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 30,
-                                color: Theme.of(context).dialogBackgroundColor
+                                //color: Theme.of(context).dialogBackgroundColor
                             ),
                           ),
                         )

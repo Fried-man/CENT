@@ -118,7 +118,6 @@ class _CountryCard extends State<CountryCard> {
 
     return Padding(
         padding: const EdgeInsets.fromLTRB(20, 0, 8, 0),
-
         child: CustomScrollView(
           shrinkWrap: true,
           slivers: [
@@ -178,7 +177,9 @@ class _CountryCard extends State<CountryCard> {
                                       child: TextButton(
                                         style: TextButton.styleFrom(
                                             textStyle:
-                                              TextStyle(fontSize: 13, color: Theme.of(context).primaryColor)),
+                                              TextStyle(fontSize: 13,
+                                                  color: Theme.of(context).primaryColor)
+                                        ),
                                         onPressed: () {
                                           VariantCard selectedVariant =
                                           VariantCard(
@@ -197,9 +198,9 @@ class _CountryCard extends State<CountryCard> {
                                         },
                                         child: Text(
                                           variant["accession"]!,
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .scaffoldBackgroundColor,
+                                          style: const TextStyle(
+                                            //color: Theme.of(context)
+                                            //    .scaffoldBackgroundColor,
                                             decoration:
                                             TextDecoration.underline,
                                           ),
@@ -642,7 +643,7 @@ class _CountryCard extends State<CountryCard> {
                       style: TextStyle(fontSize: 15),
                     ),
                   ),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.only(right: 18),
                     child: Align(
                       alignment: Alignment.centerRight,
@@ -650,7 +651,9 @@ class _CountryCard extends State<CountryCard> {
                           onPressed: null,
                           child: Text("Predict",
                               style: TextStyle(
-                                  fontSize: 15, color: Theme.of(context).primaryColor)
+                                  fontSize: 15,
+                                  //color: Theme.of(context).primaryColor
+                              )
                           )
                       ),
                     ),

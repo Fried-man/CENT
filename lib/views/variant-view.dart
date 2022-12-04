@@ -74,7 +74,7 @@ class _VariantView extends State<VariantView> {
                             child: Icon(
                               Icons.chevron_left,
                               size: MediaQuery.of(context).size.width / 30,
-                              color: Theme.of(context).dialogBackgroundColor,
+                              //color: Theme.of(context).dialogBackgroundColor,
                             ),
                           ),
                         ),
@@ -84,9 +84,9 @@ class _VariantView extends State<VariantView> {
                               child: Text(
                                 widget.country["country"] + " Variants",
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 30,
-                                    color: Theme.of(context).dialogBackgroundColor
+                                    //color: Theme.of(context).dialogBackgroundColor
                                 ),
                               ),
                             )
@@ -99,7 +99,7 @@ class _VariantView extends State<VariantView> {
                           child: IconButton(
                             icon: const Icon(Icons.content_copy),
                             tooltip: "Copy selected variants to clipboard",
-                            color: Theme.of(context).dialogBackgroundColor,
+                            //color: Theme.of(context).dialogBackgroundColor,
                             onPressed: () async {
                               await Clipboard.setData(ClipboardData(
                                   text: selections
@@ -274,7 +274,7 @@ class _SortablePageState extends State<SortablePage> {
             icon: user["selected"]
                 ? const Icon(Icons.done_sharp)
                 : const Icon(Icons.check_box_outline_blank),
-            color: const Color(0xff445756),
+            //color: const Color(0xff445756),
             onPressed: () {
               setState(() {
                 user["selected"] = !user["selected"];
@@ -294,7 +294,7 @@ class _SortablePageState extends State<SortablePage> {
             icon: user["pinned"]
                 ? const Icon(Icons.push_pin)
                 : const Icon(Icons.push_pin_outlined),
-            color: const Color(0xff445756),
+            //color: const Color(0xff445756),
             onPressed: () {
               setState(() {
                 user["pinned"] = !user["pinned"];
