@@ -145,6 +145,12 @@ class _SkeletonCard extends State<SkeletonCard> {
     cardHeight = size / 2;
     cardWidth = size / 3;
 
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    double xOffset = (size / 3) > (screenWidth / 4) ? (screenWidth / 4) : (size / 3);
+    double yOffset = xOffset * 3 / 2;
+
     position = widget.initPosition;
     if (position == const Offset(0, 0)) {
       findCardSpawn();
@@ -156,8 +162,11 @@ class _SkeletonCard extends State<SkeletonCard> {
   @override
   Widget build(BuildContext context) {
     if (isClosed) return Container();
-    double width_ = MediaQuery.of(context).size.width;
-    double height_ = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    cardWidth = cardWidth > (screenWidth / 2) ? (screenWidth / 2) : cardWidth;
+    cardHeight = cardWidth * 3 / 2;
 
     Color bodyBackground = Theme.of(context).dialogBackgroundColor; // @Noel
     Widget cardHeaderNonMoving = Container(
