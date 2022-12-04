@@ -42,6 +42,13 @@ Future<Map<String, dynamic>> sendUsers () async {
   List<Map<String, dynamic>> output = [];
   for (Map<String, dynamic> variant in (await getVariants(input: accessions)).values) {
     output.add(variant);
+    for (Map<String, dynamic> firebaseVariant in List.from(data["saved"])) {
+      for (String key in firebaseVariant.keys) {
+        if (key != "accession") {
+          variant[key] = firebaseVariant[key];
+        }
+      }
+    }
     for (String key in {"generated", "pinned"}) {
       if (!variant.containsKey(key)) {
         variant[key] = false;
