@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:genome_2133/cards/variant.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:http/http.dart' as http;
 
 import '../cards/skeleton.dart';
 import '../home.dart';
@@ -200,7 +199,11 @@ class _SortablePageState extends State<SortablePage> {
   List<DataColumn> getColumns(List<String> columns) => columns
       .map((String column) => DataColumn(
             label: Expanded(
-                child: Text(column.toTitle, textAlign: TextAlign.center, style: TextStyle(color: dict[theme].primaryColor))),
+                child: Text(
+                  column.toTitle,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: dict[theme].primaryColor),
+                )),
             onSort: onSort,
           ))
       .toList();
@@ -210,7 +213,7 @@ class _SortablePageState extends State<SortablePage> {
 
         List<dynamic> data = [];
         for (String key in headerLabel) {
-          if (key != "accession" && key != "selected" && key != "pinned") {
+          if (key != "accession" && key != "Accession" && key != "selected" && key != "pinned") {
             data.add(user[key]);
           }
         }
@@ -219,7 +222,7 @@ class _SortablePageState extends State<SortablePage> {
         lister.insert(0, DataCell(
             Align(
                 alignment: Alignment.centerRight,
-                child: Text(user["accession"].toString(), style: TextStyle(color: dict[theme].primaryColor))), onTap: () {
+                child: Text(user[user.containsKey("accession") ? "accession" : "Accession"].toString(), style: TextStyle(color: dict[theme].primaryColor))), onTap: () {
           Navigator.pop(context);
           VariantCard selectedVariant = VariantCard(
             variant: user,

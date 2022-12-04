@@ -7,13 +7,6 @@ import 'package:http/http.dart' as http;
 
 import '../views/variant-view.dart';
 
-List<String> headerLabel = [
-  'accession',
-  'geographical location',
-  'date collected',
-  'generated',
-  'pinned'
-];
 int? sortColumnIndex;
 bool isAscending = false;
 
@@ -41,18 +34,17 @@ class _Saved extends State<Saved> {
 Future<Map<String, dynamic>> sendUsers () async {
   Map<String, dynamic> data = (await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).get()).data()!;
 
-  List<Map<String, dynamic>> output = List.from(data["saved"]);
   List<String> accessions = [];
-  for (Map<String, dynamic> variant in output) {
+  for (Map<String, dynamic> variant in List.from(data["saved"])) {
     accessions.add(variant["accession"]);
   }
 
-  for (Map<String, dynamic> variant in output) {
-    variant["generated"] = false;
-    variant["pinned"] = false;
-    for (String attribute in headerLabel) {
-      if (!variant.containsKey(attribute)) {
-        variant[attribute] = "No Data";
+  List<Map<String, dynamic>> output = [];
+  for (Map<String, dynamic> variant in (await getVariants(input: accessions)).values) {
+    output.add(variant);
+    for (String key in {"generated", "pinned"}) {
+      if (!variant.containsKey(key)) {
+        variant[key] = false;
       }
     }
   }
@@ -65,7 +57,7 @@ Future<Map<String, dynamic>> getVariants(
   var headers = {
     'Content-Type': 'text/plain'
   };
-  var request = http.Request('GET', Uri.parse('https://genome2133functions.azurewebsites.net/api/GetDataFromAccession?code=1q32fFCX4A7_IrbXC-l-q1aboyDf3Q77hgeJO2lV2L6kAzFuD_mgTg=='));
+  var request = http.Request('POST', Uri.parse('https://genome2133functions.azurewebsites.net/api/GetDataFromAccession?code=1q32fFCX4A7_IrbXC-l-q1aboyDf3Q77hgeJO2lV2L6kAzFuD_mgTg=='));
   request.body = '''{\n    "accession" : ${jsonEncode(input)}\n}''';
   request.headers.addAll(headers);
 
