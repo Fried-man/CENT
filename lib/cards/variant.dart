@@ -276,9 +276,22 @@ class _VariantCard extends State<VariantCard> {
                                     ),
                                   );
                                 }
+                                
+                                Map variant = {
+                                  "accession" : widget.variant["accession"],
+                                  "continent" : widget.variant["region"],
+                                  "country" : widget.variant["location"],
+                                };
 
-                                saveStatus = (snapshot.data!["saved"] as List)
-                                        .contains(widget.variant["accession"])
+                                bool isFound = false;
+                                for (Map savedVarient in snapshot.data!["saved"]) {
+                                  if (savedVarient["accession"] == variant["accession"]) {
+                                    isFound = true;
+                                    break;
+                                  }
+                                }
+
+                                saveStatus = isFound
                                     ? "Unsave"
                                     : "Add to Saved";
                                 saveButton = ElevatedButton(
@@ -288,17 +301,16 @@ class _VariantCard extends State<VariantCard> {
                                         .collection("users")
                                         .doc(FirebaseAuth
                                         .instance.currentUser!.uid);
-                                    if ((snapshot.data!["saved"] as List)
-                                        .contains(
-                                        widget.variant["accession"])) {
+
+                                    if (isFound) {
                                       userDoc.update({
                                         'saved': FieldValue.arrayRemove(
-                                            [widget.variant["accession"]])
+                                            [variant])
                                       });
                                     } else {
                                       userDoc.update({
                                         'saved': FieldValue.arrayUnion(
-                                            [widget.variant["accession"]])
+                                            [variant])
                                       });
                                     }
                                   },

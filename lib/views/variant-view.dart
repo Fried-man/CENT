@@ -103,29 +103,39 @@ class _VariantView extends State<VariantView> {
               )
           ),
           Expanded(
-              child: FutureBuilder<Map<String, dynamic>>(
-                  future: widget.getData,
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color:
-                          dict[theme].dialogBackgroundColor,
-                        ),
-                      );
-                    }
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                  child: Container(
+                    color: dict[theme].dialogBackgroundColor,
+                    child: FutureBuilder<Map<String, dynamic>>(
+                      future: widget.getData,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color:
+                              dict[theme].dialogBackgroundColor,
+                            ),
+                          );
+                        }
 
-                    List<Map<String, dynamic>> regionView =
-                    List<Map<String, dynamic>>.from(snapshot.data!["accessions"]);
-                    for (Map<String, dynamic> variant in regionView) {
-                      variant["selected"] = false;
-                      variant["pinned"] = false;
-                    }
+                        List<Map<String, dynamic>> regionView =
+                        List<Map<String, dynamic>>.from(snapshot.data!["accessions"]);
+                        if (regionView.isEmpty) {
+                          return Center(child: const Text("No Saved Varients"));
+                        }
 
-                    return SortablePage(
-                        items: regionView,
-                        updateParent: widget.updateParent);
-                  }
+                        for (Map<String, dynamic> variant in regionView) {
+                          variant["selected"] = false;
+                          variant["pinned"] = false;
+                        }
+
+                        return SortablePage(
+                            items: regionView,
+                            updateParent: widget.updateParent);
+                      }
+                ),
+                  ),
               ),
           )
         ],
@@ -165,7 +175,7 @@ class _SortablePageState extends State<SortablePage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         body: Container(
-          color: dict[theme].backgroundColor,
+          color: dict[theme].dialogBackgroundColor,
           child: Align(
               alignment: Alignment.topCenter,
               child: SingleChildScrollView(
