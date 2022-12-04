@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 
 import '../cards/skeleton.dart';
 import '../home.dart';
+import '../main.dart';
 
 List selections = [];
 
@@ -33,11 +34,11 @@ class _VariantView extends State<VariantView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).dialogBackgroundColor,
+      backgroundColor: dict[theme].dialogBackgroundColor,
       body: Column(
         children: [
           Container(
-              color: Theme.of(context).scaffoldBackgroundColor,
+              color: dict[theme].scaffoldBackgroundColor,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -52,7 +53,7 @@ class _VariantView extends State<VariantView> {
                             child: Icon(
                               Icons.chevron_left,
                               size: MediaQuery.of(context).size.width / 30,
-                              //color: Theme.of(context).dialogBackgroundColor,
+                              color: dict[theme].primaryColor,
                             ),
                           ),
                         ),
@@ -62,9 +63,9 @@ class _VariantView extends State<VariantView> {
                               child: Text(
                                 widget.title,
                                 textAlign: TextAlign.center,
-                                style: const TextStyle(
+                                style: TextStyle(
                                     fontSize: 30,
-                                    //color: Theme.of(context).dialogBackgroundColor
+                                    color: dict[theme].primaryColor
                                 ),
                               ),
                             )
@@ -75,9 +76,9 @@ class _VariantView extends State<VariantView> {
                       Padding(
                           padding: const EdgeInsets.only(right: 20),
                           child: IconButton(
-                            icon: const Icon(Icons.content_copy),
+                            icon: Icon(Icons.content_copy),
                             tooltip: "Copy selected variants to clipboard",
-                            //color: Theme.of(context).dialogBackgroundColor,
+                            color: dict[theme].primaryColor,
                             onPressed: () async {
                               await Clipboard.setData(ClipboardData(
                                   text: selections
@@ -97,10 +98,10 @@ class _VariantView extends State<VariantView> {
                           child: ElevatedButton(
                               style: TextButton.styleFrom(
                                   textStyle: const TextStyle(fontSize: 18),
-                                  backgroundColor: Theme.of(context).dialogBackgroundColor), //style
+                                  backgroundColor: dict[theme].dialogBackgroundColor), //style
                               onPressed: () => launchUrl(Uri.parse(
                                   'https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome')),
-                              child: const Text('Compare')))
+                              child: Text('Compare', style: TextStyle(color: dict[theme].primaryColor))))
                     ]),
                   ]
               )
@@ -113,7 +114,7 @@ class _VariantView extends State<VariantView> {
                       return Center(
                         child: CircularProgressIndicator(
                           color:
-                          Theme.of(context).scaffoldBackgroundColor,
+                          dict[theme].scaffoldBackgroundColor,
                         ),
                       );
                     }
@@ -165,7 +166,7 @@ class _SortablePageState extends State<SortablePage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         body: Container(
-          color: Theme.of(context).backgroundColor,
+          color: dict[theme].backgroundColor,
           child: Align(
               alignment: Alignment.topCenter,
               child: SingleChildScrollView(

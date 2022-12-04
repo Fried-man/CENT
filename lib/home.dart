@@ -162,7 +162,7 @@ Widget headerButton(var context, String text, void Function() action) {
             maxLines: 1,
             style: TextStyle(
                 fontSize: max(MediaQuery.of(context).size.width / 50, 18),
-                color: Colors.black),//
+                color: dict[theme].primaryColor),//
           ),
         ),
       ),

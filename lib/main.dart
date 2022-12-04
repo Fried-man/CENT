@@ -62,10 +62,18 @@ class _MyAppState<T> extends State<MyApp> {
           primaryColorLight: Colors.white
       ),
       "Dark Mode" :
-      ThemeData.dark().copyWith(
-        textTheme: isDyslexic ? GoogleFonts.lexendDecaTextTheme(ThemeData.dark().textTheme) : GoogleFonts.nunitoSansTextTheme(ThemeData.dark().textTheme)
+      ThemeData(
+          primarySwatch: Colors.blueGrey,
+          dialogBackgroundColor: const Color(0xff535452),
+          scaffoldBackgroundColor: Colors.blueGrey,
+          cardColor: Colors.blueGrey.shade800,
+          textTheme: isDyslexic ? GoogleFonts.lexendDecaTextTheme() : GoogleFonts.nunitoSansTextTheme(),
+          primaryColor: Colors.white,
+          highlightColor: Colors.blue,
+          primaryColorLight: Colors.white
       ),
     };
+
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'CENT - Exploration Tool',
