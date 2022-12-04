@@ -2104,8 +2104,12 @@
           "Answer" : "Separating by region allows you to look at the developments of variants within a select area. As mutations may be influenced by the diversity of individuals within a region, as seen in areas of high travel, as more variants are introduced into the pool of competition."
         },
         {
-          "Question" : "What information can I see?",
+          "Question" : "What information can I see about a region?",
           "Answer" : "Along with the COVID-19 data, one can see a region's capital, area, population, population density, languages, and flag as well whether the region is a member of the United Nations, is landlocked, or is independent of outside countries."
+        },
+        {
+          "Question" : "Why is this information important?",
+          "Answer" : "Specific demographic, geographic, and politcal data can be crucial to making conclusions, especially when it comes to a virus. Our goal is to provide a comprehensive view of COVID-19 in a region, and adding extra information helps us do just that."
         }
       ]
     },
