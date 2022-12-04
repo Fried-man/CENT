@@ -2102,6 +2102,10 @@
         {
           "Question" : "Why separate variants based off region?",
           "Answer" : "Separating by region allows you to look at the developments of variants within a select area. As mutations may be influenced by the diversity of individuals within a region, as seen in areas of high travel, as more variants are introduced into the pool of competition."
+        },
+        {
+          "Question" : "What information can I see?",
+          "Answer" : "Along with the COVID-19 data, one can see a region's capital, area, population, population density, languages, and flag as well whether the region is a member of the United Nations, is landlocked, or is independent of outside countries."
         }
       ]
     },
@@ -2116,7 +2120,7 @@
       "Title" : "Errors",
       "Content" : {
         "Question": "I'm running into an error, what should I do?",
-        "Answer": "If you have an error please contact our team on the contact page, and we will get back to you as soon as possible."
+        "Answer": "If you have an error please contact our team through our email on the contact page, and we will get back to you as soon as possible."
       }
     }
   ],
