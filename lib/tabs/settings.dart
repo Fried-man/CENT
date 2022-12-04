@@ -42,7 +42,7 @@ class _Settings extends State<Settings> {
                             child: Icon(
                               Icons.chevron_left,
                               size: MediaQuery.of(context).size.width / 30,
-                              color: Theme.of(context).dialogBackgroundColor,
+                              //color: Theme.of(context).dialogBackgroundColor,
                             ),
                           ),
                         ),
@@ -54,7 +54,7 @@ class _Settings extends State<Settings> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 30,
-                                    color: Theme.of(context).dialogBackgroundColor
+                                    //color: Theme.of(context).dialogBackgroundColor
                                 ),
                               ),
                             )
@@ -94,11 +94,32 @@ class _Settings extends State<Settings> {
                                       Padding(
                                         padding: const EdgeInsets.all(12),
                                         child: ElevatedButton(
-                                          onPressed: () {},
+                                          onPressed: () => showDialog<String>(
+                                            context: context,
+                                            builder: (BuildContext context) => AlertDialog(
+                                              title: const Text('Color Options'),
+                                              content: Text('Current theme: ' + theme),
+                                              actions: <Widget>[
+                                                for (String caption in dict.keys)
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      context.findAncestorStateOfType<State<MyApp>>()!.setState(() {
+                                                        theme = caption;
+                                                      });
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text(caption,
+                                                        style: const TextStyle(
+                                                            fontSize: 16,
+                                                            color: Colors.black
+                                                        )),
+                                                  ),
+                                              ],
+                                            )),
                                           child: const Padding(
                                             padding: EdgeInsets.all(12),
                                             child: Text(
-                                              "Enable Dark Mode",
+                                              "Change Color Scheme",
                                               style: TextStyle(
                                                   fontSize: 16,
                                                   color: Colors.black),
@@ -392,6 +413,19 @@ class _Settings extends State<Settings> {
           )
       ),
     );
+  }
+}
+
+class ThemeNotifier with ChangeNotifier {
+  ThemeData _themeData;
+
+  ThemeNotifier(this._themeData);
+
+  getTheme() => _themeData; // to get current theme of the app
+
+  setTheme(ThemeData themeData) async {
+    _themeData = themeData;
+    notifyListeners(); // to update the theme of the app
   }
 }
 

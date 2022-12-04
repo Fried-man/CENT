@@ -42,6 +42,7 @@ class _SkeletonCard extends State<SkeletonCard> {
   bool isClosed = false;
   late Offset position;
   int size = 1000;
+
   bool isMoving = false;
   late double cardHeight;
   late double cardWidth;
@@ -155,8 +156,10 @@ class _SkeletonCard extends State<SkeletonCard> {
   @override
   Widget build(BuildContext context) {
     if (isClosed) return Container();
+    double width_ = MediaQuery.of(context).size.width;
+    double height_ = MediaQuery.of(context).size.height;
 
-    Color bodyBackground = Colors.white; // @Noel
+    Color bodyBackground = Theme.of(context).dialogBackgroundColor; // @Noel
     Widget cardHeaderNonMoving = Container(
       height: 40,
       color: windows.last == widget || isMoving ? Theme.of(context).cardColor : Theme.of(context).scaffoldBackgroundColor,
@@ -172,15 +175,15 @@ class _SkeletonCard extends State<SkeletonCard> {
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
                 style:
-                const TextStyle(color: Colors.white, fontSize: 20),
+                TextStyle(color: Theme.of(context).primaryColorLight, fontSize: 20),
               ),
             ),
             Align(
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
-                  child: const Icon(
+                  child: Icon(
                     Icons.close,
-                    color: Colors.white,
+                    color: Theme.of(context).primaryColorLight,
                   ),
                   onTap: () {
                     // TODO: add cleanup to home array
@@ -228,8 +231,8 @@ class _SkeletonCard extends State<SkeletonCard> {
     Widget cardEntireMoving = Material(
         type: MaterialType.transparency,
         child: SizedBox(
-          height: cardHeight,
-          width: cardWidth,
+          height: cardHeight >= height_ / 2 ? height_ / 3 : cardHeight,
+          width: cardWidth >= width_ / 2 ? width_ / 3 : cardWidth,
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(width: 1, color: !isMoving ? Theme.of(context).scaffoldBackgroundColor : Colors.transparent),
@@ -254,16 +257,16 @@ class _SkeletonCard extends State<SkeletonCard> {
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,
                               style:
-                              const TextStyle(color: Colors.white, fontSize: 20),
+                              TextStyle(color: Theme.of(context).primaryColorLight, fontSize: 20),
                             ),
                           ),
 
                           Align(
                               alignment: Alignment.centerRight,
                               child: GestureDetector(
-                                child: const Icon(
+                                child: Icon(
                                   Icons.close,
-                                  color: Colors.white,
+                                  color: Theme.of(context).primaryColorLight,
                                 ),
                                 onTap: () {
                                   // TODO: add cleanup to home array
