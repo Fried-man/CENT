@@ -21,32 +21,7 @@ bool isDyslexic = false;
 
 
 String theme = "Default";
-var dict = {
-  "Default" :
-    ThemeData(
-        primarySwatch: Colors.grey,
-        dialogBackgroundColor: const Color(0xffcccccc),
-        scaffoldBackgroundColor: const Color(0xff445756),
-        cardColor: const Color(0xff708f8d),
-        textTheme: isDyslexic ? GoogleFonts.lexendDecaTextTheme() : GoogleFonts.nunitoSansTextTheme(),
-        primaryColor: Colors.black,
-        highlightColor: Colors.blue,
-        primaryColorLight: Colors.white
-    ),
-  "Dark Mode" :
-    ThemeData.dark(),
-  /*"High Contrast" :
-    ThemeData(
-        primarySwatch: Colors.grey,
-        dialogBackgroundColor: const Color(0xffcccccc),
-        scaffoldBackgroundColor: const Color(0xff445756),
-        cardColor: const Color(0xff708f8d),
-        textTheme: isDyslexic ? GoogleFonts.lexendDecaTextTheme() : GoogleFonts.nunitoSansTextTheme(),
-        primaryColor: Colors.black,
-        highlightColor: Colors.blue,
-        primaryColorLight: Colors.white
-    */
-};
+var dict = {};
 
 
 
@@ -74,6 +49,23 @@ class MyApp<T> extends StatefulWidget {
 class _MyAppState<T> extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    dict  = {
+      "Default" :
+      ThemeData(
+          primarySwatch: Colors.grey,
+          dialogBackgroundColor: const Color(0xffcccccc),
+          scaffoldBackgroundColor: const Color(0xff445756),
+          cardColor: const Color(0xff708f8d),
+          textTheme: isDyslexic ? GoogleFonts.lexendDecaTextTheme() : GoogleFonts.nunitoSansTextTheme(),
+          primaryColor: Colors.black,
+          highlightColor: Colors.blue,
+          primaryColorLight: Colors.white
+      ),
+      "Dark Mode" :
+      ThemeData.dark().copyWith(
+        textTheme: isDyslexic ? GoogleFonts.lexendDecaTextTheme(ThemeData.dark().textTheme) : GoogleFonts.nunitoSansTextTheme(ThemeData.dark().textTheme)
+      ),
+    };
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'CENT - Exploration Tool',
