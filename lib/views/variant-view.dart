@@ -34,7 +34,7 @@ class _VariantView extends State<VariantView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: dict[theme].dialogBackgroundColor,
+      backgroundColor: dict[theme].scaffoldBackgroundColor,
       body: Column(
         children: [
           Container(
@@ -53,7 +53,7 @@ class _VariantView extends State<VariantView> {
                             child: Icon(
                               Icons.chevron_left,
                               size: MediaQuery.of(context).size.width / 30,
-                              color: dict[theme].primaryColor,
+                              color: dict[theme].primaryColorLight,
                             ),
                           ),
                         ),
@@ -65,7 +65,7 @@ class _VariantView extends State<VariantView> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 30,
-                                    color: dict[theme].primaryColor
+                                    color: dict[theme].primaryColorLight
                                 ),
                               ),
                             )
@@ -76,7 +76,7 @@ class _VariantView extends State<VariantView> {
                       Padding(
                           padding: const EdgeInsets.only(right: 20),
                           child: IconButton(
-                            icon: Icon(Icons.content_copy),
+                            icon: Icon(Icons.content_copy, color: dict[theme].primaryColor),
                             tooltip: "Copy selected variants to clipboard",
                             color: dict[theme].primaryColor,
                             onPressed: () async {
@@ -114,7 +114,7 @@ class _VariantView extends State<VariantView> {
                       return Center(
                         child: CircularProgressIndicator(
                           color:
-                          dict[theme].scaffoldBackgroundColor,
+                          dict[theme].dialogBackgroundColor,
                         ),
                       );
                     }
@@ -190,6 +190,9 @@ class _SortablePageState extends State<SortablePage> {
         sortColumnIndex: sortColumnIndex,
         columns: getColumns(headerLabel),
         rows: getRows(widget.items),
+        dataTextStyle: TextStyle(color: dict[theme].primaryColor),
+        headingRowColor: MaterialStateColor.resolveWith((states) {return dict[theme].dialogBackgroundColor;},),
+        dataRowColor: MaterialStateColor.resolveWith((states) {return dict[theme].dialogBackgroundColor;},),
       ),
     );
     /*return FutureBuilder(
@@ -210,7 +213,7 @@ class _SortablePageState extends State<SortablePage> {
   List<DataColumn> getColumns(List<String> columns) => columns
       .map((String column) => DataColumn(
             label: Expanded(
-                child: Text(column.toTitle, textAlign: TextAlign.center)),
+                child: Text(column.toTitle, textAlign: TextAlign.center, style: TextStyle(color: dict[theme].primaryColor))),
             onSort: onSort,
           ))
       .toList();
@@ -229,7 +232,7 @@ class _SortablePageState extends State<SortablePage> {
         lister.add(DataCell(
             Align(
                 alignment: Alignment.centerRight,
-                child: Text(user["accession"].toString())), onTap: () {
+                child: Text(user["accession"].toString(), style: TextStyle(color: dict[theme].primaryColor))), onTap: () {
           Navigator.pop(context);
           VariantCard selectedVariant = VariantCard(
             variant: user,
@@ -249,8 +252,8 @@ class _SortablePageState extends State<SortablePage> {
           alignment: Alignment.centerRight,
           child: IconButton(
             icon: user["selected"]
-                ? const Icon(Icons.done_sharp)
-                : const Icon(Icons.check_box_outline_blank),
+                ? Icon(Icons.done_sharp, color: dict[theme].primaryColor)
+                : Icon(Icons.check_box_outline_blank, color: dict[theme].primaryColor),
             //color: const Color(0xff445756),
             onPressed: () {
               setState(() {
@@ -269,8 +272,8 @@ class _SortablePageState extends State<SortablePage> {
           alignment: Alignment.centerRight,
           child: IconButton(
             icon: user["pinned"]
-                ? const Icon(Icons.push_pin)
-                : const Icon(Icons.push_pin_outlined),
+                ? Icon(Icons.push_pin, color: dict[theme].primaryColor)
+                : Icon(Icons.push_pin_outlined, color: dict[theme].primaryColor),
             //color: const Color(0xff445756),
             onPressed: () {
               setState(() {

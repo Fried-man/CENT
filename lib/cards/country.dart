@@ -143,20 +143,19 @@ class _CountryCard extends State<CountryCard> {
                           return variantsCache[widget.country["country"]]!;
                         }
                         if (!snapshot.hasData) {
-                          return const SizedBox(
+                          return SizedBox(
                             height: 120,
                             child: Center(
                               child: CircularProgressIndicator(
-                               // color:
-                               //     Theme.of(context).scaffoldBackgroundColor,
+                                color: dict[theme].highlightColor,
                               ),
                             ),
                           );
                         }
                         if (snapshot.data!.containsKey("Something went wrong")) {
-                          variantsCache[widget.country["country"]] = const Padding(
+                          variantsCache[widget.country["country"]] = Padding(
                             padding: EdgeInsets.all(8.0),
-                            child: Text("No recorded variants."),
+                            child: Text("No recorded variants.", style: TextStyle(color: dict[theme].primaryColor)),
                           );
                           return variantsCache[widget.country["country"]]!;
                         }
@@ -181,7 +180,7 @@ class _CountryCard extends State<CountryCard> {
                                         style: TextButton.styleFrom(
                                             textStyle:
                                               TextStyle(fontSize: 13,
-                                                  color: Theme.of(context).primaryColor
+                                                  color: dict[theme].primaryColor
                                               )
                                         ),
                                         onPressed: () {

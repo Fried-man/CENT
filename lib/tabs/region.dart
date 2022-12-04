@@ -45,10 +45,15 @@ class _Region extends State<Region> {
                       child: TextField(
                           style: TextStyle(color: dict[theme].primaryColor),
                           controller: search,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              // width: 0.0 produces a thin "hairline" border
+                              borderSide: BorderSide(color: dict[theme].primaryColor, width: 0.0),
+                            ),
                             border: OutlineInputBorder(),
-                            suffixIcon: Icon(Icons.search),
+                            suffixIcon: Icon(Icons.search, color: dict[theme].primaryColor),
                             labelText: 'Search',
+                            labelStyle: TextStyle(color: dict[theme].primaryColor),
                           ),
                           onChanged: (text) {
                             setState(() {});

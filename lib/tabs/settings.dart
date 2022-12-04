@@ -42,7 +42,7 @@ class _Settings extends State<Settings> {
                             child: Icon(
                               Icons.chevron_left,
                               size: MediaQuery.of(context).size.width / 30,
-                              color: dict[theme].primaryColor,
+                              color: dict[theme].primaryColorLight,
                             ),
                           ),
                         ),
@@ -54,7 +54,7 @@ class _Settings extends State<Settings> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 30,
-                                    color: dict[theme].primaryColor
+                                    color: dict[theme].primaryColorLight
                                 ),
                               ),
                             )

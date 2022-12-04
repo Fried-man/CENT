@@ -163,7 +163,7 @@ class _SkeletonCard extends State<SkeletonCard> {
     Color bodyBackground = dict[theme].dialogBackgroundColor; // @Noel
     Widget cardHeaderNonMoving = Container(
       height: 40,
-      color: windows.last == widget || isMoving ? Theme.of(context).cardColor : Theme.of(context).scaffoldBackgroundColor,
+      color: windows.last == widget || isMoving ? dict[theme].cardColor : dict[theme].scaffoldBackgroundColor,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
@@ -267,7 +267,7 @@ class _SkeletonCard extends State<SkeletonCard> {
                               child: GestureDetector(
                                 child: Icon(
                                   Icons.close,
-                                  color: Theme.of(context).primaryColorLight,
+                                  color: dict[theme].primaryColorLight,
                                 ),
                                 onTap: () {
                                   // TODO: add cleanup to home array
