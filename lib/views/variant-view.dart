@@ -121,7 +121,7 @@ class _VariantView extends State<VariantView> {
                         List<Map<String, dynamic>> regionView =
                         List<Map<String, dynamic>>.from(snapshot.data!["accessions"]);
                         if (regionView.isEmpty) {
-                          return Center(child: const Text("No Saved Varients"));
+                          return const Center(child: Text("No Saved Variants"));
                         }
 
                         for (Map<String, dynamic> variant in regionView) {
