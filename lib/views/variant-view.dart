@@ -13,13 +13,16 @@ import '../home.dart';
 List selections = [];
 
 class VariantView extends StatefulWidget {
-  final Map country;
+  final String title;
   final Function updateParent;
+  final Future<Map<String, dynamic>> getData;
 
   const VariantView(
       {Key? key,
-      required this.country,
-      required this.updateParent})
+      required this.title,
+      required this.updateParent,
+      required this.getData
+      })
       : super(key: key);
 
   @override
@@ -27,31 +30,6 @@ class VariantView extends StatefulWidget {
 }
 
 class _VariantView extends State<VariantView> {
-  Future<Map<String, dynamic>> getVariantsRegion(
-      {String region = "",
-        String country = "",
-        String state = "",
-        int count = 12}) async {
-    var headers = {'Content-Type': 'text/plain'};
-    var request = http.Request(
-        'POST',
-        Uri.parse(
-            'https://genome2133functions.azurewebsites.net/api/GetAccessionsByRegion?code=e58u_e3ljQhe8gX3lElCZ79Ep3DOGcoiA54YzkamEEeDAzFuEobmzQ=='));
-    request.body = '''{${region.isNotEmpty ? '''\n    "region": "$region",''' : ""}${country.isNotEmpty
-            ? '''\n    "country": "$country",'''
-            : ""}${state.isNotEmpty ? '''\n    "state": "$state",''' : ""}      \n    "count": ${count < 0 ? '''"all"''' : count.toString()}      \n}''';
-    request.headers.addAll(headers);
-
-    http.StreamedResponse response = await request.send();
-
-    if (response.statusCode == 200) {
-      Map<String, dynamic> map = Map<String, dynamic>.from(
-          jsonDecode(await response.stream.bytesToString()));
-      return map;
-    }
-    return {"error": response.reasonPhrase};
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +60,7 @@ class _VariantView extends State<VariantView> {
                             child: Padding(
                               padding: const EdgeInsets.all(20),
                               child: Text(
-                                widget.country["country"] + " Variants",
+                                widget.title,
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                     fontSize: 30,
@@ -129,9 +107,7 @@ class _VariantView extends State<VariantView> {
           ),
           Expanded(
               child: FutureBuilder<Map<String, dynamic>>(
-                  future: getVariantsRegion(
-                      country: widget.country["country"],
-                      count: -1),
+                  future: widget.getData,
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return Center(

@@ -74,7 +74,6 @@ class _MyAppState<T> extends State<MyApp> {
         routes: {
           '/home': (context) => const Home(),
           '/login': (context) => const Login(),
-          '/saved': (context) => const Saved(),
         }
     );
   }

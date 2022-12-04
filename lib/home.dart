@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:genome_2133/cards/variant.dart';
 import 'package:genome_2133/tabs/contact.dart';
 import 'package:genome_2133/tabs/region.dart';
+import 'package:genome_2133/tabs/saved.dart';
 import 'package:genome_2133/tabs/settings.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -97,7 +98,13 @@ class _Home extends State<Home> {
                     }),
                   if (FirebaseAuth.instance.currentUser != null)
                     headerButton(context, "My Saved", () {
-                      Navigator.pushNamed(context, '/saved');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Saved(updateParent: () {
+                                setState(() {});
+                              }))
+                      );
                     }),
                   headerButton(context, FirebaseAuth.instance.currentUser == null ? "Login" : "Settings",
                           () async {
