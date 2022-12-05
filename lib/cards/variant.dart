@@ -276,8 +276,8 @@ class _VariantCard extends State<VariantCard> {
                                 
                                 Map variant = {
                                   "accession" : widget.variant["accession"],
-                                  "continent" : widget.variant["region"],
-                                  "country" : widget.variant["location"],
+                                  "continent" : widget.variant["region"] ?? "Unknown",
+                                  "country" : widget.variant["location"] ?? "Unknown",
                                 };
 
                                 bool isFound = false;
