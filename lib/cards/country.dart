@@ -107,7 +107,7 @@ class _CountryCard extends State<CountryCard> {
     Map<String, dynamic> output = await getVariantsRegion(
         country: widget.country["country"],
         count: -1);
-    
+
     for (Map<String, dynamic> variant in output["accessions"]) {
       String temp = variant["region"];
       variant.remove("region");
@@ -115,6 +115,7 @@ class _CountryCard extends State<CountryCard> {
       temp = variant["location"];
       variant.remove("location");
       variant["country"] = temp;
+      variant["pinned"] = false;
     }
     return output;
   }
