@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 import '../views/variant-view.dart';
 
@@ -47,7 +48,24 @@ Future<Map<String, dynamic>> sendUsers () async {
         variant[key] = firebaseVariant[key];
       }
     }
-
+    
+    for (String key in {"Nucleotide Length", "Release Date", "Last Update Date"}) {
+      if (variant.containsKey(key)) {
+        if (key == "Nucleotide Length") {
+          variant[key] = variant[key].toString()
+              .replaceAllMapped(
+              RegExp(
+                  r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                  (Match m) =>
+              '${m[1]},');
+        }else if (key.contains("Date")) {
+          variant[key] = DateFormat("MMMM d, yyyy")
+              .format(DateTime.parse(
+              variant[key]
+                  .toString()));
+        }
+      }
+    }
 
     variant.remove("Nucleotide Completeness");
     for (String key in {"generated", "pinned"}) {
