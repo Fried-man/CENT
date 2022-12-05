@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:genome_2133/tabs/faq.dart';
@@ -371,8 +372,95 @@ class _Settings extends State<Settings> {
                                               ),
                                             ),
                                           ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(12),
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext context) => AlertDialog(
+                                                  title: Text('Tools Used', style: TextStyle(color: dict[theme].primaryColor)),
+                                                  content: SizedBox(
+                                                    height: MediaQuery.of(context).size.height / 2,
+                                                    width: MediaQuery.of(context).size.width / 4,
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        const Text("Packages"),
+                                                        for (String library in [
+                                                          "another_flushbar",
+                                                          "url_launcher",
+                                                          "cupertino_icons",
+                                                          "google_maps_flutter",
+                                                          "google_maps_flutter_web",
+                                                          "http",
+                                                          "firebase_core",
+                                                          "firebase_auth",
+                                                          "auto_size_text",
+                                                          "cloud_firestore",
+                                                          "package_info_plus",
+                                                          "google_fonts",
+                                                          "provider",
+                                                          "shared_preferences"
+                                                        ])
+                                                        RichText(
+                                                          text: TextSpan(
+                                                            text: "- ",
+                                                            children: [
+                                                              TextSpan(
+                                                                text: library,
+                                                                recognizer: TapGestureRecognizer()..onTap = () {
+                                                                  launchUrl(Uri.parse(
+                                                                      'https://pub.dev/packages/$library'));
+                                                                  },
+                                                                style: TextStyle(
+                                                                    color: dict[theme].highlightColor,
+                                                                    decoration: TextDecoration.underline,
+                                                                    fontSize: 15
+                                                                ),
+                                                              )
+                                                            ]
+                                                          ),
+                                                        ),
+                                                        const Text("APIs"),
+                                                        RichText(
+                                                          text: TextSpan(
+                                                              text: "- ",
+                                                              children: [
+                                                                TextSpan(
+                                                                  text: "REST Countries",
+                                                                  recognizer: TapGestureRecognizer()..onTap = () {
+                                                                    launchUrl(Uri.parse(
+                                                                        'https://restcountries.com/'));
+                                                                  },
+                                                                  style: TextStyle(
+                                                                      color: dict[theme].highlightColor,
+                                                                      decoration: TextDecoration.underline,
+                                                                      fontSize: 15
+                                                                  ),
+                                                                )
+                                                              ]
+                                                          ),
+                                                        ),
+                                                        const Text("- In-House Azure API"),
+                                                      ],
+                                                    ),
+                                                  )
+                                                )
+                                              );
+                                            },
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(12),
+                                              child: Text(
+                                                "Tools Used",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: dict[theme].primaryColor),
+                                              ),
+                                            ),
+                                          ),
                                         )
-
                                         //const Text("\n\n\n"),
                                       ]
                                   )
