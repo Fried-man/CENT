@@ -103,11 +103,14 @@ class _Settings extends State<Settings> {
                                               actions: <Widget>[
                                                 for (String caption in dict.keys)
                                                   ElevatedButton(
-                                                    onPressed: () {
-                                                      context.findAncestorStateOfType<State<MyApp>>()!.setState(() {
-                                                        theme = caption;
-
-                                                      });
+                                                    onPressed: () async {
+                                                      theme = caption;
+                                                      if (theme == "Dark Mode" && !isDesktop) {
+                                                        await DefaultAssetBundle.of(context).loadString('assets/data.json').then((string) {
+                                                          mapController.setMapStyle(json.encode(json.decode(string)["Dark Mode"]));
+                                                        });
+                                                      }
+                                                      context.findAncestorStateOfType<State<MyApp>>()!.setState(() {});
                                                       FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).update({"theme" : theme});
                                                       setState(() {});
                                                       Navigator.pop(context);

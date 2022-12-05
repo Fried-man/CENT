@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../home.dart';
 import '../main.dart';
 
 class Login extends StatefulWidget {
@@ -100,10 +103,27 @@ class _Login extends State<Login> {
                                       .signInWithEmailAndPassword(
                                       email: inputText['Email']!.text,
                                       password: inputText['Password']!.text)
-                                      .then((value) {
+                                      .then((value) async {
                                     user = FirebaseAuth.instance.currentUser;
                                     if (user != null && user!.emailVerified) {
-                                      Navigator.pop(context);
+                                      userData = (await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).get()).data()!;
+                                      if (userData.containsKey("theme")) {
+                                        theme = userData["theme"];
+                                      }
+                                      if (userData.containsKey("map disabled")) {
+                                        isMapDisabled = userData["map disabled"];
+                                      }
+                                      if (userData.containsKey("dyslexic")) {
+                                        isDyslexic = userData["dyslexic"];
+                                      }
+                                      if (theme == "Dark Mode" && !isDesktop) {
+                                        await DefaultAssetBundle.of(context).loadString('assets/data.json').then((string) {
+                                          mapController.setMapStyle(json.encode(json.decode(string)["Dark Mode"]));
+                                        });
+                                      }
+                                      context.findAncestorStateOfType<State<MyApp>>()!.setState(() {
+                                        Navigator.pop(context);
+                                      });
                                       return;
                                     }
                                     throw CustomException("Email not verified");
