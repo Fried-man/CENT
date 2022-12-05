@@ -166,7 +166,8 @@ class _CountryCard extends State<CountryCard> {
                             return Column(
                               children: [
                                 variantsCache[widget.country["country"]]!,
-                                Padding(
+                                if (variantsCache[widget.country["country"]]! is Column)
+                                  Padding(
                                   padding: const EdgeInsets.only(right: 14),
                                   child: Align(
                                     alignment: Alignment.centerRight,
