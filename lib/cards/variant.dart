@@ -207,9 +207,6 @@ class _VariantCard extends State<VariantCard> {
                         child: Padding(
                           padding: const EdgeInsets.only(right: 3),
                           child: ElevatedButton(
-                            style: TextButton.styleFrom(
-                              textStyle: const TextStyle(fontSize: 20),
-                            ),
                             onPressed: () => launchUrl(Uri.parse(
                                 'https://www.ncbi.nlm.nih.gov/nuccore/' +
                                     widget.variant["accession"])),
