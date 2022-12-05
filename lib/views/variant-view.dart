@@ -113,7 +113,7 @@ class _VariantView extends State<VariantView> {
                           return Center(
                             child: CircularProgressIndicator(
                               color:
-                              dict[theme].dialogBackgroundColor,
+                              dict[theme].scaffoldBackgroundColor,
                             ),
                           );
                         }
