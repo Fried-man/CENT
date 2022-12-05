@@ -419,7 +419,14 @@ class _Settings extends State<Settings> {
                                                     child: Column(
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
-                                                        const Text("Packages"),
+                                                        Text(
+                                                            "Packages",
+                                                            style: TextStyle(
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: 15,
+                                                                color: dict[theme].primaryColor
+                                                            )
+                                                        ),
                                                         for (String library in [
                                                           "another_flushbar",
                                                           "url_launcher",
@@ -434,32 +441,53 @@ class _Settings extends State<Settings> {
                                                           "package_info_plus",
                                                           "google_fonts",
                                                           "provider",
-                                                          "shared_preferences"
+                                                          "shared_preferences\n"
                                                         ])
                                                         RichText(
-                                                          text: TextSpan(
-                                                            text: "- ",
-                                                            children: [
-                                                              TextSpan(
-                                                                text: library,
-                                                                recognizer: TapGestureRecognizer()..onTap = () {
-                                                                  launchUrl(Uri.parse(
-                                                                      'https://pub.dev/packages/$library'));
-                                                                  },
-                                                                style: TextStyle(
-                                                                    color: dict[theme].highlightColor,
-                                                                    decoration: TextDecoration.underline,
-                                                                    fontSize: 15
-                                                                ),
-                                                              )
-                                                            ]
+                                                            text: TextSpan(
+                                                                text: "",
+                                                                children: [
+                                                                  TextSpan(
+                                                                    text: "- ",
+                                                                    style: TextStyle(
+                                                                        color: dict[theme].primaryColor,
+                                                                        fontSize: 15
+                                                                    ),
+                                                                  ),
+                                                                  TextSpan(
+                                                                    text: library,
+                                                                    recognizer: TapGestureRecognizer()..onTap = () {
+                                                                      launchUrl(Uri.parse(
+                                                                          'https://pub.dev/packages/$library'));
+                                                                    },
+                                                                    style: TextStyle(
+                                                                        color: dict[theme].highlightColor,
+                                                                        decoration: TextDecoration.underline,
+                                                                        fontSize: 15
+                                                                    ),
+                                                                  )
+                                                                ]
+                                                            ),
                                                           ),
+                                                        Text(
+                                                          "APIs",
+                                                          style: TextStyle(
+                                                            fontWeight: FontWeight.bold,
+                                                            fontSize: 15,
+                                                            color: dict[theme].primaryColor
+                                                          )
                                                         ),
-                                                        const Text("APIs"),
                                                         RichText(
                                                           text: TextSpan(
-                                                              text: "- ",
+                                                              text: "",
                                                               children: [
+                                                                TextSpan(
+                                                                  text: "- ",
+                                                                  style: TextStyle(
+                                                                      color: dict[theme].primaryColor,
+                                                                      fontSize: 15
+                                                                  ),
+                                                                ),
                                                                 TextSpan(
                                                                   text: "REST Countries",
                                                                   recognizer: TapGestureRecognizer()..onTap = () {
@@ -475,7 +503,13 @@ class _Settings extends State<Settings> {
                                                               ]
                                                           ),
                                                         ),
-                                                        const Text("- In-House Azure API"),
+                                                        Text(
+                                                            "- In-House Azure API",
+                                                          style: TextStyle(
+                                                              color: dict[theme].primaryColor,
+                                                              fontSize: 15
+                                                          ),
+                                                        ),
                                                       ],
                                                     ),
                                                   )
