@@ -161,10 +161,44 @@ class _CountryCard extends State<CountryCard> {
                       future:
                           getVariantsRegion(country: widget.country["country"]),
                       builder: (context, snapshot) {
-                        if (variantsCache.containsKey(widget.country["country"])) {
-                          return variantsCache[widget.country["country"]]!;
-                        }
                         if (!snapshot.hasData) {
+                          if (variantsCache.containsKey(widget.country["country"])) {
+                            return Column(
+                              children: [
+                                variantsCache[widget.country["country"]]!,
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 14),
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: ElevatedButton(
+                                      style: TextButton.styleFrom(
+                                        textStyle: TextStyle(fontSize: 20, color: dict[theme].primaryColor),
+                                      ),
+                                      onPressed: () {
+                                        showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) => AlertDialog(
+                                            title: const Text('Too Many HTTP Requests'),
+                                            content: const Text('Please try \"view more\" button again'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(context, 'OK'),
+                                                child: const Text('OK'),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                      child: Text(
+                                        "View More",
+                                        style: TextStyle(fontSize: 15, color: dict[theme].primaryColor),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          }
                           return SizedBox(
                             height: 120,
                             child: Center(
@@ -234,6 +268,11 @@ class _CountryCard extends State<CountryCard> {
                                 ],
                               ),
                             ),
+                          ],
+                        );
+                        return Column(
+                          children: [
+                            variantsCache[widget.country["country"]]!,
                             Padding(
                               padding: const EdgeInsets.only(right: 14),
                               child: Align(
@@ -261,7 +300,6 @@ class _CountryCard extends State<CountryCard> {
                             ),
                           ],
                         );
-                        return variantsCache[widget.country["country"]]!;
                       }),
                   Padding(
                     padding: EdgeInsets.only(top: 16, bottom: 12),
