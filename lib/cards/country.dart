@@ -74,19 +74,23 @@ class _CountryCard extends State<CountryCard> {
     _updateMap();
   }
 
-  Future<Map<String, dynamic>> getVariantsRegion(
-      {String region = "",
-      String country = "",
-      String state = "",
-      int count = 12}) async {
+  Future<Map<String, dynamic>> getVariantsRegion({String region = "",
+    String country = "",
+    String state = "",
+    int count = 12}) async {
     var headers = {'Content-Type': 'text/plain'};
     var request = http.Request(
         'POST',
         Uri.parse(
             'https://genome2133functions.azurewebsites.net/api/GetAccessionsByRegion?code=e58u_e3ljQhe8gX3lElCZ79Ep3DOGcoiA54YzkamEEeDAzFuEobmzQ=='));
-    request.body = '''{${region.isNotEmpty ? '''\n    "region": "$region",''' : ""}${country.isNotEmpty
-            ? '''\n    "country": "$country",'''
-            : ""}${state.isNotEmpty ? '''\n    "state": "$state",''' : ""}      \n    "count": ${count < 0 ? '''"all"''' : count.toString()}      \n}''';
+    request.body =
+    '''{${region.isNotEmpty ? '''\n    "region": "$region",''' : ""}${country
+        .isNotEmpty
+        ? '''\n    "country": "$country",'''
+        : ""}${state.isNotEmpty
+        ? '''\n    "state": "$state",'''
+        : ""}      \n    "count": ${count < 0 ? '''"all"''' : count
+        .toString()}      \n}''';
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
@@ -97,6 +101,22 @@ class _CountryCard extends State<CountryCard> {
       return map;
     }
     return {"error": response.reasonPhrase};
+  }
+
+  Future<Map<String, dynamic>> getVariantViewData() async {
+    Map<String, dynamic> output = await getVariantsRegion(
+        country: widget.country["country"],
+        count: -1);
+    
+    for (Map<String, dynamic> variant in output["accessions"]) {
+      String temp = variant["region"];
+      variant.remove("region");
+      variant["continent"] = temp;
+      temp = variant["location"];
+      variant.remove("location");
+      variant["country"] = temp;
+    }
+    return output;
   }
 
   Future<Map<String, dynamic>> getCountryInfo(String cca3) async {
@@ -227,9 +247,7 @@ class _CountryCard extends State<CountryCard> {
                                             builder: (context) => VariantView(
                                               title: widget.country["country"] + " Variants",
                                               updateParent: widget.updateParent,
-                                              getData: getVariantsRegion(
-                                                  country: widget.country["country"],
-                                                  count: -1),
+                                              getData: getVariantViewData(),
                                             )));
                                   },
                                   child: Text(
