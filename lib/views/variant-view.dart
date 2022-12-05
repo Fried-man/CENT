@@ -36,6 +36,7 @@ class VariantView extends StatefulWidget {
 class _VariantView extends State<VariantView> {
   @override
   Widget build(BuildContext context) {
+    selections = [];
     return Scaffold(
       backgroundColor: dict[theme].scaffoldBackgroundColor,
       body: Column(
