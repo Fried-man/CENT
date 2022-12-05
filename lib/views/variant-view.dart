@@ -40,116 +40,227 @@ class _VariantView extends State<VariantView> {
       backgroundColor: dict[theme].scaffoldBackgroundColor,
       body: Column(
         children: [
-          Container(
-              color: dict[theme].scaffoldBackgroundColor,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Icon(
-                              Icons.chevron_left,
-                              size: MediaQuery.of(context).size.width / 30,
-                              color: dict[theme].primaryColorLight,
-                            ),
-                          ),
-                        ),
-                        Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(20),
-                              child: Text(
-                                widget.title,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 30,
-                                    color: dict[theme].primaryColorLight
-                                ),
-                              ),
-                            )
-                        ),
-                      ],
-                    ),
-                    Row(children: [
-                      Padding(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: IconButton(
-                            icon: Icon(Icons.content_copy, color: dict[theme].primaryColorLight),
-                            tooltip: "Copy selected variants to clipboard",
-                            onPressed: () async {
-                              await Clipboard.setData(ClipboardData(
-                                  text: selections
-                                      .toString()
-                                      .replaceAll("[", '')
-                                      .replaceAll("]", '')
-                                      .replaceAll(", ", "\n")))
-                                  .then((_) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text('Copied variants to clipboard')));
-                              });
-                            },
-                          )),
-                      Padding(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: ElevatedButton(
-                              style: TextButton.styleFrom(
-                                  textStyle: const TextStyle(fontSize: 18),
-                                  foregroundColor: dict[theme].primaryColorLight,), //style
-                              onPressed: () => launchUrl(Uri.parse(
-                                  'https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome')),
-                              child: Text('Compare', style: TextStyle(color: dict[theme].primaryColor))))
-                    ]),
-                  ]
-              )
-          ),
           Expanded(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                  child: Container(
-                    color: dict[theme].dialogBackgroundColor,
-                    child: FutureBuilder(
-                      future: rootBundle.loadString("assets/data.json"),
-                        builder: (BuildContext context, AsyncSnapshot<String> countriesSnapshot) {
-                          return FutureBuilder<Map<String, dynamic>>(
-                              future: widget.getData(),
-                              builder: (context, snapshot) {
-                                if (!snapshot.hasData || !countriesSnapshot.hasData) {
-                                  return Center(
-                                    child: CircularProgressIndicator(
-                                      color:
-                                      dict[theme].scaffoldBackgroundColor,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Container(
+                color: dict[theme].dialogBackgroundColor,
+                child: FutureBuilder(
+                    future: rootBundle.loadString("assets/data.json"),
+                    builder: (BuildContext context, AsyncSnapshot<String> countriesSnapshot) {
+                      return FutureBuilder<Map<String, dynamic>>(
+                          future: widget.getData(),
+                          builder: (context, snapshot) {
+                            Widget header = Container(
+                                color: dict[theme].scaffoldBackgroundColor,
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.topLeft,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Icon(
+                                                Icons.chevron_left,
+                                                size: MediaQuery.of(context).size.width / 30,
+                                                color: dict[theme].primaryColorLight,
+                                              ),
+                                            ),
+                                          ),
+                                          Center(
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(20),
+                                                child: Text(
+                                                  widget.title,
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontSize: 30,
+                                                      color: dict[theme].primaryColorLight
+                                                  ),
+                                                ),
+                                              )
+                                          ),
+                                        ],
+                                      ),
+                                      Row(children: [
+                                        Padding(
+                                            padding: const EdgeInsets.only(right: 20),
+                                            child: IconButton(
+                                              icon: Icon(Icons.content_copy, color: dict[theme].primaryColorLight),
+                                              tooltip: "Copy selected variants to clipboard",
+                                              onPressed: () {},
+                                            )),
+                                        Padding(
+                                            padding: const EdgeInsets.only(right: 20),
+                                            child: ElevatedButton(
+                                                style: TextButton.styleFrom(
+                                                  textStyle: const TextStyle(fontSize: 18),), //style
+                                                onPressed: () {},
+                                                child: Text('Copy All', style: TextStyle(color: dict[theme].primaryColor)))),
+                                        Padding(
+                                            padding: const EdgeInsets.only(right: 20),
+                                            child: ElevatedButton(
+                                                style: TextButton.styleFrom(
+                                                  textStyle: const TextStyle(fontSize: 18),), //style
+                                                onPressed: () => launchUrl(Uri.parse(
+                                                    'https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome')),
+                                                child: Text('Compare', style: TextStyle(color: dict[theme].primaryColor)))),
+                                      ]),
+                                    ]
+                                )
+                            );
+
+                            if (!snapshot.hasData || !countriesSnapshot.hasData) {
+                              return Column(
+                                children: [
+                                  header,
+                                  Expanded(
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        color:
+                                        dict[theme].scaffoldBackgroundColor,
+                                      ),
                                     ),
-                                  );
-                                }
+                                  ),
+                                ],
+                              );
+                            }
+                            countries = json.decode(countriesSnapshot.data!)["Countries"];
 
-                                countries = json.decode(countriesSnapshot.data!)["Countries"];
+                            List<Map<String, dynamic>> regionView =
+                            List<Map<String, dynamic>>.from(snapshot.data!["accessions"]);
+                            if (regionView.isEmpty) {
+                              return Column(
+                                children: [
+                                  header,
+                                  const Center(child: Text("No Saved Variants")),
+                                ],
+                              );
+                            }
 
-                                List<Map<String, dynamic>> regionView =
-                                List<Map<String, dynamic>>.from(snapshot.data!["accessions"]);
-                                if (regionView.isEmpty) {
-                                  return const Center(child: Text("No Saved Variants"));
-                                }
+                            for (Map<String, dynamic> variant in regionView) {
+                              variant["selected"] = false;
+                            }
 
-                                for (Map<String, dynamic> variant in regionView) {
-                                  variant["selected"] = false;
-                                }
+                            header = Container(
+                                color: dict[theme].scaffoldBackgroundColor,
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.topLeft,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Icon(
+                                                Icons.chevron_left,
+                                                size: MediaQuery.of(context).size.width / 30,
+                                                color: dict[theme].primaryColorLight,
+                                              ),
+                                            ),
+                                          ),
+                                          Center(
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(20),
+                                                child: Text(
+                                                  widget.title,
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontSize: 30,
+                                                      color: dict[theme].primaryColorLight
+                                                  ),
+                                                ),
+                                              )
+                                          ),
+                                        ],
+                                      ),
+                                      Row(children: [
+                                        Padding(
+                                            padding: const EdgeInsets.only(right: 20),
+                                            child: IconButton(
+                                              icon: Icon(Icons.content_copy, color: dict[theme].primaryColorLight),
+                                              tooltip: "Copy selected variants to clipboard",
+                                              onPressed: () async {
+                                                if (!snapshot.hasData || !countriesSnapshot.hasData) return;
 
-                                return SortablePage(
-                                    items: regionView,
-                                    updateParent: widget.updateParent);
-                              }
-                          );
-                      }
-                    ),
-                  ),
+                                                await Clipboard.setData(ClipboardData(
+                                                    text: selections
+                                                        .toString()
+                                                        .replaceAll("[", '')
+                                                        .replaceAll("]", '')
+                                                        .replaceAll(", ", "\n")))
+                                                    .then((_) {
+                                                  ScaffoldMessenger.of(context).showSnackBar(
+                                                      SnackBar(
+                                                          content: Text(selections.isNotEmpty ? 'Copied selected variants to clipboard' : "No variants selected")));
+                                                });
+                                              },
+                                            )),
+                                        Padding(
+                                            padding: const EdgeInsets.only(right: 20),
+                                            child: ElevatedButton(
+                                                style: TextButton.styleFrom(
+                                                  textStyle: const TextStyle(fontSize: 18),), //style
+                                                onPressed: () async {
+                                                  if (!snapshot.hasData || !countriesSnapshot.hasData) return;
+
+                                                  List<String> allVariants = [];
+                                                  for (Map<String, dynamic> variant in regionView) {
+                                                    allVariants.add(variant["accession"]);
+                                                  }
+                                                  await Clipboard.setData(ClipboardData(
+                                                      text: allVariants
+                                                          .toString()
+                                                          .replaceAll("[", '')
+                                                          .replaceAll("]", '')
+                                                          .replaceAll(", ", "\n")))
+                                                      .then((_) {
+                                                    ScaffoldMessenger.of(context).showSnackBar(
+                                                        const SnackBar(
+                                                            content: Text('Copied all variants to clipboard')));
+                                                  });
+                                                },
+                                                child: Text('Copy All', style: TextStyle(color: dict[theme].primaryColor)))),
+                                        Padding(
+                                            padding: const EdgeInsets.only(right: 20),
+                                            child: ElevatedButton(
+                                                style: TextButton.styleFrom(
+                                                  textStyle: const TextStyle(fontSize: 18),), //style
+                                                onPressed: () => launchUrl(Uri.parse(
+                                                    'https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome')),
+                                                child: Text('Compare', style: TextStyle(color: dict[theme].primaryColor)))),
+                                      ]),
+                                    ]
+                                )
+                            );
+
+                            return Column(
+                              children: [
+                                header,
+                                Expanded(
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    child:SortablePage(
+                                        items: regionView,
+                                        updateParent: widget.updateParent),
+                                  ),
+                                ),
+                              ],
+                            );
+                          }
+                      );
+                    }
+                ),
               ),
-          )
+            ),
+          ),
         ],
       ),
     );
