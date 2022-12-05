@@ -137,7 +137,7 @@ class _VariantView extends State<VariantView> {
                               return Column(
                                 children: [
                                   header,
-                                  const Center(child: Text("No Saved Variants")),
+                                  const Expanded(child: Center(child: Text("No Saved Variants"))),
                                 ],
                               );
                             }
