@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -38,6 +39,11 @@ class _Home extends State<Home> {
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+    if (theme == "Dark Mode") {
+      DefaultAssetBundle.of(context).loadString('assets/data.json').then((string) {
+        mapController.setMapStyle(json.encode(json.decode(string)["Dark Mode"]));
+    });
+    }
   }
 
   @override
@@ -60,7 +66,7 @@ class _Home extends State<Home> {
           Center(child: Image.asset("assets/images/banner.png")),
           if (!isDesktop && !isMapDisabled)
             GoogleMap(
-              mapType: MapType.hybrid,
+              mapType: theme == "Default" ? MapType.hybrid : MapType.none,
               zoomControlsEnabled: false,
               compassEnabled: false,
               scrollGesturesEnabled: false,
