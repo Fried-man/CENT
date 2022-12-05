@@ -26,7 +26,7 @@ class _Saved extends State<Saved> {
       body: VariantView(
         title: "My Saved Variants",
         updateParent: widget.updateParent,
-        getData: sendUsers(),
+        getData: sendUsers,
       )
     );
   }

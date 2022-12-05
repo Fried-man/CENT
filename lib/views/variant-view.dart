@@ -19,7 +19,7 @@ late List countries;
 class VariantView extends StatefulWidget {
   final String title;
   final Function updateParent;
-  final Future<Map<String, dynamic>> getData;
+  final Future<Map<String, dynamic>> Function() getData;
 
   const VariantView(
       {Key? key,
@@ -117,7 +117,7 @@ class _VariantView extends State<VariantView> {
                       future: rootBundle.loadString("assets/data.json"),
                         builder: (BuildContext context, AsyncSnapshot<String> countriesSnapshot) {
                           return FutureBuilder<Map<String, dynamic>>(
-                              future: widget.getData,
+                              future: widget.getData(),
                               builder: (context, snapshot) {
                                 if (!snapshot.hasData || !countriesSnapshot.hasData) {
                                   return Center(

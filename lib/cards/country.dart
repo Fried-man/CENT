@@ -96,9 +96,10 @@ class _CountryCard extends State<CountryCard> {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      Map<String, dynamic> map = Map<String, dynamic>.from(
-          jsonDecode(await response.stream.bytesToString()));
-      return map;
+      String responseData = await response.stream.bytesToString();
+
+      return Map<String, dynamic>.from(
+          jsonDecode(responseData));
     }
     return {"error": response.reasonPhrase};
   }
@@ -248,7 +249,7 @@ class _CountryCard extends State<CountryCard> {
                                             builder: (context) => VariantView(
                                               title: widget.country["country"] + " Variants",
                                               updateParent: widget.updateParent,
-                                              getData: getVariantViewData(),
+                                              getData: getVariantViewData,
                                             )));
                                   },
                                   child: Text(
