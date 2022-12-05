@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:genome_2133/cards/continent.dart';
 import 'package:genome_2133/cards/variant.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../cards/country.dart';
 import '../cards/skeleton.dart';
 import '../home.dart';
 import '../main.dart';
@@ -224,7 +226,7 @@ class _SortablePageState extends State<SortablePage> {
 
         List<dynamic> data = [];
         for (String key in headerLabel) {
-          if (key != "accession" && key != "selected" && key != "pinned") {
+          if (key != "accession" && key != "selected" && key != "pinned" && key != "continent" && key != "country") {
             data.add(user[key]);
           }
         }
@@ -248,6 +250,45 @@ class _SortablePageState extends State<SortablePage> {
           ));
           widget.updateParent();
         }));
+
+        if (headerLabel.contains("continent")) {
+          lister.add(DataCell(
+              Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(user["continent"].toString(), style: TextStyle(color: dict[theme].primaryColor))), onTap: () {
+            Navigator.pop(context);
+            ContinentCard selectedContinent = ContinentCard(
+              continent: user["continent"],
+              updateParent: widget.updateParent,
+            );
+            addCard(SkeletonCard(
+              controlKey: GlobalKey(),
+              title: selectedContinent.toString(),
+              body: selectedContinent,
+              updateParent: widget.updateParent,
+            ));
+            widget.updateParent();
+          }));
+        }
+        if (headerLabel.contains("country")) {
+          lister.add(DataCell(
+              Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(user["country"].toString(), style: TextStyle(color: dict[theme].primaryColor))), onTap: () {
+            Navigator.pop(context);
+            CountryCard selectedContinent = CountryCard(
+              country: user["country"],
+              updateParent: widget.updateParent,
+            );
+            addCard(SkeletonCard(
+              controlKey: GlobalKey(),
+              title: selectedContinent.toString(),
+              body: selectedContinent,
+              updateParent: widget.updateParent,
+            ));
+            widget.updateParent();
+          }));
+        }
 
         lister.add(DataCell(Align(
           alignment: Alignment.centerRight,
