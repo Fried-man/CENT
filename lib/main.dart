@@ -79,7 +79,8 @@ class _MyAppState<T> extends State<MyApp> {
           textTheme: isDyslexic ? GoogleFonts.lexendDecaTextTheme() : GoogleFonts.nunitoSansTextTheme(),
           primaryColor: Colors.black,
           highlightColor: Colors.blue,
-          primaryColorLight: Colors.white
+          primaryColorLight: Colors.white,
+          brightness: Brightness.light
       ),
       "Dark Mode" :
       ThemeData(
