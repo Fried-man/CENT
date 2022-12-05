@@ -120,7 +120,7 @@ class _ContinentCard extends State<ContinentCard> {
                                 return Expanded(child: Center(
                                   child: CircularProgressIndicator(
                                     color:
-                                    dict[theme].scaffoldBackgroundColor,
+                                    dict[theme].secondaryHeaderColor,
                                   ),
                                 ),);
                               }

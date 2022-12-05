@@ -35,7 +35,7 @@ class _Settings extends State<Settings> {
           child: Column(
             children: [
               Container(
-                  color: dict[theme].scaffoldBackgroundColor,
+                  color: dict[theme].secondaryHeaderColor,
                   child: Row(
                       children: [
                         Align(
@@ -109,7 +109,7 @@ class _Settings extends State<Settings> {
                                                   ElevatedButton(
                                                     onPressed: () async {
                                                       theme = caption;
-                                                      if (theme == "Dark Mode" && !isDesktop) {
+                                                      if (theme == "Dark Mode" && !isDesktop && !isMapDisabled) {
                                                         await DefaultAssetBundle.of(context).loadString('assets/data.json').then((string) {
                                                           mapController.setMapStyle(json.encode(json.decode(string)["Dark Mode"]));
                                                         });

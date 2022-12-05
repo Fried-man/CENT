@@ -167,7 +167,7 @@ class _SkeletonCard extends State<SkeletonCard> {
     Color bodyBackground = dict[theme].dialogBackgroundColor; // @Noel
     Widget cardHeaderNonMoving = Container(
       height: 40,
-      color: windows.last == widget || isMoving ? dict[theme].cardColor : dict[theme].scaffoldBackgroundColor,
+      color: windows.last == widget || isMoving ? dict[theme].cardColor : dict[theme].secondaryHeaderColor,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
@@ -240,7 +240,7 @@ class _SkeletonCard extends State<SkeletonCard> {
           width: cardWidth,
           child: Container(
             decoration: BoxDecoration(
-              border: Border.all(width: 1, color: !isMoving ? dict[theme].scaffoldBackgroundColor : Colors.transparent),
+              border: Border.all(width: 1, color: !isMoving ? dict[theme].secondaryHeaderColor : Colors.transparent),
               borderRadius: BorderRadius.circular(18),
             ),
             child: ClipRRect(
@@ -315,7 +315,7 @@ class _SkeletonCard extends State<SkeletonCard> {
           },
           child: Container(
             decoration: BoxDecoration(
-              border: Border.all(width: 1, color: !isMoving ? dict[theme].scaffoldBackgroundColor : Colors.transparent),
+              border: Border.all(width: 1, color: !isMoving ? dict[theme].secondaryHeaderColor : Colors.transparent),
               borderRadius: BorderRadius.circular(18),
             ),
             child: ClipRRect(

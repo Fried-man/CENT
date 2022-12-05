@@ -38,7 +38,7 @@ class _VariantView extends State<VariantView> {
   Widget build(BuildContext context) {
     selections = [];
     return Scaffold(
-      backgroundColor: dict[theme].scaffoldBackgroundColor,
+      backgroundColor: dict[theme].secondaryHeaderColor,
       body: Column(
         children: [
           Expanded(
@@ -53,7 +53,7 @@ class _VariantView extends State<VariantView> {
                           future: widget.getData(),
                           builder: (context, snapshot) {
                             Widget header = Container(
-                                color: dict[theme].scaffoldBackgroundColor,
+                                color: dict[theme].secondaryHeaderColor,
                                 child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
@@ -123,7 +123,7 @@ class _VariantView extends State<VariantView> {
                                     child: Center(
                                       child: CircularProgressIndicator(
                                         color:
-                                        dict[theme].scaffoldBackgroundColor,
+                                        dict[theme].secondaryHeaderColor,
                                       ),
                                     ),
                                   ),
@@ -148,7 +148,7 @@ class _VariantView extends State<VariantView> {
                             }
 
                             header = Container(
-                                color: dict[theme].scaffoldBackgroundColor,
+                                color: dict[theme].secondaryHeaderColor,
                                 child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [

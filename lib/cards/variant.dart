@@ -89,7 +89,7 @@ class _VariantCard extends State<VariantCard> {
                             child: Center(
                               child: CircularProgressIndicator(
                                 color:
-                                    dict[theme].scaffoldBackgroundColor,
+                                    dict[theme].secondaryHeaderColor,
                               ),
                             ),
                           );
