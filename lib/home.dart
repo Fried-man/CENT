@@ -15,7 +15,6 @@ import 'tabs/faq.dart';
 
 late List<SkeletonCard> windows;
 late GoogleMapController mapController;
-bool isMapDisabled = false;
 
 void addCard(SkeletonCard card) {
   for (SkeletonCard xCard in windows) {

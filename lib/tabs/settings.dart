@@ -99,7 +99,7 @@ class _Settings extends State<Settings> {
                                             context: context,
                                             builder: (BuildContext context) => AlertDialog(
                                               title: Text('Color Options', style: TextStyle(color: dict[theme].primaryColor)),
-                                              content: Text('Current theme: ' + theme, style: TextStyle(color: dict[theme].primaryColor)),
+                                              content: Text('Current theme: $theme', style: TextStyle(color: dict[theme].primaryColor)),
                                               actions: <Widget>[
                                                 for (String caption in dict.keys)
                                                   ElevatedButton(
@@ -107,6 +107,7 @@ class _Settings extends State<Settings> {
                                                       context.findAncestorStateOfType<State<MyApp>>()!.setState(() {
                                                         theme = caption;
                                                       });
+                                                      FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).update({"theme" : theme});
                                                       setState(() {});
                                                       Navigator.pop(context);
                                                     },
@@ -137,6 +138,7 @@ class _Settings extends State<Settings> {
                                               setState((){
                                                 isMapDisabled = !isMapDisabled;
                                               });
+                                              FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).update({"map disabled" : isMapDisabled});
                                             },
                                             child: Padding(
                                               padding: EdgeInsets.all(12),
@@ -144,7 +146,8 @@ class _Settings extends State<Settings> {
                                                 isMapDisabled ? "Enable Map" : "Disable Map",
                                                 style: TextStyle(
                                                     fontSize: 16,
-                                                    color: dict[theme].primaryColor),
+                                                    color: dict[theme].primaryColor
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -157,6 +160,7 @@ class _Settings extends State<Settings> {
                                               context.findAncestorStateOfType<State<MyApp>>()!.setState(() {
                                                 isDyslexic = !isDyslexic;
                                               });
+                                              FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).update({"dyslexic" : isDyslexic});
                                             });
                                           },
                                           child: Padding(

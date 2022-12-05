@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +17,11 @@ bool isDesktop = (defaultTargetPlatform == TargetPlatform.macOS ||
     defaultTargetPlatform == TargetPlatform.linux ||
     defaultTargetPlatform == TargetPlatform.windows) &&
     !kIsWeb;
+
 bool isDyslexic = false;
-
-
+bool isMapDisabled = false;
 String theme = "Default";
-var dict = {};
+late Map dict;
 
 
 
@@ -32,6 +33,19 @@ Future<void> main() async {
   );
 
   user = FirebaseAuth.instance.currentUser;
+
+  if (FirebaseAuth.instance.currentUser != null) {
+    Map<String, dynamic> userData = (await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).get()).data()!;
+    if (userData.containsKey("theme")) {
+      theme = userData["theme"];
+    }
+    if (userData.containsKey("map disabled")) {
+      isMapDisabled = userData["map disabled"];
+    }
+    if (userData.containsKey("dyslexic")) {
+      isDyslexic = userData["dyslexic"];
+    }
+  }
 
   runApp(const MyApp());
 }
