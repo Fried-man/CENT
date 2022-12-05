@@ -157,8 +157,12 @@ class _SkeletonCard extends State<SkeletonCard> {
   @override
   Widget build(BuildContext context) {
     if (isClosed) return Container();
-    double width_ = MediaQuery.of(context).size.width;
-    double height_ = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    cardWidth = cardWidth > (screenWidth / 2) ? (screenWidth / 2) : cardWidth;
+    cardHeight = cardWidth * 3 / 2;
+
+
 
     Color bodyBackground = dict[theme].dialogBackgroundColor; // @Noel
     Widget cardHeaderNonMoving = Container(
