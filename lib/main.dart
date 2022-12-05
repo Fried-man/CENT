@@ -22,7 +22,7 @@ bool isDyslexic = false;
 bool isMapDisabled = false;
 String theme = "Default";
 late Map dict;
-
+Map<String, dynamic> userData = {};
 
 
 Future<void> main() async {
@@ -35,7 +35,7 @@ Future<void> main() async {
   user = FirebaseAuth.instance.currentUser;
 
   if (FirebaseAuth.instance.currentUser != null) {
-    Map<String, dynamic> userData = (await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).get()).data()!;
+    userData = (await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).get()).data()!;
     if (userData.containsKey("theme")) {
       theme = userData["theme"];
     }
@@ -62,6 +62,13 @@ class MyApp<T> extends StatefulWidget {
 class _MyAppState<T> extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    if (FirebaseAuth.instance.currentUser == null) {
+      isDyslexic = false;
+      isMapDisabled = false;
+      theme = "Default";
+      userData = {};
+    }
+
     dict  = {
       "Default" :
       ThemeData(
@@ -83,7 +90,8 @@ class _MyAppState<T> extends State<MyApp> {
           textTheme: isDyslexic ? GoogleFonts.lexendDecaTextTheme() : GoogleFonts.nunitoSansTextTheme(),
           primaryColor: Colors.white,
           highlightColor: Colors.blue,
-          primaryColorLight: Colors.white
+          primaryColorLight: Colors.white,
+          brightness: Brightness.dark,
       ),
     };
 

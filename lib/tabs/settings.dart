@@ -186,7 +186,9 @@ class _Settings extends State<Settings> {
                                         child: ElevatedButton(
                                           onPressed: () async {
                                             await FirebaseAuth.instance.signOut().then((value) {
-                                              user = null;
+                                              context.findAncestorStateOfType<State<MyApp>>()!.setState(() {
+                                                user = null;
+                                              });
                                               Navigator.pop(context);
                                             });
                                           },
