@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:genome_2133/cards/continent.dart';
@@ -10,6 +12,7 @@ import '../home.dart';
 import '../main.dart';
 
 List selections = [];
+late List countries;
 
 class VariantView extends StatefulWidget {
   final String title;
@@ -108,34 +111,41 @@ class _VariantView extends State<VariantView> {
                 width: MediaQuery.of(context).size.width,
                   child: Container(
                     color: dict[theme].dialogBackgroundColor,
-                    child: FutureBuilder<Map<String, dynamic>>(
-                      future: widget.getData,
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return Center(
-                            child: CircularProgressIndicator(
-                              color:
-                              dict[theme].scaffoldBackgroundColor,
-                            ),
+                    child: FutureBuilder(
+                      future: rootBundle.loadString("assets/data.json"),
+                        builder: (BuildContext context, AsyncSnapshot<String> countriesSnapshot) {
+                          return FutureBuilder<Map<String, dynamic>>(
+                              future: widget.getData,
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData || !countriesSnapshot.hasData) {
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      color:
+                                      dict[theme].scaffoldBackgroundColor,
+                                    ),
+                                  );
+                                }
+
+                                countries = json.decode(countriesSnapshot.data!)["Countries"];
+
+                                List<Map<String, dynamic>> regionView =
+                                List<Map<String, dynamic>>.from(snapshot.data!["accessions"]);
+                                if (regionView.isEmpty) {
+                                  return const Center(child: Text("No Saved Variants"));
+                                }
+
+                                for (Map<String, dynamic> variant in regionView) {
+                                  variant["selected"] = false;
+                                  variant["pinned"] = false;
+                                }
+
+                                return SortablePage(
+                                    items: regionView,
+                                    updateParent: widget.updateParent);
+                              }
                           );
-                        }
-
-                        List<Map<String, dynamic>> regionView =
-                        List<Map<String, dynamic>>.from(snapshot.data!["accessions"]);
-                        if (regionView.isEmpty) {
-                          return const Center(child: Text("No Saved Variants"));
-                        }
-
-                        for (Map<String, dynamic> variant in regionView) {
-                          variant["selected"] = false;
-                          variant["pinned"] = false;
-                        }
-
-                        return SortablePage(
-                            items: regionView,
-                            updateParent: widget.updateParent);
                       }
-                ),
+                    ),
                   ),
               ),
           )
@@ -277,7 +287,7 @@ class _SortablePageState extends State<SortablePage> {
                   child: Text(user["country"].toString(), style: TextStyle(color: dict[theme].primaryColor))), onTap: () {
             Navigator.pop(context);
             CountryCard selectedContinent = CountryCard(
-              country: user["country"],
+              country: countries.where((element) => element["country"] == user["country"]).first,
               updateParent: widget.updateParent,
             );
             addCard(SkeletonCard(
