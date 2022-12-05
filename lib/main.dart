@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -71,6 +73,18 @@ class _MyAppState<T> extends State<MyApp> {
       ),
     };
 
+    if ((defaultTargetPlatform == TargetPlatform.iOS && kIsWeb) || (defaultTargetPlatform == TargetPlatform.android && kIsWeb)) {
+      return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'CENT - Exploration Tool',
+          theme: dict[theme],
+          initialRoute: '/illegal',
+          routes: {
+            '/illegal': (context) => const Illegal()
+          }
+      );
+    }
+
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'CENT - Exploration Tool',
@@ -80,6 +94,34 @@ class _MyAppState<T> extends State<MyApp> {
           '/home': (context) => const Home(),
           '/login': (context) => const Login(),
         }
+    );
+  }
+}
+
+class Illegal extends StatelessWidget {
+  const Illegal({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(child: SizedBox(
+                height: min(MediaQuery.of(context).size.height / 2, MediaQuery.of(context).size.width / 2),
+                width: min(MediaQuery.of(context).size.height / 2, MediaQuery.of(context).size.width / 2),
+                child: Image.network('https://media1.giphy.com/media/3oKGzgNfssFG1xlwC4/giphy.gif'))
+            ),
+            const Text(
+              "Please view on desktop.",
+              style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 20
+              ),
+            ),
+          ],
+        )
     );
   }
 }
