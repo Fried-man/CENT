@@ -209,7 +209,7 @@ class _CountryCard extends State<CountryCard> {
                             height: 120,
                             child: Center(
                               child: CircularProgressIndicator(
-                                color: dict[theme].highlightColor,
+                                color: dict[theme].secondaryHeaderColor,
                               ),
                             ),
                           );
