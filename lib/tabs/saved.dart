@@ -67,11 +67,12 @@ Future<Map<String, dynamic>> sendUsers () async {
     }
 
     variant.remove("Nucleotide Completeness");
-    for (String key in {"generated", "pinned"}) {
-      if (!variant.containsKey(key)) {
-        variant[key] = false;
-      }
+    if (!variant.containsKey("pinned")) {
+      variant["pinned"] = false;
     }
+    /*if (!variant.containsKey("generated")) {
+      variant["generated"] = "Non-Generated";
+    }*/
     output.add(variant);
   }
   return {"accessions" : output};

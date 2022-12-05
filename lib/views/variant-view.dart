@@ -168,6 +168,8 @@ class _SortablePageState extends State<SortablePage> {
     headerLabel.sort();
     headerLabel.remove("pinned");
     headerLabel.add("pinned");
+    headerLabel.remove("accession");
+    headerLabel.insert(0, "accession");
     super.initState();
   }
 
