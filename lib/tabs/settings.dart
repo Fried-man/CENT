@@ -106,6 +106,7 @@ class _Settings extends State<Settings> {
                                                     onPressed: () {
                                                       context.findAncestorStateOfType<State<MyApp>>()!.setState(() {
                                                         theme = caption;
+
                                                       });
                                                       FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).update({"theme" : theme});
                                                       setState(() {});
@@ -494,8 +495,8 @@ class _Settings extends State<Settings> {
                           (BuildContext context, AsyncSnapshot<String> snapshot) {
                         return Text(
                           'Version: ${snapshot.hasData ? snapshot.data! : 'unknown'}',
-                          style: const TextStyle(
-                            color: Colors.grey,
+                          style: TextStyle(
+                            color: dict[theme].primaryColorLight,
                             fontSize: 16,
                           ),
                         );
