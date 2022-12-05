@@ -183,6 +183,8 @@ class _SortablePageState extends State<SortablePage> {
     headerLabel.add("pinned");
     headerLabel.remove("accession");
     headerLabel.insert(0, "accession");
+    sortColumnIndex = headerLabel.indexOf("pinned");
+    widget.items.sort((a, b) => a["pinned"] && !b["pinned"] ? 0 : 1);
     super.initState();
   }
 
