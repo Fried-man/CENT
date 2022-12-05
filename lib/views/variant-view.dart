@@ -222,7 +222,7 @@ class _SortablePageState extends State<SortablePage> {
 
         List<dynamic> data = [];
         for (String key in headerLabel) {
-          if (key != "accession" && key != "Accession" && key != "selected" && key != "pinned") {
+          if (key != "accession" && key != "selected" && key != "pinned") {
             data.add(user[key]);
           }
         }
@@ -231,7 +231,7 @@ class _SortablePageState extends State<SortablePage> {
         lister.insert(0, DataCell(
             Align(
                 alignment: Alignment.centerRight,
-                child: Text(user[user.containsKey("accession") ? "accession" : "Accession"].toString(), style: TextStyle(color: dict[theme].primaryColor))), onTap: () {
+                child: Text(user["accession"].toString(), style: TextStyle(color: dict[theme].primaryColor))), onTap: () {
           Navigator.pop(context);
           VariantCard selectedVariant = VariantCard(
             variant: user,

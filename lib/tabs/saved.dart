@@ -44,11 +44,10 @@ Future<Map<String, dynamic>> sendUsers () async {
   for (Map<String, dynamic> variant in (await getVariants(input: accessions)).values) {
     Map<String, dynamic> firebaseVariant = List.from(data["saved"]).where((element) => element["accession"] == variant["Accession"]).first;
     for (String key in firebaseVariant.keys) {
-      if (key != "accession") {
-        variant[key] = firebaseVariant[key];
-      }
+      variant[key] = firebaseVariant[key];
     }
-    
+    variant.remove("Accession");
+
     for (String key in {"Nucleotide Length", "Release Date", "Last Update Date"}) {
       if (variant.containsKey(key)) {
         if (key == "Nucleotide Length") {
