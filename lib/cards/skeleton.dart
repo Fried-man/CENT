@@ -180,15 +180,15 @@ class _SkeletonCard extends State<SkeletonCard> {
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
                 style:
-                TextStyle(color: Colors.white, fontSize: 20), // dict[theme].primaryColorLight
+                TextStyle(color: dict[theme].primaryColorLight, fontSize: 20),
               ),
             ),
             Align(
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
-                  child: const Icon(
+                  child: Icon(
                     Icons.close,
-                    color: Colors.white, // dict[theme].primaryColorLight
+                    color: dict[theme].primaryColorLight,
                   ),
                   onTap: () {
                     // TODO: add cleanup to home array
@@ -262,7 +262,7 @@ class _SkeletonCard extends State<SkeletonCard> {
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,
                               style:
-                              TextStyle(color: Colors.white, fontSize: 20), // dict[theme].primaryColorLight
+                              TextStyle(color: dict[theme].primaryColorLight, fontSize: 20),
                             ),
                           ),
 
@@ -271,7 +271,7 @@ class _SkeletonCard extends State<SkeletonCard> {
                               child: GestureDetector(
                                 child: Icon(
                                   Icons.close,
-                                  color: Colors.white, // dict[theme].primaryColorLight
+                                  color: dict[theme].primaryColorLight,
                                 ),
                                 onTap: () {
                                   // TODO: add cleanup to home array
