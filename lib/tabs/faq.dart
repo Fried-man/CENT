@@ -61,7 +61,7 @@ Widget recursiveList(content) {
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(content["Answer"], style: TextStyle(color: dict[theme].highlightColor)),
+          child: Text(content["Answer"], style: TextStyle(color: dict[theme].primaryColor)),
         )
       ]);
 }
