@@ -133,12 +133,13 @@ class _ContinentCard extends State<ContinentCard> {
                                     continue;
                                   }
 
+                                  String key = country.containsKey("subregion") ? country["subregion"] : country["region"];
                                   if (country["cca3"] == storedCountry["cca3"]) {
                                     if (!ordering
-                                        .containsKey(country["subregion"])) {
-                                      ordering[country["subregion"]] = [];
+                                        .containsKey(key)) {
+                                      ordering[key] = [];
                                     }
-                                    ordering[country["subregion"]]!
+                                    ordering[key]!
                                         .add(storedCountry["country"]);
                                     break;
                                   }
