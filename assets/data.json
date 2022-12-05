@@ -1264,13 +1264,6 @@
       "zoom":6
     },
     {
-      "country":"Heard Island and McDonald Islands",
-      "latitude":53.0818,
-      "longitude":73.5042,
-      "cca3":"HMD",
-      "zoom":5
-    },
-    {
       "country":"Greenland",
       "latitude":72.0,
       "longitude":-40.0,
@@ -1352,13 +1345,6 @@
       "latitude":12.11666666,
       "longitude":-61.66666666,
       "cca3":"GRD",
-      "zoom":5
-    },
-    {
-      "country":"Macau",
-      "latitude":22.16666666,
-      "longitude":113.55,
-      "cca3":"MAC",
       "zoom":5
     },
     {
@@ -1562,13 +1548,6 @@
       "latitude":7.0,
       "longitude":30.0,
       "cca3":"SSD",
-      "zoom":5
-    },
-    {
-      "country":"Bouvet Island",
-      "latitude":54.4208,
-      "longitude":3.3464,
-      "cca3":"BVT",
       "zoom":5
     },
     {
