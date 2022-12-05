@@ -223,7 +223,8 @@ class _CountryCard extends State<CountryCard> {
                           );
                         }
 
-                        variantsCache[widget.country["country"]] = Column(
+                        if (!variantsCache.containsKey(widget.country["country"])) {
+                          variantsCache[widget.country["country"]] = Column(
                           children: [
                             Align(
                               alignment: Alignment.center,
@@ -271,6 +272,7 @@ class _CountryCard extends State<CountryCard> {
                             ),
                           ],
                         );
+                        }
                         return Column(
                           children: [
                             variantsCache[widget.country["country"]]!,
