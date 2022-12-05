@@ -269,11 +269,20 @@ class _Login extends State<Login> {
                           );
                         })
                             .onError((error, stackTrace) {
+                              String body = "";
+                              print(error);
+                              if (error.toString() == "[firebase_auth/missing-email] Error") {
+                                error = "No Email Provided";
+                                body = "Enter email in field.";
+                              }else if (error.toString() == "[firebase_auth/user-not-found] There is no user record corresponding to this identifier. The user may have been deleted.") {
+                                error = "No User Found";
+                                body = "There is no user record corresponding to this identifier. The user may have been deleted.";
+                              }
                           showDialog<void>(
                             context: context,
                             builder: (_) => AlertDialog(
                               title: Text("Error: $error"),
-                              content: Text(stackTrace.toString()),
+                              content: Text(body.isNotEmpty ? body : stackTrace.toString()),
                               actions: <Widget>[
                                 TextButton(
                                   child: const Text('OK'),
