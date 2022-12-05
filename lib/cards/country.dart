@@ -106,7 +106,7 @@ class _CountryCard extends State<CountryCard> {
   Future<Map<String, dynamic>> getVariantViewData() async {
     Map<String, dynamic> output = await getVariantsRegion(
         country: widget.country["country"],
-        count: -1);
+        count: 400); // TODO: change to -1
 
     for (Map<String, dynamic> variant in output["accessions"]) {
       String temp = variant["region"];
