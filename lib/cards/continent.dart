@@ -16,12 +16,13 @@ class ContinentCard extends StatefulWidget {
   final String continent;
   final LatLng _initMapCenter = const LatLng(20, 0);
   final Function updateParent;
+  final GlobalKey<_ContinentCard> controlKey;
 
   const ContinentCard(
-      {Key? key,
-      required this.continent,
-      required this.updateParent})
-      : super(key: key);
+      {required this.continent,
+      required this.updateParent,
+        required this.controlKey})
+      : super(key: controlKey);
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -63,6 +64,9 @@ class _ContinentCard extends State<ContinentCard> {
         continent["zoom"].toDouble()));
   }
 
+  void updateState() {
+    setState(() {});
+  }
 
   @override
   void initState() {
@@ -187,6 +191,7 @@ class _ContinentCard extends State<ContinentCard> {
                                           body: CountryCard(
                                             country: getCountry(country),
                                             updateParent: widget.updateParent,
+                                            controlKey: GlobalKey(),
                                           ),
                                         ));
                                         widget.updateParent();

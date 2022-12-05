@@ -384,6 +384,7 @@ class _SortablePageState extends State<SortablePage> {
             ContinentCard selectedContinent = ContinentCard(
               continent: user["continent"],
               updateParent: widget.updateParent,
+              controlKey: GlobalKey(),
             );
             addCard(SkeletonCard(
               controlKey: GlobalKey(),
@@ -403,6 +404,7 @@ class _SortablePageState extends State<SortablePage> {
             CountryCard selectedContinent = CountryCard(
               country: countries.where((element) => element["country"] == user["country"]).first,
               updateParent: widget.updateParent,
+              controlKey: GlobalKey(),
             );
             addCard(SkeletonCard(
               controlKey: GlobalKey(),

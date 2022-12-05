@@ -18,12 +18,13 @@ class CountryCard extends StatefulWidget {
   final Map country;
   final LatLng _initMapCenter = const LatLng(20, 0);
   final Function updateParent;
+  final GlobalKey<_CountryCard> controlKey;
 
   const CountryCard(
-      {Key? key,
-      required this.country,
-      required this.updateParent})
-      : super(key: key);
+      {required this.country,
+      required this.updateParent,
+      required this.controlKey})
+      : super(key: controlKey);
 
   @override
   State<CountryCard> createState() => _CountryCard();
@@ -66,6 +67,10 @@ class _CountryCard extends State<CountryCard> {
             widget.country["longitude"] -
                 (-6.0 * widget.country["zoom"] + 45.0)),
         widget.country["zoom"].toDouble()));
+  }
+
+  void updateState() {
+    setState(() {});
   }
 
   @override
@@ -371,6 +376,7 @@ class _CountryCard extends State<CountryCard> {
                                       body: ContinentCard(
                                         continent: continent,
                                         updateParent: widget.updateParent,
+                                        controlKey: GlobalKey(),
                                       ),
                                     ));
                                     widget.updateParent();
@@ -491,6 +497,7 @@ class _CountryCard extends State<CountryCard> {
                                                     country: getCountry(country),
                                                     updateParent:
                                                     widget.updateParent,
+                                                    controlKey: GlobalKey(),
                                                   ),
                                                 ));
                                                 widget.updateParent();

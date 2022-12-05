@@ -187,6 +187,7 @@ class _VariantCard extends State<VariantCard> {
                                               body: CountryCard(
                                                 country: widget.location["country"],
                                                 updateParent: widget.updateParent,
+                                                controlKey: GlobalKey(),
                                               ),
                                             ));
                                             widget.updateParent();

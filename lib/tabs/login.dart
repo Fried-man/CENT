@@ -4,6 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../cards/continent.dart';
+import '../cards/country.dart';
+import '../cards/skeleton.dart';
+import '../cards/variant.dart';
 import '../home.dart';
 import '../main.dart';
 
@@ -122,6 +126,15 @@ class _Login extends State<Login> {
                                         });
                                       }
                                       context.findAncestorStateOfType<State<MyApp>>()!.setState(() {
+                                        for (SkeletonCard currCard in windows) {
+                                          if (currCard.body is VariantCard) {
+                                            (currCard.body as VariantCard).controlKey.currentState!.updateState();
+                                          }else if (currCard.body is CountryCard) {
+                                            (currCard.body as CountryCard).controlKey.currentState!.updateState();
+                                          }else if (currCard.body is ContinentCard) {
+                                            (currCard.body as ContinentCard).controlKey.currentState!.updateState();
+                                          }
+                                        }
                                         Navigator.pop(context);
                                       });
                                       return;

@@ -5,12 +5,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:genome_2133/cards/skeleton.dart';
 import 'package:genome_2133/tabs/faq.dart';
 import 'package:genome_2133/tabs/login.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../cards/continent.dart';
+import '../cards/country.dart';
+import '../cards/variant.dart';
 import '../main.dart';
 import '../home.dart';
 import 'contact.dart';
@@ -111,6 +115,15 @@ class _Settings extends State<Settings> {
                                                         });
                                                       }
                                                       context.findAncestorStateOfType<State<MyApp>>()!.setState(() {});
+                                                      for (SkeletonCard currCard in windows) {
+                                                        if (currCard.body is VariantCard) {
+                                                          (currCard.body as VariantCard).controlKey.currentState!.updateState();
+                                                        }else if (currCard.body is CountryCard) {
+                                                          (currCard.body as CountryCard).controlKey.currentState!.updateState();
+                                                        }else if (currCard.body is ContinentCard) {
+                                                          (currCard.body as ContinentCard).controlKey.currentState!.updateState();
+                                                        }
+                                                      }
                                                       FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).update({"theme" : theme});
                                                       setState(() {});
                                                       Navigator.pop(context);
@@ -191,6 +204,15 @@ class _Settings extends State<Settings> {
                                             await FirebaseAuth.instance.signOut().then((value) {
                                               context.findAncestorStateOfType<State<MyApp>>()!.setState(() {
                                                 user = null;
+                                                for (SkeletonCard currCard in windows) {
+                                                  if (currCard.body is VariantCard) {
+                                                    (currCard.body as VariantCard).controlKey.currentState!.updateState();
+                                                  }else if (currCard.body is CountryCard) {
+                                                    (currCard.body as CountryCard).controlKey.currentState!.updateState();
+                                                  }else if (currCard.body is ContinentCard) {
+                                                    (currCard.body as ContinentCard).controlKey.currentState!.updateState();
+                                                  }
+                                                }
                                               });
                                               Navigator.pop(context);
                                             });

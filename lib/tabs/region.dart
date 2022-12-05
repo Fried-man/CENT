@@ -96,6 +96,7 @@ class _Region extends State<Region> {
                                     CountryCard selectedCountry = CountryCard(
                                       country: countries[index],
                                       updateParent: widget.updateParent,
+                                      controlKey: GlobalKey(),
                                     );
                                     Navigator.pop(context, [
                                       SkeletonCard(
