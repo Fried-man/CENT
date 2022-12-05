@@ -63,7 +63,7 @@ class _Home extends State<Home> {
       ),
       body: Stack(
         children: [
-          Center(child: Image.asset("assets/images/banner.png")),
+          Center(child: Image.asset("assets/images/desktop.png")),
           if (!isDesktop && !isMapDisabled)
             GoogleMap(
               mapType: theme == "Default" ? MapType.hybrid : MapType.none,

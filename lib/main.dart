@@ -78,7 +78,7 @@ class _MyAppState<T> extends State<MyApp> {
       ThemeData(
           primarySwatch: Colors.grey,
           dialogBackgroundColor: const Color(0xff3d3d3d),
-          scaffoldBackgroundColor: const Color(0xff445756),
+          scaffoldBackgroundColor: Colors.black87,
           cardColor: Colors.blueGrey.shade800,
           textTheme: isDyslexic ? GoogleFonts.lexendDecaTextTheme() : GoogleFonts.nunitoSansTextTheme(),
           primaryColor: Colors.white,
