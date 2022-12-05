@@ -300,10 +300,18 @@ class _VariantCard extends State<VariantCard> {
                                         .instance.currentUser!.uid);
 
                                     if (isFound) {
-                                      userDoc.update({
-                                        'saved': FieldValue.arrayRemove(
-                                            [variant])
+                                      userDoc.get().then((value) {
+                                        for (Map<String, dynamic> curr in (value.data()! as Map)["saved"]) {
+                                          if (curr["accession"] == variant["accession"]) {
+                                            userDoc.update({
+                                              'saved': FieldValue.arrayRemove(
+                                                  [curr])
+                                            });
+                                            break;
+                                          }
+                                        }
                                       });
+
                                     } else {
                                       userDoc.update({
                                         'saved': FieldValue.arrayUnion(
