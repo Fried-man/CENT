@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:genome_2133/cards/continent.dart';
@@ -136,7 +138,6 @@ class _VariantView extends State<VariantView> {
 
                                 for (Map<String, dynamic> variant in regionView) {
                                   variant["selected"] = false;
-                                  variant["pinned"] = false;
                                 }
 
                                 return SortablePage(
@@ -329,6 +330,19 @@ class _SortablePageState extends State<SortablePage> {
             onPressed: () {
               setState(() {
                 user["pinned"] = !user["pinned"];
+                if (headerLabel.contains("Last Update Date")) {
+                  List<Map<String, dynamic>> output = [];
+                  for (Map<String, dynamic> variant in widget.items) {
+                    output.add({
+                      "accession" : variant["accession"],
+                      "continent" : variant["continent"],
+                      "country" : variant["country"],
+                      "pinned" : variant["pinned"]
+                    });
+                  }
+
+                  FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).update({"saved" : output});
+                }
               });
             },
           ),
