@@ -16,9 +16,23 @@ The system being developed by Team 2133 is an application which can provide info
 | Max Tang        | mtang80@gatech.edu     | Information Giver, Harmonizer                                    |
 | Daniel Varzari  | dvarzari3@gatech.edu   | Energizer, Clarifier, Compromiser, Organizer, Information Seeker |
 ## Team Resources
-- [Repository's Wikipedia](https://github.com/Fried-man/CENT/wiki)
+- [Repository's Wikipedia/Guides](https://github.com/Fried-man/CENT/wiki)
 - [Useful Links](https://github.com/Fried-man/CENT/wiki/Resources)
 # Release Notes
+## [v0.5.0](https://github.com/Fried-man/CENT/releases/tag/v0.5.0)
+[Sprint 5 Demo Video](https://www.youtube.com/watch?v=coK3AEanSqc&feature=youtu.be&ab_channel=BennettBurns)
+### Features
+* Multi node compute resource for notebooks
+* Confidence Model is now reachable as an endpoint (this is yet to be connected to the frontend)
+* Confidence Model has historical metrics and confusion matrix shown to display results
+* MLflow in Azure setup to record and deploy model experiments as versioned histories
+* API calls to the backend to receive accurate and full accession data
+### Bug Fixes
+* Worked around memory issues within the notebooks by using smaller training sets
+### Known Issues
+* unable to pad csr matrix to be accepted by the MLflow API - could be solved by moving frontend to Azure as well
+* unable to run large memory blocks like the unified tables found in clustering notebook
+
 ## [v0.4.0](https://github.com/Fried-man/CENT/releases/tag/v0.4.0)
 [Sprint 4 Demo Video](https://youtu.be/HB5osgjjkO0)
 ### Features
