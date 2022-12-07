@@ -27,8 +27,13 @@ The system being developed by Team 2133 is an application which can provide info
 * Confidence Model has historical metrics and confusion matrix shown to display results
 * MLflow in Azure setup to record and deploy model experiments as versioned histories
 * API calls to the backend to receive accurate and full accession data
+* iOS and MacOS support
+* New versions of Variant Card, Country Card, and (now) Continent Card - support for multi-card activity and map zoom
+* New Settings page to adjust different parts of the app - account, accessibility, and more
 ### Bug Fixes
 * Worked around memory issues within the notebooks by using smaller training sets
+* Fixed Google Maps zoom behavior
+* Multiple card behavior is now intended, not a bug
 ### Known Issues
 * unable to pad csr matrix to be accepted by the MLflow API - could be solved by moving frontend to Azure as well
 * unable to run large memory blocks like the unified tables found in clustering notebook
