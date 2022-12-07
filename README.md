@@ -15,7 +15,7 @@ The system being developed by Team 2133 is an application which can provide info
 | Nihar Shah      | nshah400@gatech.edu    | Energizers, Clarifiers                                           |
 | Max Tang        | mtang80@gatech.edu     | Information Giver, Harmonizer                                    |
 | Daniel Varzari  | dvarzari3@gatech.edu   | Energizer, Clarifier, Compromiser, Organizer, Information Seeker |
-## Team Resources
+# Team Resources & Instillation Guides
 - [Repository's Wikipedia/Guides](https://github.com/Fried-man/CENT/wiki)
 - [Useful Links](https://github.com/Fried-man/CENT/wiki/Resources)
 # Release Notes
